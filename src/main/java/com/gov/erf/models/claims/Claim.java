@@ -2,6 +2,7 @@ package com.gov.erf.models.claims;
 
 
 import com.gov.erf.config.basic.AuditedEntity;
+import com.gov.erf.modules.models.AppFile;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -41,5 +42,9 @@ public class Claim extends AuditedEntity {
 
     @Column(name = "empowerment")
     private String empowerment;
+
+    @ManyToOne
+    @JoinColumn(name = "file_id")
+    private AppFile file;
 
 }

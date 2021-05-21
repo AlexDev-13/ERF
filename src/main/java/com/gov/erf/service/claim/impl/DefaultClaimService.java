@@ -2,6 +2,7 @@ package com.gov.erf.service.claim.impl;
 
 import com.gov.erf.models.claims.Claim;
 import com.gov.erf.models.claims.request.AddClaimRequest;
+import com.gov.erf.modules.models.AppFile;
 import com.gov.erf.repository.claim.ClaimRepository;
 import com.gov.erf.service.claim.ClaimService;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,12 @@ public class DefaultClaimService implements ClaimService {
         claim.setProblemOfDescription(request.getProblemOfDescription());
         claim.setIdentificationFactor(request.getIdentificationFactor());
 
+        return claimRepository.save(claim);
+    }
+
+    @Override
+    public Claim updateFile(Claim claim, AppFile appFile) {
+        claim.setFile(appFile);
         return claimRepository.save(claim);
     }
 }
