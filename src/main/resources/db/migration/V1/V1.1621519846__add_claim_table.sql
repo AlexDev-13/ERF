@@ -91,6 +91,15 @@ VALUES ('Чуйская область'),
        ('Иссык-Кульская область'),
        ('Джалал-Абадская область');
 
+CREATE TABLE files
+(
+    id         BIGSERIAL PRIMARY KEY,
+    name       VARCHAR(255) NOT NULL,
+    path       TEXT,
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP
+);
+
 CREATE TABLE claims
 (
     id                     BIGSERIAL NOT NULL PRIMARY KEY,
@@ -101,6 +110,7 @@ CREATE TABLE claims
     cause_of_factor        TEXT,
     problem_of_description TEXT,
     identification_factor  TEXT,
+    file_id                BIGINT REFERENCES files (id),
     region_id              BIGINT    NOT NULL REFERENCES ref_region (id),
     empowerment            TEXT
 );
