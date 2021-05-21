@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Data
 @Configuration
-@ConfigurationProperties("ern.app.file")
+@ConfigurationProperties("erf.app.file")
 public class ClaimFileConfigurations {
 
     private String filesDir;
