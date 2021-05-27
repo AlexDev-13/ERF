@@ -1,7 +1,7 @@
 package com.gov.erf.models.claims;
 
 
-import com.gov.erf.config.basic.AuditedEntity;
+import com.gov.erf.config.basic.MovableEntity;
 import com.gov.erf.modules.models.AppFile;
 import com.sun.istack.NotNull;
 import lombok.Getter;
@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Setter
 @Entity
 @Table(name = "claims")
-public class Claim extends AuditedEntity {
+public class Claim extends MovableEntity {
 
     @NotNull
     @OneToOne
