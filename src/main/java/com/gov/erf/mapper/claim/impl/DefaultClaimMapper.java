@@ -77,6 +77,7 @@ public class DefaultClaimMapper implements ClaimMapper {
         RegionDto regionDto = regionMapper.toRegionDto(claim.getRegion());
 
         var claimDto = new ClaimDto();
+        claimDto.setId(claim.getId());
         claimDto.setEconomicActivity(economicActivityDto);
         claimDto.setOrgan(organDto);
         claimDto.setRegion(regionDto);

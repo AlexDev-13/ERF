@@ -6,10 +6,7 @@ import com.gov.erf.dto.http.claims.request.AddClaimRequestDto;
 import com.gov.erf.endpoint.claim.ClaimEndpoint;
 import io.swagger.annotations.ApiParam;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
@@ -33,4 +30,10 @@ public class ClaimController {
         return claimEndpoint.create(addClaimRequestDto, file);
     }
 
+    @PostMapping("/create")
+    public ClaimDto create (
+            @RequestBody AddClaimRequestDto addClaimRequestDto
+    ) throws Exception {
+        return claimEndpoint.create(addClaimRequestDto,null);
+    }
 }
