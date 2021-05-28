@@ -7,6 +7,9 @@ import com.gov.erf.modules.models.AppFile;
 public interface ClaimService {
 
     Claim create(AddClaimRequest request);
+
+    Claim get(Long id);
+
     Claim updateFile(Claim claim, AppFile appFile);
 
 }

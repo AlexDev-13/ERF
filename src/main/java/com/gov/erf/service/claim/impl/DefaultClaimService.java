@@ -56,6 +56,11 @@ public class DefaultClaimService implements ClaimService {
     }
 
     @Override
+    public Claim get(Long id) {
+        return claimRepository.findById(id).orElseThrow();
+    }
+
+    @Override
     public Claim updateFile(Claim claim, AppFile appFile) {
         claim.setFile(appFile);
         return claimRepository.save(claim);
