@@ -32,6 +32,7 @@ public class DefaultResponsibleOrganService implements ResponsibleOrganService {
 
         responsibleOrgan.setClaim(claim);
         responsibleOrgan.setTitle(addResponsibleOrganRequest.getTitle());
+        responsibleOrgan.setType(addResponsibleOrganRequest.getType());
 
         return responsibleOrganRepository.save(responsibleOrgan);
     }

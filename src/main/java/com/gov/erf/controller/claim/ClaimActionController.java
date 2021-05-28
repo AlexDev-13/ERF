@@ -19,12 +19,12 @@ public class ClaimActionController {
         this.responsibleOrganEndpoint = responsibleOrganEndpoint;
     }
 
-    @PostMapping("/accept-responsible-organ")
+    @PostMapping("/{id}/accept-responsible-organ")
     public ResponsibleOrganDto acceptResponsibleOrgan(
-            @PathVariable Long claimId,
+            @PathVariable Long id,
             @RequestBody AddResponsibleOrganRequestDto addResponsibleOrganRequestDto
             ){
-        return responsibleOrganEndpoint.perform(claimId, addResponsibleOrganRequestDto);
+        return responsibleOrganEndpoint.perform(id, addResponsibleOrganRequestDto);
     }
 
 }

@@ -5,7 +5,6 @@ import com.gov.erf.dto.http.claims.action.responsibleOrgan.request.AddResponsibl
 import com.gov.erf.endpoint.claim.action.responsibleOrgan.ResponsibleOrganEndpoint;
 import com.gov.erf.mapper.claim.action.ResponsibleOrganMapper;
 import com.gov.erf.models.action.MovementAction;
-import com.gov.erf.models.action.MovementActionType;
 import com.gov.erf.models.claims.Claim;
 import com.gov.erf.models.claims.responsibleOrgan.ResponsibleOrgan;
 import com.gov.erf.models.claims.responsibleOrgan.request.AddResponsibleOrganRequest;
@@ -42,9 +41,9 @@ public class DefaultResponsibleOrganEndpoint implements ResponsibleOrganEndpoint
             AddResponsibleOrganRequestDto requestDto
     ) {
         Claim claim = claimService.get(claimId);
-        MovementAction action = movementActionService.get(MovementActionType.RESPONSIBLE_ORGAN_ACCEPT);
+        MovementAction action = movementActionService.get(requestDto.getType());
 
-        AddResponsibleOrganRequest request = responsibleOrganMapper.toAddResponsibleOrganRequest(requestDto,MovementActionType.RESPONSIBLE_ORGAN_ACCEPT);
+        AddResponsibleOrganRequest request = responsibleOrganMapper.toAddResponsibleOrganRequest(requestDto,requestDto.getType());
 
         ResponsibleOrgan responsibleOrgan = responsibleOrganService.add(claim, request);
 
