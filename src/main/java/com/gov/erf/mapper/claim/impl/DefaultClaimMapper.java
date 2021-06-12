@@ -20,10 +20,12 @@ import com.gov.erf.service.claim.OrganService;
 import com.gov.erf.service.claim.RegionService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 @Service
 public class DefaultClaimMapper implements ClaimMapper {
 
-    private final ClaimRepository claimRepository;
     private final EconomicActivityService economicActivityService;
     private final OrganService organService;
     private final RegionService regionService;
@@ -33,7 +35,6 @@ public class DefaultClaimMapper implements ClaimMapper {
 
     public DefaultClaimMapper
             (
-                    ClaimRepository claimRepository,
                     EconomicActivityService economicActivityService,
                     OrganService organService,
                     RegionService regionService,
@@ -41,7 +42,6 @@ public class DefaultClaimMapper implements ClaimMapper {
                     OrganMapper organMapper,
                     RegionMapper regionMapper
             ) {
-        this.claimRepository = claimRepository;
         this.economicActivityService = economicActivityService;
         this.organService = organService;
         this.regionService = regionService;
@@ -77,6 +77,7 @@ public class DefaultClaimMapper implements ClaimMapper {
         RegionDto regionDto = regionMapper.toRegionDto(claim.getRegion());
 
         var claimDto = new ClaimDto();
+        claimDto.setId(claim.getId());
         claimDto.setEconomicActivity(economicActivityDto);
         claimDto.setOrgan(organDto);
         claimDto.setRegion(regionDto);
@@ -86,5 +87,16 @@ public class DefaultClaimMapper implements ClaimMapper {
         claimDto.setProblemOfDescription(claim.getProblemOfDescription());
 
         return claimDto;
+    }
+
+    @Override
+    public Collection<ClaimDto> toClaimDtos(Collection<Claim> claims) {
+
+        Collection<ClaimDto> claimDtos = new ArrayList<>();
+
+        for (Claim claim : claims) {
+            claimDtos.add(toClaimDto(claim));
+        }
+        return claimDtos;
     }
 }

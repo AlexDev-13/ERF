@@ -13,6 +13,7 @@ import com.gov.erf.service.claim.ClaimService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Collection;
 import java.util.Objects;
 
 @Service
@@ -48,6 +49,21 @@ public class DefaultClaimEndpoint implements ClaimEndpoint {
         }
 
         return claimMapper.toClaimDto(claim);
+    }
+
+    @Override
+    public ClaimDto getById(Long id) {
+
+        Claim claim = claimService.getById(id);
+        return claimMapper.toClaimDto(claim);
+    }
+
+    @Override
+    public Collection<ClaimDto> getAll() {
+
+        Collection<Claim> claims = claimService.getAll();
+
+        return claimMapper.toClaimDtos(claims);
     }
 
     public void saveFile(Claim claim, MultipartFile file) throws Exception {
