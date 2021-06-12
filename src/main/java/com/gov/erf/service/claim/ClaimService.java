@@ -30,4 +30,6 @@ public interface ClaimService {
 
     Claim getById(Long id);
 
+    Collection<Claim> searchByRegion(String region);
+
 }

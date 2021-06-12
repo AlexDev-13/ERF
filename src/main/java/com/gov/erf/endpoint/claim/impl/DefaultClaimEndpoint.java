@@ -107,6 +107,14 @@ public class DefaultClaimEndpoint implements ClaimEndpoint {
 
     }
 
+    @Override
+    public Collection<ClaimDto> searchByParam(String region) {
+
+        Collection<Claim> claims = claimService.searchByRegion(region);
+
+        return claimMapper.toClaimDtos(claims);
+    }
+
     private void saveFile(Claim claim, MultipartFile file) throws Exception {
         String folderToSave = claimFileConfigurations.getFilesDir() + "/claims/" + claim.getId();
         AppFile appFile = appFileCreateService.createAppFile(file, folderToSave);

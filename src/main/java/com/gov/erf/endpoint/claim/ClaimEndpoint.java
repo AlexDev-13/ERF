@@ -8,6 +8,7 @@ import com.gov.erf.dto.http.claims.tables.TableResponsibleBodyDto;
 import com.gov.erf.dto.http.claims.tables.request.InfoRequestCommissionDto;
 import com.gov.erf.dto.http.claims.tables.request.InfoRequestFromAuthorizedBodyDto;
 import com.gov.erf.dto.http.claims.tables.request.InfoRequestFromResponsibleBodyDto;
+import com.gov.erf.models.claims.Claim;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collection;
@@ -25,4 +26,6 @@ public interface ClaimEndpoint {
     TableAuthorizedBodyDto perform(InfoRequestFromAuthorizedBodyDto info);
 
     TableCommissionDto perform(InfoRequestCommissionDto info);
+
+    Collection<ClaimDto> searchByParam(String region);
 }

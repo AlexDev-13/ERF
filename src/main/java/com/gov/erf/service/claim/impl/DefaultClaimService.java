@@ -3,6 +3,7 @@ package com.gov.erf.service.claim.impl;
 import com.gov.erf.models.action.MovementAction;
 import com.gov.erf.models.action.MovementActionType;
 import com.gov.erf.models.claims.Claim;
+import com.gov.erf.models.claims.Region;
 import com.gov.erf.models.claims.request.AddClaimRequest;
 import com.gov.erf.models.claims.tables.AuthorizedBody;
 import com.gov.erf.models.claims.tables.ResponsibleBody;
@@ -13,10 +14,7 @@ import com.gov.erf.models.claims.tables.request.TableCommissionRequest;
 import com.gov.erf.models.point.MovementPoint;
 import com.gov.erf.models.point.MovementPointType;
 import com.gov.erf.modules.models.AppFile;
-import com.gov.erf.repository.claim.AuthorizedBodyRepository;
-import com.gov.erf.repository.claim.ClaimRepository;
-import com.gov.erf.repository.claim.ResponsibleBodyRepository;
-import com.gov.erf.repository.claim.TableCommissionRepository;
+import com.gov.erf.repository.claim.*;
 import com.gov.erf.service.action.MovementActionService;
 import com.gov.erf.service.claim.ClaimService;
 import com.gov.erf.service.point.MovementPointService;
@@ -28,6 +26,7 @@ import java.util.Collection;
 public class DefaultClaimService implements ClaimService {
 
     private final ClaimRepository claimRepository;
+    private final RegionRepository regionRepository;
     private final MovementPointService pointService;
     private final MovementActionService actionService;
     private final ResponsibleBodyRepository responsibleBodyRepository;
@@ -37,13 +36,14 @@ public class DefaultClaimService implements ClaimService {
     public DefaultClaimService
             (
                     ClaimRepository claimRepository,
-                    MovementPointService pointService,
+                    RegionRepository regionRepository, MovementPointService pointService,
                     MovementActionService actionService,
                     ResponsibleBodyRepository responsibleBodyRepository,
                     AuthorizedBodyRepository authorizedBodyRepository,
                     TableCommissionRepository tableCommissionRepository
             ) {
         this.claimRepository = claimRepository;
+        this.regionRepository = regionRepository;
         this.pointService = pointService;
         this.actionService = actionService;
         this.responsibleBodyRepository = responsibleBodyRepository;
@@ -149,6 +149,13 @@ public class DefaultClaimService implements ClaimService {
     @Override
     public Claim getById(Long id) {
         return claimRepository.findById(id).orElseThrow();
+    }
+
+    @Override
+    public Collection<Claim> searchByRegion(String region) {
+
+        Region findRegion = regionRepository.findByTitle(region);
+        return claimRepository.findAllByRegion(findRegion);
     }
 
 }

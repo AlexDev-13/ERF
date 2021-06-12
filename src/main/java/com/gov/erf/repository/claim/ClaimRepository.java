@@ -1,9 +1,14 @@
 package com.gov.erf.repository.claim;
 
 import com.gov.erf.models.claims.Claim;
+import com.gov.erf.models.claims.Region;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
+
 @Repository
 public interface ClaimRepository extends JpaRepository<Claim, Long> {
+
+    Collection<Claim> findAllByRegion(Region region);
 }
