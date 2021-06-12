@@ -1,5 +1,6 @@
 package com.gov.erf.service.claim;
 
+import com.gov.erf.models.action.MovementActionType;
 import com.gov.erf.models.claims.Claim;
 import com.gov.erf.models.claims.request.AddClaimRequest;
 import com.gov.erf.models.claims.tables.AuthorizedBody;
@@ -8,6 +9,7 @@ import com.gov.erf.models.claims.tables.TableCommission;
 import com.gov.erf.models.claims.tables.request.AuthorizedBodyRequest;
 import com.gov.erf.models.claims.tables.request.ResponsibleBodyRequest;
 import com.gov.erf.models.claims.tables.request.TableCommissionRequest;
+import com.gov.erf.models.point.MovementPointType;
 import com.gov.erf.modules.models.AppFile;
 
 import java.util.Collection;

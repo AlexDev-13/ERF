@@ -82,7 +82,6 @@ public class DefaultClaimEndpoint implements ClaimEndpoint {
     public TableResponsibleBodyDto perform(InfoRequestFromResponsibleBodyDto info) {
 
         ResponsibleBodyRequest responsibleBodyRequest = claimMapper.toResponsibleBodyRequest(info);
-
         ResponsibleBody responsibleBody = claimService.create(responsibleBodyRequest);
 
         return claimMapper.toResponsibleBodyDto(responsibleBody);
@@ -108,7 +107,7 @@ public class DefaultClaimEndpoint implements ClaimEndpoint {
 
     }
 
-    public void saveFile(Claim claim, MultipartFile file) throws Exception {
+    private void saveFile(Claim claim, MultipartFile file) throws Exception {
         String folderToSave = claimFileConfigurations.getFilesDir() + "/claims/" + claim.getId();
         AppFile appFile = appFileCreateService.createAppFile(file, folderToSave);
         claimService.updateFile(claim, appFile);

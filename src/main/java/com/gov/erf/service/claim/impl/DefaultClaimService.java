@@ -77,12 +77,16 @@ public class DefaultClaimService implements ClaimService {
 
         var responsibleBody = new ResponsibleBody();
 
-        MovementActionType actionType = null;
+        MovementActionType actionType = request.getDecision() ? MovementActionType.ORGAN_ACCEPT : MovementActionType.ORGAN_REJECT;
 
+        MovementAction action = actionService.get(actionType);
+        MovementPointType pointType = request.getDecision() ? MovementPointType.ACCEPT : MovementPointType.REJECT;
+        MovementPoint point = pointService.get(pointType);
+        var claim = request.getClaim();
+        claim.setAction(action);
+        claim.setPoint(point);
 
-        actionType = request.getDecision() ? MovementActionType.ORGAN_ACCEPT : MovementActionType.ORGAN_REJECT;
-
-        responsibleBody.setClaim(request.getClaim());
+        responsibleBody.setClaim(claim);
         responsibleBody.setCause(request.getCause());
         responsibleBody.setDecision(actionType);
 
@@ -94,9 +98,14 @@ public class DefaultClaimService implements ClaimService {
 
         var authorizedBody = new AuthorizedBody();
 
-        MovementActionType actionType = null;
+        MovementActionType actionType = request.getDecision() ? MovementActionType.OPERATOR_ACCEPT : MovementActionType.OPERATOR_REJECT;
 
-        actionType = request.getDecision() ? MovementActionType.ORGAN_ACCEPT : MovementActionType.ORGAN_REJECT;
+        MovementAction action = actionService.get(actionType);
+        MovementPointType pointType = request.getDecision() ? MovementPointType.ACCEPT : MovementPointType.REJECT;
+        MovementPoint point = pointService.get(pointType);
+        var claim = request.getClaim();
+        claim.setAction(action);
+        claim.setPoint(point);
 
         authorizedBody.setClaim(request.getClaim());
         authorizedBody.setCause(request.getCause());
@@ -109,9 +118,15 @@ public class DefaultClaimService implements ClaimService {
     public TableCommission create(TableCommissionRequest request) {
         var tableCommission = new TableCommission();
 
-        MovementActionType actionType = null;
+        MovementActionType actionType = request.getDecision() ? MovementActionType.COMMISSION_ACCEPT : MovementActionType.COMMISSION_REJECT;
+        ;
 
-        actionType = request.getDecision() ? MovementActionType.ORGAN_ACCEPT : MovementActionType.ORGAN_REJECT;
+        MovementAction action = actionService.get(actionType);
+        MovementPointType pointType = request.getDecision() ? MovementPointType.ACCEPT : MovementPointType.REJECT;
+        MovementPoint point = pointService.get(pointType);
+        var claim = request.getClaim();
+        claim.setAction(action);
+        claim.setPoint(point);
 
         tableCommission.setClaim(request.getClaim());
         tableCommission.setCause(request.getCause());
@@ -135,4 +150,5 @@ public class DefaultClaimService implements ClaimService {
     public Claim getById(Long id) {
         return claimRepository.findById(id).orElseThrow();
     }
+
 }
