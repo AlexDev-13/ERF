@@ -3,10 +3,22 @@ package com.gov.erf.endpoint.claim.impl;
 import com.gov.erf.config.data.ClaimFileConfigurations;
 import com.gov.erf.dto.http.claims.ClaimDto;
 import com.gov.erf.dto.http.claims.request.AddClaimRequestDto;
+import com.gov.erf.dto.http.claims.tables.TableAuthorizedBodyDto;
+import com.gov.erf.dto.http.claims.tables.TableCommissionDto;
+import com.gov.erf.dto.http.claims.tables.TableResponsibleBodyDto;
+import com.gov.erf.dto.http.claims.tables.request.InfoRequestCommissionDto;
+import com.gov.erf.dto.http.claims.tables.request.InfoRequestFromAuthorizedBodyDto;
+import com.gov.erf.dto.http.claims.tables.request.InfoRequestFromResponsibleBodyDto;
 import com.gov.erf.endpoint.claim.ClaimEndpoint;
 import com.gov.erf.mapper.claim.ClaimMapper;
 import com.gov.erf.models.claims.Claim;
 import com.gov.erf.models.claims.request.AddClaimRequest;
+import com.gov.erf.models.claims.tables.AuthorizedBody;
+import com.gov.erf.models.claims.tables.ResponsibleBody;
+import com.gov.erf.models.claims.tables.TableCommission;
+import com.gov.erf.models.claims.tables.request.AuthorizedBodyRequest;
+import com.gov.erf.models.claims.tables.request.ResponsibleBodyRequest;
+import com.gov.erf.models.claims.tables.request.TableCommissionRequest;
 import com.gov.erf.modules.models.AppFile;
 import com.gov.erf.modules.service.AppFileCreateService;
 import com.gov.erf.service.claim.ClaimService;
@@ -64,6 +76,36 @@ public class DefaultClaimEndpoint implements ClaimEndpoint {
         Collection<Claim> claims = claimService.getAll();
 
         return claimMapper.toClaimDtos(claims);
+    }
+
+    @Override
+    public TableResponsibleBodyDto perform(InfoRequestFromResponsibleBodyDto info) {
+
+        ResponsibleBodyRequest responsibleBodyRequest = claimMapper.toResponsibleBodyRequest(info);
+
+        ResponsibleBody responsibleBody = claimService.create(responsibleBodyRequest);
+
+        return claimMapper.toResponsibleBodyDto(responsibleBody);
+    }
+
+    @Override
+    public TableAuthorizedBodyDto perform(InfoRequestFromAuthorizedBodyDto info) {
+
+        AuthorizedBodyRequest authorizedBodyRequest = claimMapper.toAuthorizedBodyRequest(info);
+
+        AuthorizedBody authorizedBody = claimService.create(authorizedBodyRequest);
+
+        return claimMapper.toTableAuthorizedBodyDto(authorizedBody);
+    }
+
+    @Override
+    public TableCommissionDto perform(InfoRequestCommissionDto info) {
+
+        TableCommissionRequest tableCommissionRequest = claimMapper.toCommissionRequest(info);
+        TableCommission tableCommission = claimService.create(tableCommissionRequest);
+
+        return claimMapper.toCommissionDto(tableCommission);
+
     }
 
     public void saveFile(Claim claim, MultipartFile file) throws Exception {

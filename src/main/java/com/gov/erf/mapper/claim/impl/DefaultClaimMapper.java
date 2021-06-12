@@ -5,6 +5,12 @@ import com.gov.erf.dto.http.claims.EconomicActivityDto;
 import com.gov.erf.dto.http.claims.OrganDto;
 import com.gov.erf.dto.http.claims.RegionDto;
 import com.gov.erf.dto.http.claims.request.AddClaimRequestDto;
+import com.gov.erf.dto.http.claims.tables.TableAuthorizedBodyDto;
+import com.gov.erf.dto.http.claims.tables.TableCommissionDto;
+import com.gov.erf.dto.http.claims.tables.TableResponsibleBodyDto;
+import com.gov.erf.dto.http.claims.tables.request.InfoRequestCommissionDto;
+import com.gov.erf.dto.http.claims.tables.request.InfoRequestFromAuthorizedBodyDto;
+import com.gov.erf.dto.http.claims.tables.request.InfoRequestFromResponsibleBodyDto;
 import com.gov.erf.mapper.claim.ClaimMapper;
 import com.gov.erf.mapper.claim.EconomicActivityMapper;
 import com.gov.erf.mapper.claim.OrganMapper;
@@ -14,7 +20,13 @@ import com.gov.erf.models.claims.EconomicActivity;
 import com.gov.erf.models.claims.Organ;
 import com.gov.erf.models.claims.Region;
 import com.gov.erf.models.claims.request.AddClaimRequest;
-import com.gov.erf.repository.claim.ClaimRepository;
+import com.gov.erf.models.claims.tables.AuthorizedBody;
+import com.gov.erf.models.claims.tables.ResponsibleBody;
+import com.gov.erf.models.claims.tables.TableCommission;
+import com.gov.erf.models.claims.tables.request.AuthorizedBodyRequest;
+import com.gov.erf.models.claims.tables.request.ResponsibleBodyRequest;
+import com.gov.erf.models.claims.tables.request.TableCommissionRequest;
+import com.gov.erf.service.claim.ClaimService;
 import com.gov.erf.service.claim.EconomicActivityService;
 import com.gov.erf.service.claim.OrganService;
 import com.gov.erf.service.claim.RegionService;
@@ -27,6 +39,7 @@ import java.util.Collection;
 public class DefaultClaimMapper implements ClaimMapper {
 
     private final EconomicActivityService economicActivityService;
+    private final ClaimService claimService;
     private final OrganService organService;
     private final RegionService regionService;
     private final EconomicActivityMapper economicActivityMapper;
@@ -36,13 +49,14 @@ public class DefaultClaimMapper implements ClaimMapper {
     public DefaultClaimMapper
             (
                     EconomicActivityService economicActivityService,
-                    OrganService organService,
+                    ClaimService claimService, OrganService organService,
                     RegionService regionService,
                     EconomicActivityMapper economicActivityMapper,
                     OrganMapper organMapper,
                     RegionMapper regionMapper
             ) {
         this.economicActivityService = economicActivityService;
+        this.claimService = claimService;
         this.organService = organService;
         this.regionService = regionService;
         this.economicActivityMapper = economicActivityMapper;
@@ -90,6 +104,31 @@ public class DefaultClaimMapper implements ClaimMapper {
     }
 
     @Override
+    public TableResponsibleBodyDto toResponsibleBodyDto(ResponsibleBody body) {
+
+        var responsibleBodyDto = new TableResponsibleBodyDto();
+        ClaimDto claimDto = toClaimDto(body.getClaim());
+
+        responsibleBodyDto.setClaimId(claimDto);
+        responsibleBodyDto.setCause(body.getCause());
+        responsibleBodyDto.setDecision(body.getDecision());
+
+        return responsibleBodyDto;
+    }
+
+    @Override
+    public TableAuthorizedBodyDto toTableAuthorizedBodyDto(AuthorizedBody body) {
+        var authorizedBodyDto = new TableAuthorizedBodyDto();
+        ClaimDto claimDto = toClaimDto(body.getClaim());
+
+        authorizedBodyDto.setClaimId(claimDto);
+        authorizedBodyDto.setCause(body.getCause());
+        authorizedBodyDto.setDecision(body.getDecision());
+
+        return authorizedBodyDto;
+    }
+
+    @Override
     public Collection<ClaimDto> toClaimDtos(Collection<Claim> claims) {
 
         Collection<ClaimDto> claimDtos = new ArrayList<>();
@@ -98,5 +137,51 @@ public class DefaultClaimMapper implements ClaimMapper {
             claimDtos.add(toClaimDto(claim));
         }
         return claimDtos;
+    }
+
+    @Override
+    public TableCommissionRequest toCommissionRequest(InfoRequestCommissionDto info) {
+        Claim claim = claimService.getById(info.getClaimId());
+
+        return TableCommissionRequest.builder()
+                .claim(claim)
+                .cause(info.getCause())
+                .decision(info.getDecision())
+                .build();
+    }
+
+    @Override
+    public TableCommissionDto toCommissionDto(TableCommission tableCommission) {
+        var commissionDto = new TableCommissionDto();
+        ClaimDto claimDto = toClaimDto(tableCommission.getClaim());
+
+        commissionDto.setClaimId(claimDto);
+        commissionDto.setCause(tableCommission.getCause());
+        commissionDto.setDecision(tableCommission.getDecision());
+        return commissionDto;
+    }
+
+    @Override
+    public ResponsibleBodyRequest toResponsibleBodyRequest(InfoRequestFromResponsibleBodyDto infoRequestFromResponsibleBodyDto) {
+
+        Claim claim = claimService.getById(infoRequestFromResponsibleBodyDto.getClaimId());
+
+        return ResponsibleBodyRequest.builder()
+                .claim(claim)
+                .cause(infoRequestFromResponsibleBodyDto.getCause())
+                .decision(infoRequestFromResponsibleBodyDto.getDecision())
+                .build();
+    }
+
+    @Override
+    public AuthorizedBodyRequest toAuthorizedBodyRequest(InfoRequestFromAuthorizedBodyDto infoRequestFromAuthorizedBodyDto) {
+
+        Claim claim = claimService.getById(infoRequestFromAuthorizedBodyDto.getClaimId());
+
+        return AuthorizedBodyRequest.builder()
+                .claim(claim)
+                .cause(infoRequestFromAuthorizedBodyDto.getCause())
+                .decision(infoRequestFromAuthorizedBodyDto.getDecision())
+                .build();
     }
 }
