@@ -3,6 +3,7 @@ package com.gov.erf.endpoint.claim.impl;
 import com.gov.erf.config.data.ClaimFileConfigurations;
 import com.gov.erf.dto.http.claims.ClaimDto;
 import com.gov.erf.dto.http.claims.request.AddClaimRequestDto;
+import com.gov.erf.dto.http.claims.request.SearchClaimsByParam;
 import com.gov.erf.dto.http.claims.tables.TableAuthorizedBodyDto;
 import com.gov.erf.dto.http.claims.tables.TableCommissionDto;
 import com.gov.erf.dto.http.claims.tables.TableResponsibleBodyDto;
@@ -108,9 +109,9 @@ public class DefaultClaimEndpoint implements ClaimEndpoint {
     }
 
     @Override
-    public Collection<ClaimDto> searchByParam(String region) {
+    public Collection<ClaimDto> searchByParam(String searchClaimsByParam) {
 
-        Collection<Claim> claims = claimService.searchByRegion(region);
+        Collection<Claim> claims = claimService.searchByParam(searchClaimsByParam);
 
         return claimMapper.toClaimDtos(claims);
     }

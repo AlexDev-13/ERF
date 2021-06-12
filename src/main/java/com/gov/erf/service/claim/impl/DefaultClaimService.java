@@ -1,5 +1,6 @@
 package com.gov.erf.service.claim.impl;
 
+import com.gov.erf.dto.http.claims.request.SearchClaimsByParam;
 import com.gov.erf.models.action.MovementAction;
 import com.gov.erf.models.action.MovementActionType;
 import com.gov.erf.models.claims.Claim;
@@ -152,10 +153,10 @@ public class DefaultClaimService implements ClaimService {
     }
 
     @Override
-    public Collection<Claim> searchByRegion(String region) {
+    public Collection<Claim> searchByParam(String searchClaimsByParam) {
 
-        Region findRegion = regionRepository.findByTitle(region);
-        return claimRepository.findAllByRegion(findRegion);
+        Region region = regionRepository.findByTitle(searchClaimsByParam);
+        return claimRepository.findAllByRegion(region);
     }
 
 }

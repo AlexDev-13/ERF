@@ -6,11 +6,10 @@ import com.gov.erf.dto.http.claims.request.AddClaimRequestDto;
 import com.gov.erf.endpoint.claim.ClaimEndpoint;
 import io.swagger.annotations.ApiParam;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Collection;
 
 @RestController
 @RequestMapping("api/v1/claim")
@@ -31,6 +30,24 @@ public class ClaimController {
             @RequestPart(value = "file", required = false) MultipartFile file
     ) throws Exception {
         return claimEndpoint.create(addClaimRequestDto, file);
+    }
+
+    @PostMapping
+    public ClaimDto create(
+            @RequestBody AddClaimRequestDto addClaimRequestDto
+    ) throws Exception {
+        return claimEndpoint.create(addClaimRequestDto, null);
+    }
+
+    @GetMapping("/get/{id}")
+    public ClaimDto getById(@PathVariable("id") Long id){
+        return claimEndpoint.getById(id);
+    }
+
+
+    @GetMapping("/get-all")
+    public Collection<ClaimDto> getAll(){
+        return claimEndpoint.getAll();
     }
 
 }
