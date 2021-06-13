@@ -1,8 +1,8 @@
 package com.gov.erf.controller.claim;
 
 
-import com.gov.erf.dto.http.claims.ClaimDto;
-import com.gov.erf.dto.http.claims.request.AddClaimRequestDto;
+import com.gov.erf.dto.http.ClaimDto;
+import com.gov.erf.dto.http.request.AddClaimRequestDto;
 import com.gov.erf.endpoint.claim.ClaimEndpoint;
 import io.swagger.annotations.ApiParam;
 import org.springframework.http.MediaType;
@@ -40,13 +40,13 @@ public class ClaimController {
     }
 
     @GetMapping("/get/{id}")
-    public ClaimDto getById(@PathVariable("id") Long id){
+    public ClaimDto getById(@PathVariable("id") Long id) {
         return claimEndpoint.getById(id);
     }
 
 
     @GetMapping("/get-all")
-    public Collection<ClaimDto> getAll(){
+    public Collection<ClaimDto> getAll() {
         return claimEndpoint.getAll();
     }
 

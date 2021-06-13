@@ -1,15 +1,14 @@
 package com.gov.erf.endpoint.claim.impl;
 
 import com.gov.erf.config.data.ClaimFileConfigurations;
-import com.gov.erf.dto.http.claims.ClaimDto;
-import com.gov.erf.dto.http.claims.request.AddClaimRequestDto;
-import com.gov.erf.dto.http.claims.request.SearchClaimsByParam;
-import com.gov.erf.dto.http.claims.tables.TableAuthorizedBodyDto;
-import com.gov.erf.dto.http.claims.tables.TableCommissionDto;
-import com.gov.erf.dto.http.claims.tables.TableResponsibleBodyDto;
-import com.gov.erf.dto.http.claims.tables.request.InfoRequestCommissionDto;
-import com.gov.erf.dto.http.claims.tables.request.InfoRequestFromAuthorizedBodyDto;
-import com.gov.erf.dto.http.claims.tables.request.InfoRequestFromResponsibleBodyDto;
+import com.gov.erf.dto.http.ClaimDto;
+import com.gov.erf.dto.http.request.AddClaimRequestDto;
+import com.gov.erf.dto.http.tables.TableAuthorizedBodyDto;
+import com.gov.erf.dto.http.tables.TableCommissionDto;
+import com.gov.erf.dto.http.tables.TableResponsibleBodyDto;
+import com.gov.erf.dto.http.tables.request.InfoRequestCommissionDto;
+import com.gov.erf.dto.http.tables.request.InfoRequestFromAuthorizedBodyDto;
+import com.gov.erf.dto.http.tables.request.InfoRequestFromResponsibleBodyDto;
 import com.gov.erf.endpoint.claim.ClaimEndpoint;
 import com.gov.erf.mapper.claim.ClaimMapper;
 import com.gov.erf.models.claims.Claim;

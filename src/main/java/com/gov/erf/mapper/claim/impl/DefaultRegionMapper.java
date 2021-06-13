@@ -1,6 +1,6 @@
 package com.gov.erf.mapper.claim.impl;
 
-import com.gov.erf.dto.http.claims.RegionDto;
+import com.gov.erf.dto.http.RegionDto;
 import com.gov.erf.mapper.claim.RegionMapper;
 import com.gov.erf.models.claims.Region;
 import com.gov.erf.models.claims.request.AddRegionRequest;

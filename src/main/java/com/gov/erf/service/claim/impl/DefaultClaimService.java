@@ -1,6 +1,5 @@
 package com.gov.erf.service.claim.impl;
 
-import com.gov.erf.dto.http.claims.request.SearchClaimsByParam;
 import com.gov.erf.models.action.MovementAction;
 import com.gov.erf.models.action.MovementActionType;
 import com.gov.erf.models.claims.Claim;
