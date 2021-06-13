@@ -50,7 +50,9 @@ public class DefaultRegisterService implements RegisterService {
                         registrationRequestDto.getUsername(),
                         registrationRequestDto.getEmail(),
                         registrationRequestDto.getPassword(),
-                        Role.OPERATOR
+                        Boolean.TRUE,
+                        Boolean.FALSE,
+                        Role.ADMIN
                 )
         );
         String link = "http://localhost:8080/api/v1/account/confirm?token=" + token;

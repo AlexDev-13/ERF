@@ -11,25 +11,26 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
+@Table(name = "confirm_token")
 @NoArgsConstructor
 public class ConfirmToken {
 
-    @SequenceGenerator(
-            name = "conf_token_sq",
-            sequenceName = "conf_token_sq",
-            allocationSize = 1
-    )
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "conf_token_sq"
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false,
+            name = "token")
     private String token;
+
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
+
+    @Column(name = "expired_at")
     private LocalDateTime expiredAt;
+
+    @Column(name = "confirmed_at")
     private LocalDateTime confirmedAt;
 
     @ManyToOne

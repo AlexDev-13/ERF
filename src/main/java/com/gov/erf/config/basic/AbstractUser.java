@@ -21,33 +21,40 @@ import java.util.Collections;
 @MappedSuperclass
 public abstract class AbstractUser implements UserDetails {
 
-    @SequenceGenerator(
-            name = "user_sq",
-            sequenceName = "user_sq",
-            allocationSize = 1
-    )
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "user_sq"
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @NotNull
+    @Column(name = "name")
     private String name;
 
     @NotNull
+    @Column(name = "surname")
     private String surname;
 
     @NotNull
+    @Column(name = "username")
     private String username;
+
+    @Column(name = "patronymic")
     private String patronymic;
+
+    @Column(name = "email")
     private String email;
+
+    @Column(name = "password")
     private String password;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "role")
     private Role role;
+
+    @Column(name = "locked")
     private Boolean locked;
+
+    @Column(name = "enabled")
     private Boolean enabled;
 
     public AbstractUser(
@@ -57,6 +64,8 @@ public abstract class AbstractUser implements UserDetails {
             String username,
             String email,
             String password,
+            Boolean locked,
+            Boolean enabled,
             Role role
     ) {
         this.name = name;
@@ -66,6 +75,8 @@ public abstract class AbstractUser implements UserDetails {
         this.username = username;
         this.password = password;
         this.role = role;
+        this.locked = locked;
+        this.enabled = enabled;
     }
 
     @Override
