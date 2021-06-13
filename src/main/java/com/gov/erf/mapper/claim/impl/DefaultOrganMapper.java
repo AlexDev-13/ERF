@@ -1,6 +1,6 @@
 package com.gov.erf.mapper.claim.impl;
 
-import com.gov.erf.dto.http.claims.OrganDto;
+import com.gov.erf.dto.http.OrganDto;
 import com.gov.erf.mapper.claim.OrganMapper;
 import com.gov.erf.models.claims.Organ;
 import com.gov.erf.models.claims.request.AddOrganRequest;

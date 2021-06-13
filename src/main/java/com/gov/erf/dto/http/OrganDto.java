@@ -1,10 +1,11 @@
-package com.gov.erf.dto.http.claims;
+package com.gov.erf.dto.http;
 
 import lombok.Data;
 
 @Data
-public class RegionDto {
+public class OrganDto {
 
     private Long id;
     private String title;
+
 }
