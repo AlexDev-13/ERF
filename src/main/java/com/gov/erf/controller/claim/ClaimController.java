@@ -1,7 +1,7 @@
 package com.gov.erf.controller.claim;
 
 
-import com.gov.erf.dto.http.ClaimDto;
+import com.gov.erf.dto.http.claim.ClaimDto;
 import com.gov.erf.dto.http.request.AddClaimRequestDto;
 import com.gov.erf.endpoint.claim.ClaimEndpoint;
 import io.swagger.annotations.ApiParam;
@@ -24,13 +24,13 @@ public class ClaimController {
         this.claimEndpoint = claimEndpoint;
     }
 
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ClaimDto create(
-            @RequestPart("request") @ApiParam("AddClaimRequestDto") AddClaimRequestDto addClaimRequestDto,
-            @RequestPart(value = "file", required = false) MultipartFile file
-    ) throws Exception {
-        return claimEndpoint.create(addClaimRequestDto, file);
-    }
+//    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    public ClaimDto create(
+//            @RequestPart("request") @ApiParam("AddClaimRequestDto") AddClaimRequestDto addClaimRequestDto,
+//            @RequestPart(value = "file", required = false) MultipartFile file
+//    ) throws Exception {
+//        return claimEndpoint.create(addClaimRequestDto, file);
+//    }
 
     @PostMapping
     public ClaimDto create(

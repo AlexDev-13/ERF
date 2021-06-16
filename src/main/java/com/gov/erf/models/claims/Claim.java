@@ -2,6 +2,8 @@ package com.gov.erf.models.claims;
 
 
 import com.gov.erf.config.basic.MovableEntity;
+import com.gov.erf.dto.http.claim.ApplicantType;
+import com.gov.erf.models.account.Applicant;
 import com.gov.erf.modules.models.AppFile;
 import com.sun.istack.NotNull;
 import lombok.Getter;
@@ -15,6 +17,22 @@ import javax.persistence.*;
 @Entity
 @Table(name = "claims")
 public class Claim extends MovableEntity {
+
+    @OneToOne
+    @JoinColumn(name = "applicant_id")
+    private Applicant applicantType;
+
+    @Column(name = "fullname")
+    private String fullname;
+
+    @Column(name = "inn")
+    private String inn;
+
+    @Column(name = "telephone")
+    private String telephone;
+
+    @Column(name = "email")
+    private String email;
 
     @NotNull
     @OneToOne

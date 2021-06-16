@@ -1,7 +1,7 @@
 package com.gov.erf.controller.claim;
 
 
-import com.gov.erf.dto.http.ClaimDto;
+import com.gov.erf.dto.http.claim.ClaimDto;
 import com.gov.erf.endpoint.claim.ClaimEndpoint;
 import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.web.bind.annotation.GetMapping;

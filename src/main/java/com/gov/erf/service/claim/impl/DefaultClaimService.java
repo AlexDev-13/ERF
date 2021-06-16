@@ -1,5 +1,6 @@
 package com.gov.erf.service.claim.impl;
 
+import com.gov.erf.models.account.Applicant;
 import com.gov.erf.models.action.MovementAction;
 import com.gov.erf.models.action.MovementActionType;
 import com.gov.erf.models.claims.Claim;
@@ -16,6 +17,7 @@ import com.gov.erf.models.point.MovementPointType;
 import com.gov.erf.modules.models.AppFile;
 import com.gov.erf.repository.claim.*;
 import com.gov.erf.service.action.MovementActionService;
+import com.gov.erf.service.claim.ApplicantService;
 import com.gov.erf.service.claim.ClaimService;
 import com.gov.erf.service.point.MovementPointService;
 import org.springframework.stereotype.Service;
@@ -32,6 +34,7 @@ public class DefaultClaimService implements ClaimService {
     private final ResponsibleBodyRepository responsibleBodyRepository;
     private final AuthorizedBodyRepository authorizedBodyRepository;
     private final TableCommissionRepository tableCommissionRepository;
+    private final ApplicantService applicantService;
 
     public DefaultClaimService
             (
@@ -40,8 +43,8 @@ public class DefaultClaimService implements ClaimService {
                     MovementActionService actionService,
                     ResponsibleBodyRepository responsibleBodyRepository,
                     AuthorizedBodyRepository authorizedBodyRepository,
-                    TableCommissionRepository tableCommissionRepository
-            ) {
+                    TableCommissionRepository tableCommissionRepository,
+                    ApplicantService applicantService) {
         this.claimRepository = claimRepository;
         this.regionRepository = regionRepository;
         this.pointService = pointService;
@@ -49,6 +52,7 @@ public class DefaultClaimService implements ClaimService {
         this.responsibleBodyRepository = responsibleBodyRepository;
         this.authorizedBodyRepository = authorizedBodyRepository;
         this.tableCommissionRepository = tableCommissionRepository;
+        this.applicantService = applicantService;
     }
 
     @Override
@@ -56,9 +60,15 @@ public class DefaultClaimService implements ClaimService {
 
         MovementPoint point = pointService.get(MovementPointType.ADMISSION);
         MovementAction action = actionService.get(MovementActionType.REGISTER);
+        Applicant applicant = applicantService.findByTitle(request.getApplicantType().getTitle());
 
         var claim = new Claim();
 
+        claim.setFullname(request.getFullname());
+        claim.setEmail(request.getEmail());
+        claim.setInn(request.getInn());
+        claim.setTelephone(request.getTelephone());
+        claim.setApplicantType(applicant);
         claim.setOrgan(request.getOrgan());
         claim.setRegion(request.getRegion());
         claim.setEconomicActivity(request.getEconomicActivity());

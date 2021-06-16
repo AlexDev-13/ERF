@@ -1,6 +1,6 @@
 package com.gov.erf.mapper.claim.impl;
 
-import com.gov.erf.dto.http.EconomicActivityDto;
+import com.gov.erf.dto.http.claim.EconomicActivityDto;
 import com.gov.erf.mapper.claim.EconomicActivityMapper;
 import com.gov.erf.models.claims.EconomicActivity;
 import com.gov.erf.models.claims.request.AddEconomicActivityRequest;

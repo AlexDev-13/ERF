@@ -1,7 +1,7 @@
 package com.gov.erf.endpoint.claim.impl;
 
 import com.gov.erf.config.data.ClaimFileConfigurations;
-import com.gov.erf.dto.http.ClaimDto;
+import com.gov.erf.dto.http.claim.ClaimDto;
 import com.gov.erf.dto.http.request.AddClaimRequestDto;
 import com.gov.erf.dto.http.tables.TableAuthorizedBodyDto;
 import com.gov.erf.dto.http.tables.TableCommissionDto;

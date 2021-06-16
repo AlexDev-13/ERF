@@ -1,9 +1,6 @@
 package com.gov.erf.mapper.claim.impl;
 
-import com.gov.erf.dto.http.ClaimDto;
-import com.gov.erf.dto.http.EconomicActivityDto;
-import com.gov.erf.dto.http.OrganDto;
-import com.gov.erf.dto.http.RegionDto;
+import com.gov.erf.dto.http.claim.*;
 import com.gov.erf.dto.http.request.AddClaimRequestDto;
 import com.gov.erf.dto.http.tables.TableAuthorizedBodyDto;
 import com.gov.erf.dto.http.tables.TableCommissionDto;
@@ -11,10 +8,8 @@ import com.gov.erf.dto.http.tables.TableResponsibleBodyDto;
 import com.gov.erf.dto.http.tables.request.InfoRequestCommissionDto;
 import com.gov.erf.dto.http.tables.request.InfoRequestFromAuthorizedBodyDto;
 import com.gov.erf.dto.http.tables.request.InfoRequestFromResponsibleBodyDto;
-import com.gov.erf.mapper.claim.ClaimMapper;
-import com.gov.erf.mapper.claim.EconomicActivityMapper;
-import com.gov.erf.mapper.claim.OrganMapper;
-import com.gov.erf.mapper.claim.RegionMapper;
+import com.gov.erf.mapper.claim.*;
+import com.gov.erf.models.account.Applicant;
 import com.gov.erf.models.claims.Claim;
 import com.gov.erf.models.claims.EconomicActivity;
 import com.gov.erf.models.claims.Organ;
@@ -26,10 +21,7 @@ import com.gov.erf.models.claims.tables.TableCommission;
 import com.gov.erf.models.claims.tables.request.AuthorizedBodyRequest;
 import com.gov.erf.models.claims.tables.request.ResponsibleBodyRequest;
 import com.gov.erf.models.claims.tables.request.TableCommissionRequest;
-import com.gov.erf.service.claim.ClaimService;
-import com.gov.erf.service.claim.EconomicActivityService;
-import com.gov.erf.service.claim.OrganService;
-import com.gov.erf.service.claim.RegionService;
+import com.gov.erf.service.claim.*;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -45,6 +37,8 @@ public class DefaultClaimMapper implements ClaimMapper {
     private final EconomicActivityMapper economicActivityMapper;
     private final OrganMapper organMapper;
     private final RegionMapper regionMapper;
+    private final ApplicantMapper applicantMapper;
+    private final ApplicantService applicantService;
 
     public DefaultClaimMapper
             (
@@ -53,8 +47,8 @@ public class DefaultClaimMapper implements ClaimMapper {
                     RegionService regionService,
                     EconomicActivityMapper economicActivityMapper,
                     OrganMapper organMapper,
-                    RegionMapper regionMapper
-            ) {
+                    RegionMapper regionMapper,
+                    ApplicantMapper applicantMapper, ApplicantService applicantService) {
         this.economicActivityService = economicActivityService;
         this.claimService = claimService;
         this.organService = organService;
@@ -62,6 +56,8 @@ public class DefaultClaimMapper implements ClaimMapper {
         this.economicActivityMapper = economicActivityMapper;
         this.organMapper = organMapper;
         this.regionMapper = regionMapper;
+        this.applicantMapper = applicantMapper;
+        this.applicantService = applicantService;
     }
 
     @Override
@@ -70,9 +66,15 @@ public class DefaultClaimMapper implements ClaimMapper {
         EconomicActivity economicActivity = economicActivityService.get(addClaimRequestDto.getEconomicActivityId());
         Region region = regionService.get(addClaimRequestDto.getRegionId());
         Organ organ = organService.get(addClaimRequestDto.getOrganId());
+        Applicant applicant = applicantService.get(addClaimRequestDto.getApplicantType());
 
         return AddClaimRequest
                 .builder()
+                .applicantType(applicant)
+                .fullname(addClaimRequestDto.getFullname())
+                .email(addClaimRequestDto.getEmail())
+                .inn(addClaimRequestDto.getInn())
+                .telephone(addClaimRequestDto.getTelephone())
                 .economicActivity(economicActivity)
                 .region(region)
                 .organ(organ)
@@ -89,9 +91,15 @@ public class DefaultClaimMapper implements ClaimMapper {
         EconomicActivityDto economicActivityDto = economicActivityMapper.toEconomicActivityDto(claim.getEconomicActivity());
         OrganDto organDto = organMapper.toOrganDto(claim.getOrgan());
         RegionDto regionDto = regionMapper.toRegionDto(claim.getRegion());
+        ApplicantDto applicantDto = applicantMapper.toApplicantDto(claim.getApplicantType());
 
         var claimDto = new ClaimDto();
         claimDto.setId(claim.getId());
+        claimDto.setFullname(claim.getFullname());
+        claimDto.setTelephone(claim.getTelephone());
+        claimDto.setEmail(claim.getEmail());
+        claimDto.setInn(claim.getInn());
+        claimDto.setApplicantType(applicantDto);
         claimDto.setEconomicActivity(economicActivityDto);
         claimDto.setOrgan(organDto);
         claimDto.setRegion(regionDto);

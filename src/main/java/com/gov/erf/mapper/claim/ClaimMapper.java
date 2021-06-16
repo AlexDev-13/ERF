@@ -1,6 +1,6 @@
 package com.gov.erf.mapper.claim;
 
-import com.gov.erf.dto.http.ClaimDto;
+import com.gov.erf.dto.http.claim.ClaimDto;
 import com.gov.erf.dto.http.request.AddClaimRequestDto;
 import com.gov.erf.dto.http.tables.TableAuthorizedBodyDto;
 import com.gov.erf.dto.http.tables.TableCommissionDto;

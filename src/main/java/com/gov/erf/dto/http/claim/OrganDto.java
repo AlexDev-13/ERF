@@ -1,4 +1,4 @@
-package com.gov.erf.dto.http;
+package com.gov.erf.dto.http.claim;
 
 import lombok.Data;
 

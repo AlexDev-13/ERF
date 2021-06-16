@@ -1,22 +1,51 @@
 CREATE TABLE IF NOT EXISTS movement_points
 (
-    id    BIGSERIAL PRIMARY KEY,
-    title VARCHAR(255) NOT NULL
-);
+    id
+    BIGSERIAL
+    PRIMARY
+    KEY,
+    title
+    VARCHAR
+(
+    255
+) NOT NULL
+    );
 
 CREATE TABLE IF NOT EXISTS movement_actions
 (
-    id    BIGSERIAL PRIMARY KEY,
-    title VARCHAR(255) NOT NULL
-);
+    id
+    BIGSERIAL
+    PRIMARY
+    KEY,
+    title
+    VARCHAR
+(
+    255
+) NOT NULL
+    );
 
 CREATE TABLE IF NOT EXISTS movement_roadmaps
 (
-    id              BIGSERIAL PRIMARY KEY,
-    source_point_id BIGINT REFERENCES movement_points (id),
-    target_point_id BIGINT NOT NULL REFERENCES movement_points (id),
-    action_id       BIGINT NOT NULL REFERENCES movement_actions (id)
-);
+    id
+    BIGSERIAL
+    PRIMARY
+    KEY,
+    source_point_id
+    BIGINT
+    REFERENCES
+    movement_points
+(
+    id
+),
+    target_point_id BIGINT NOT NULL REFERENCES movement_points
+(
+    id
+),
+    action_id BIGINT NOT NULL REFERENCES movement_actions
+(
+    id
+)
+    );
 
 
 INSERT INTO movement_points (id, title)
@@ -100,11 +129,27 @@ CREATE TABLE files
     updated_at TIMESTAMP
 );
 
+CREATE TABLE applicant
+(
+
+    id    BIGSERIAL NOT NULL PRIMARY KEY,
+    title VARCHAR(64)
+);
+
+INSERT INTO applicant (title)
+VALUES ('PHYSICAL_DATA'),
+       ('JURIDICAL_DATA');
+
 CREATE TABLE claims
 (
     id                     BIGSERIAL NOT NULL PRIMARY KEY,
     created_at             TIMESTAMP,
     updated_at             TIMESTAMP,
+    fullname               VARCHAR(128),
+    inn                    VARCHAR(64),
+    telephone              VARCHAR(64),
+    email                  VARCHAR(64),
+    applicant_id           BIGINT REFERENCES applicant (id),
     economic_activity_id   BIGINT    NOT NULL REFERENCES ref_economic_activity (id),
     organ_addressed_id     BIGINT    NOT NULL REFERENCES ref_organ_addressed (id),
     cause_of_factor        TEXT,
@@ -114,3 +159,4 @@ CREATE TABLE claims
     region_id              BIGINT    NOT NULL REFERENCES ref_region (id),
     empowerment            TEXT
 );
+
