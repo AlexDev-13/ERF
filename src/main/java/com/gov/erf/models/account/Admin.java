@@ -20,8 +20,8 @@ public class Admin extends AbstractUser {
             String password,
             Boolean locked,
             Boolean enabled,
-            Role role
+            Role roleType
     ) {
-        super(name, surname, patronymic, username, email, password, locked, enabled, role);
+        super(name, surname, patronymic, username, email, password, locked, enabled, roleType);
     }
 }

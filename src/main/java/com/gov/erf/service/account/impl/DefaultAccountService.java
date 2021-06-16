@@ -61,8 +61,10 @@ public class DefaultAccountService implements AccountService {
 
         return token;
     }
+
     @Override
     public int enableAppUser(String email) {
         return adminRepository.enableAppUser(email);
     }
+
 }

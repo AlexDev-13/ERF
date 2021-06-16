@@ -1,6 +1,7 @@
 package com.gov.erf.config.basic;
 
 import com.gov.erf.models.account.Role;
+import com.gov.erf.models.account.RoleType;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -47,8 +48,9 @@ public abstract class AbstractUser implements UserDetails {
     @Column(name = "password")
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "role")
+
+    @OneToOne
+    @JoinColumn(name = "role_id")
     private Role role;
 
     @Column(name = "locked")
@@ -82,7 +84,7 @@ public abstract class AbstractUser implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         SimpleGrantedAuthority authority =
-                new SimpleGrantedAuthority(role.name());
+                new SimpleGrantedAuthority(role.getTitle());
         return Collections.singletonList(authority);
     }
 

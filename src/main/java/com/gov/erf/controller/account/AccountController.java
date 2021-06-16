@@ -1,7 +1,8 @@
 package com.gov.erf.controller.account;
 
 
-import com.gov.erf.dto.http.account.RegistrationRequestDto;
+import com.gov.erf.dto.http.account.AddUserRequestDto;
+import com.gov.erf.dto.http.account.UserDto;
 import com.gov.erf.endpoint.account.AccountEndpoint;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +19,7 @@ public class AccountController {
     }
 
     @PostMapping
-    public String register(@RequestBody RegistrationRequestDto account) {
+    public String register(@RequestBody AddUserRequestDto account) {
         return accountEndpoint.register(account);
     }
 
@@ -26,5 +27,4 @@ public class AccountController {
     public String confirm(@RequestParam("token") String token){
         return accountEndpoint.confirmToken(token);
     }
-
 }

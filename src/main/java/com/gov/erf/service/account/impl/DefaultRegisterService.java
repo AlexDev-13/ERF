@@ -1,14 +1,17 @@
 package com.gov.erf.service.account.impl;
 
 import com.gov.erf.config.validator.EmailValidator;
-import com.gov.erf.dto.http.account.RegistrationRequestDto;
+import com.gov.erf.dto.http.account.AddUserRequestDto;
 import com.gov.erf.models.account.Admin;
 import com.gov.erf.models.account.Role;
+import com.gov.erf.models.account.RoleType;
 import com.gov.erf.models.account.token.ConfirmToken;
 import com.gov.erf.service.account.AccountService;
 import com.gov.erf.service.account.RegisterService;
 import com.gov.erf.service.account.email.EmailSender;
+import com.gov.erf.service.account.role.RoleService;
 import com.gov.erf.service.token.ConfirmationTokenService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -19,24 +22,33 @@ public class DefaultRegisterService implements RegisterService {
 
     private final EmailValidator emailValidator;
     private final AccountService accountService;
+    private final RoleService roleService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailSender emailSender;
 
     public DefaultRegisterService(
             EmailValidator emailValidator,
             AccountService accountService,
+            RoleService roleService,
+            BCryptPasswordEncoder bCryptPasswordEncoder,
             ConfirmationTokenService confirmationTokenService,
-            EmailSender emailSender) {
+            EmailSender emailSender
+    ) {
         this.emailValidator = emailValidator;
         this.accountService = accountService;
+        this.roleService = roleService;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.confirmationTokenService = confirmationTokenService;
         this.emailSender = emailSender;
     }
 
     @Override
-    public String register(RegistrationRequestDto registrationRequestDto) {
+    public String register(AddUserRequestDto addUserRequestDto) {
 
-        boolean isValidEmail = emailValidator.test(registrationRequestDto.getEmail());
+        boolean isValidEmail = emailValidator.test(addUserRequestDto.getEmail());
+
+        Role role = roleService.findRole(addUserRequestDto.getRole());
 
         if (!isValidEmail) {
             throw new IllegalStateException("email not valid");
@@ -44,21 +56,21 @@ public class DefaultRegisterService implements RegisterService {
 
         String token = accountService.signUp(
                 new Admin(
-                        registrationRequestDto.getName(),
-                        registrationRequestDto.getSurname(),
-                        registrationRequestDto.getPatronymic(),
-                        registrationRequestDto.getUsername(),
-                        registrationRequestDto.getEmail(),
-                        registrationRequestDto.getPassword(),
+                        addUserRequestDto.getName(),
+                        addUserRequestDto.getSurname(),
+                        addUserRequestDto.getPatronymic(),
+                        addUserRequestDto.getUsername(),
+                        addUserRequestDto.getEmail(),
+                        addUserRequestDto.getPassword(),
                         Boolean.TRUE,
                         Boolean.FALSE,
-                        Role.ADMIN
+                        role
                 )
         );
-        String link = "http://localhost:8080/api/v1/account/confirm?token=" + token;
+        String link = "http://localhost:8088/api/v1/account/confirm?token=" + token;
         emailSender.send(
-                registrationRequestDto.getEmail(),
-                buildEmail(registrationRequestDto.getName(), link));
+                addUserRequestDto.getEmail(),
+                buildEmail(addUserRequestDto.getName(), link));
         return token;
     }
 

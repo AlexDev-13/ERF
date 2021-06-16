@@ -1,0 +1,35 @@
+version: "3"
+services:
+  springapp:
+    build: .
+    container_name: erf-docker
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/erf
+    ports:
+      - 8080:8080
+    restart: always
+    depends_on:
+      - db
+  mail:
+    image: maildev/maildev
+    restart: always
+    environment:
+      RELAY_PORT: 1025
+      RELAY_USERNAME: alex
+      RELAY_PASSWORD: alex
+
+  db:
+    image: postgres
+    container_name: db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=erf
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    ports:
+      - 5000:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: always
+volumes:
+  pgdata:

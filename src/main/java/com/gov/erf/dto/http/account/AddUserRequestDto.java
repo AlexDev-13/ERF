@@ -10,13 +10,14 @@ import lombok.ToString;
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class RegistrationRequestDto {
+public class AddUserRequestDto {
 
     @NotNull
     private final String name;
     @NotNull
     private final String surname;
     private final String patronymic;
+    private final String role;
 
     @NotNull
     private final String username;
