@@ -6,8 +6,10 @@ import com.gov.erf.dto.http.account.UserDto;
 import com.gov.erf.endpoint.account.AccountEndpoint;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
+
 @RestController
-@RequestMapping( "api/v1/account")
+@RequestMapping("api/v1/account")
 public class AccountController {
 
     private final AccountEndpoint accountEndpoint;
@@ -24,7 +26,18 @@ public class AccountController {
     }
 
     @GetMapping("/confirm")
-    public String confirm(@RequestParam("token") String token){
+    public String confirm(@RequestParam("token") String token) {
         return accountEndpoint.confirmToken(token);
     }
+
+    @GetMapping("/get-all")
+    public Collection<UserDto> getAllUsers(){
+        return accountEndpoint.getAllUsers();
+    }
+
+    @GetMapping("/get/{id}")
+    public UserDto getById(@PathVariable("id") Long id){
+        return accountEndpoint.findById(id);
+    }
+
 }

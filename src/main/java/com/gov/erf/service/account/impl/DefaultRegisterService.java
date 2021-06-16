@@ -4,8 +4,8 @@ import com.gov.erf.config.validator.EmailValidator;
 import com.gov.erf.dto.http.account.AddUserRequestDto;
 import com.gov.erf.models.account.Admin;
 import com.gov.erf.models.account.Role;
-import com.gov.erf.models.account.RoleType;
 import com.gov.erf.models.account.token.ConfirmToken;
+import com.gov.erf.repository.account.AdminRepository;
 import com.gov.erf.service.account.AccountService;
 import com.gov.erf.service.account.RegisterService;
 import com.gov.erf.service.account.email.EmailSender;
@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 @Service
 public class DefaultRegisterService implements RegisterService {
@@ -26,6 +27,7 @@ public class DefaultRegisterService implements RegisterService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailSender emailSender;
+    private final AdminRepository adminRepository;
 
     public DefaultRegisterService(
             EmailValidator emailValidator,
@@ -33,7 +35,8 @@ public class DefaultRegisterService implements RegisterService {
             RoleService roleService,
             BCryptPasswordEncoder bCryptPasswordEncoder,
             ConfirmationTokenService confirmationTokenService,
-            EmailSender emailSender
+            EmailSender emailSender,
+            AdminRepository adminRepository
     ) {
         this.emailValidator = emailValidator;
         this.accountService = accountService;
@@ -41,6 +44,7 @@ public class DefaultRegisterService implements RegisterService {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.confirmationTokenService = confirmationTokenService;
         this.emailSender = emailSender;
+        this.adminRepository = adminRepository;
     }
 
     @Override
@@ -96,6 +100,16 @@ public class DefaultRegisterService implements RegisterService {
         accountService.enableAppUser(
                 confirmationToken.getAdmin().getEmail());
         return "confirmed";
+    }
+
+    @Override
+    public Collection<Admin> getAll() {
+        return adminRepository.findAll();
+    }
+
+    @Override
+    public Admin findById(Long id) {
+        return adminRepository.findById(id).orElseThrow();
     }
 
     private String buildEmail(String name, String link) {
