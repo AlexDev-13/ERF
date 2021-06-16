@@ -7,6 +7,7 @@ import lombok.Data;
 @Data
 @Builder
 public class InfoRequestFromResponsibleBodyDto {
+
     private Long claimId;
     private String cause;
     private Boolean decision;
