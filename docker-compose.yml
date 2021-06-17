@@ -12,11 +12,14 @@ services:
       - db
   mail:
     image: maildev/maildev
+    container_name: maildev
     restart: always
     environment:
+      RELAY_HOST: maildev
       RELAY_PORT: 1025
-      RELAY_USERNAME: alex
-      RELAY_PASSWORD: alex
+    ports:
+      - '1025:1025'
+      - '8025:8025'
 
   db:
     image: postgres
