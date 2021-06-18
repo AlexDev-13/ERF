@@ -5,11 +5,13 @@ import com.gov.erf.dto.http.account.AddUserRequestDto;
 import com.gov.erf.models.account.Admin;
 import com.gov.erf.models.account.Role;
 import com.gov.erf.models.account.token.ConfirmToken;
+import com.gov.erf.models.sms.SMSRequest;
 import com.gov.erf.repository.account.AdminRepository;
 import com.gov.erf.service.account.AccountService;
 import com.gov.erf.service.account.RegisterService;
 import com.gov.erf.service.account.email.EmailSender;
 import com.gov.erf.service.account.role.RoleService;
+import com.gov.erf.service.sms.SmsService;
 import com.gov.erf.service.token.ConfirmationTokenService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,7 @@ public class DefaultRegisterService implements RegisterService {
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailSender emailSender;
     private final AdminRepository adminRepository;
+    private final SmsService service;
 
     public DefaultRegisterService(
             EmailValidator emailValidator,
@@ -36,7 +39,8 @@ public class DefaultRegisterService implements RegisterService {
             BCryptPasswordEncoder bCryptPasswordEncoder,
             ConfirmationTokenService confirmationTokenService,
             EmailSender emailSender,
-            AdminRepository adminRepository
+            AdminRepository adminRepository,
+            SmsService service
     ) {
         this.emailValidator = emailValidator;
         this.accountService = accountService;
@@ -45,6 +49,7 @@ public class DefaultRegisterService implements RegisterService {
         this.confirmationTokenService = confirmationTokenService;
         this.emailSender = emailSender;
         this.adminRepository = adminRepository;
+        this.service = service;
     }
 
     @Override
@@ -57,6 +62,8 @@ public class DefaultRegisterService implements RegisterService {
         if (!isValidEmail) {
             throw new IllegalStateException("email not valid");
         }
+        String message = "Your data Login: " + addUserRequestDto.getUsername() + " Password: " + addUserRequestDto.getPassword();
+        SMSRequest smsRequest = new SMSRequest(addUserRequestDto.getPhoneNumber(), message);
 
         String token = accountService.signUp(
                 new Admin(
@@ -66,11 +73,12 @@ public class DefaultRegisterService implements RegisterService {
                         addUserRequestDto.getUsername(),
                         addUserRequestDto.getEmail(),
                         addUserRequestDto.getPassword(),
-                        Boolean.TRUE,
                         Boolean.FALSE,
+                        Boolean.TRUE,
                         role
                 )
         );
+        service.sender(smsRequest);
         String link = "http://localhost:8088/api/v1/account/confirm?token=" + token;
         emailSender.send(
                 addUserRequestDto.getEmail(),

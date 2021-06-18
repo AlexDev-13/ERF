@@ -22,5 +22,6 @@ public class AddUserRequestDto {
     @NotNull
     private final String username;
     private final String email;
+    private final String phoneNumber;
     private final String password;
 }

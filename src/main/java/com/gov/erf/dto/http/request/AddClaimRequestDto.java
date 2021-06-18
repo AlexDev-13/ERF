@@ -1,6 +1,5 @@
 package com.gov.erf.dto.http.request;
 
-import com.gov.erf.dto.http.claim.ApplicantType;
 import lombok.Data;
 
 @Data
