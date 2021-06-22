@@ -1,5 +1,6 @@
 package com.gov.erf.service.claim.impl;
 
+import com.gov.erf.models.account.Admin;
 import com.gov.erf.models.account.Applicant;
 import com.gov.erf.models.action.MovementAction;
 import com.gov.erf.models.action.MovementActionType;
@@ -17,6 +18,7 @@ import com.gov.erf.models.point.MovementPoint;
 import com.gov.erf.models.point.MovementPointType;
 import com.gov.erf.modules.models.AppFile;
 import com.gov.erf.repository.claim.*;
+import com.gov.erf.service.account.RegisterService;
 import com.gov.erf.service.action.MovementActionService;
 import com.gov.erf.service.claim.ApplicantService;
 import com.gov.erf.service.claim.ClaimService;
@@ -38,6 +40,7 @@ public class DefaultClaimService implements ClaimService {
     private final TableCommissionRepository tableCommissionRepository;
     private final ApplicantService applicantService;
     private final InnService innService;
+    private final RegisterService registerService;
 
     public DefaultClaimService
             (
@@ -47,7 +50,7 @@ public class DefaultClaimService implements ClaimService {
                     ResponsibleBodyRepository responsibleBodyRepository,
                     AuthorizedBodyRepository authorizedBodyRepository,
                     TableCommissionRepository tableCommissionRepository,
-                    ApplicantService applicantService, InnService innService) {
+                    ApplicantService applicantService, InnService innService, RegisterService registerService) {
         this.claimRepository = claimRepository;
         this.regionRepository = regionRepository;
         this.pointService = pointService;
@@ -57,18 +60,29 @@ public class DefaultClaimService implements ClaimService {
         this.tableCommissionRepository = tableCommissionRepository;
         this.applicantService = applicantService;
         this.innService = innService;
+        this.registerService = registerService;
     }
 
     @Override
-    public Claim create(AddClaimRequest request) {
+    public Claim create(Long id, AddClaimRequest request) {
 
-        Inn inn = innService.getInn(request.getInn().getInn());
+
+        Admin admin = new Admin();
+
+        if (id != null) {
+            admin = registerService.findById(id);
+        } else {
+            admin = null;
+        }
+
         MovementPoint point = pointService.get(MovementPointType.ADMISSION);
         MovementAction action = actionService.get(MovementActionType.REGISTER);
         Applicant applicant = applicantService.findByTitle(request.getApplicantType().getTitle());
+        Inn inn = innService.getInn(request.getInn().getInn());
 
         var claim = new Claim();
 
+        claim.setAdmin(admin);
         claim.setFullname(request.getFullname());
         claim.setEmail(request.getEmail());
         claim.setInn(inn);

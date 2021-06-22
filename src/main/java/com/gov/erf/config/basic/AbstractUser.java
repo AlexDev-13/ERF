@@ -45,6 +45,9 @@ public abstract class AbstractUser implements UserDetails {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "phone")
+    private String phone;
+
     @Column(name = "password")
     private String password;
 
@@ -65,6 +68,7 @@ public abstract class AbstractUser implements UserDetails {
             String patronymic,
             String username,
             String email,
+            String phone,
             String password,
             Boolean locked,
             Boolean enabled,
@@ -74,6 +78,7 @@ public abstract class AbstractUser implements UserDetails {
         this.surname = surname;
         this.patronymic = patronymic;
         this.email = email;
+        this.phone = phone;
         this.username = username;
         this.password = password;
         this.role = role;

@@ -51,10 +51,11 @@ public class DefaultClaimEndpoint implements ClaimEndpoint {
 
 
     @Override
-    public ClaimDto create(AddClaimRequestDto addClaimRequestDto, MultipartFile file) throws Exception {
+    public ClaimDto create(Long id, AddClaimRequestDto addClaimRequestDto, MultipartFile file) throws Exception {
 
         AddClaimRequest addClaimRequest = claimMapper.toClaimRequest(addClaimRequestDto);
-        Claim claim = claimService.create(addClaimRequest);
+
+        Claim claim = claimService.create(id,addClaimRequest);
 
         if (Objects.nonNull(file)) {
             saveFile(claim, file);

@@ -14,7 +14,7 @@ import java.util.Collection;
 
 public interface ClaimEndpoint {
 
-    ClaimDto create(AddClaimRequestDto addClaimRequestDto, MultipartFile file) throws Exception;
+    ClaimDto create(Long id, AddClaimRequestDto addClaimRequestDto, MultipartFile file) throws Exception;
 
     ClaimDto getById(Long id);
 

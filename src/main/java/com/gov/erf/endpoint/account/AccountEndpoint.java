@@ -14,4 +14,8 @@ public interface AccountEndpoint {
     Collection<UserDto> getAllUsers();
 
     UserDto findById(Long id);
+
+    void deleteById(Long id);
+
+    UserDto updateUser(Long id, AddUserRequestDto requestDto);
 }

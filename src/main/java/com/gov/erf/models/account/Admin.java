@@ -17,11 +17,12 @@ public class Admin extends AbstractUser {
             String patronymic,
             String username,
             String email,
+            String phone,
             String password,
             Boolean locked,
             Boolean enabled,
             Role roleType
     ) {
-        super(name, surname, patronymic, username, email, password, locked, enabled, roleType);
+        super(name, surname, patronymic, username, email, phone, password, locked, enabled, roleType);
     }
 }

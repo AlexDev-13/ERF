@@ -3,6 +3,7 @@ package com.gov.erf.models.claims;
 
 import com.gov.erf.config.basic.MovableEntity;
 import com.gov.erf.dto.http.claim.ApplicantType;
+import com.gov.erf.models.account.Admin;
 import com.gov.erf.models.account.Applicant;
 import com.gov.erf.models.inn.Inn;
 import com.gov.erf.modules.models.AppFile;
@@ -18,6 +19,10 @@ import javax.persistence.*;
 @Entity
 @Table(name = "claims")
 public class Claim extends MovableEntity {
+
+    @OneToOne
+    @JoinColumn(name = "admin_id")
+    private Admin admin;
 
     @OneToOne
     @JoinColumn(name = "applicant_id")

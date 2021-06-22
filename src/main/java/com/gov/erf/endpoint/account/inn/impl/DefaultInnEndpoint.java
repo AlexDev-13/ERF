@@ -20,7 +20,7 @@ public class DefaultInnEndpoint implements InnEndpoint {
 
     @Override
     public InnDto getInn(String inn) {
-        Inn innEntity =  innService.getInn(inn);
+        Inn innEntity = innService.getInn(inn);
 
         return innMapper.toInnDto(innEntity);
     }

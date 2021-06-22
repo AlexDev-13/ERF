@@ -4,10 +4,7 @@ package com.gov.erf.controller.claim;
 import com.gov.erf.dto.http.claim.ClaimDto;
 import com.gov.erf.dto.http.request.AddClaimRequestDto;
 import com.gov.erf.endpoint.claim.ClaimEndpoint;
-import io.swagger.annotations.ApiParam;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collection;
 
@@ -32,12 +29,21 @@ public class ClaimController {
 //        return claimEndpoint.create(addClaimRequestDto, file);
 //    }
 
+    @PostMapping("/{id}")
+    public ClaimDto create(
+            @PathVariable("id") Long id,
+            @RequestBody AddClaimRequestDto addClaimRequestDto
+    ) throws Exception {
+        return claimEndpoint.create(id, addClaimRequestDto, null);
+    }
+
     @PostMapping
     public ClaimDto create(
             @RequestBody AddClaimRequestDto addClaimRequestDto
     ) throws Exception {
-        return claimEndpoint.create(addClaimRequestDto, null);
+        return claimEndpoint.create(null, addClaimRequestDto, null);
     }
+
 
     @GetMapping("/get/{id}")
     public ClaimDto getById(@PathVariable("id") Long id) {

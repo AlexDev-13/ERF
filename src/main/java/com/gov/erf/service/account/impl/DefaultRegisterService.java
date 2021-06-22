@@ -72,6 +72,7 @@ public class DefaultRegisterService implements RegisterService {
                         addUserRequestDto.getPatronymic(),
                         addUserRequestDto.getUsername(),
                         addUserRequestDto.getEmail(),
+                        addUserRequestDto.getPhoneNumber(),
                         addUserRequestDto.getPassword(),
                         Boolean.FALSE,
                         Boolean.TRUE,
@@ -118,6 +119,11 @@ public class DefaultRegisterService implements RegisterService {
     @Override
     public Admin findById(Long id) {
         return adminRepository.findById(id).orElseThrow();
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        adminRepository.deleteById(id);
     }
 
     private String buildEmail(String name, String link) {

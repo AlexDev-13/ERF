@@ -21,4 +21,6 @@ public interface AdminRepository extends JpaRepository<Admin, Long> {
     @Query("UPDATE Admin a " +
             "SET a.enabled = TRUE, a.locked = FALSE WHERE a.email = ?1")
     int enableAppUser(String email);
+
+    void deleteById(Long id);
 }

@@ -16,6 +16,7 @@ public class DefaultInnService implements InnService {
 
     @Override
     public Inn getInn(String inn) {
-        return innRepository.getInnByInn(inn);
+
+        return innRepository.findByInn(inn).orElseThrow();
     }
 }

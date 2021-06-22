@@ -14,7 +14,7 @@ import java.util.Collection;
 
 public interface ClaimService {
 
-    Claim create(AddClaimRequest request);
+    Claim create(Long id, AddClaimRequest request);
 
     ResponsibleBody create(ResponsibleBodyRequest request);
 

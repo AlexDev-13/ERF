@@ -14,4 +14,6 @@ public interface RegisterService {
     Collection<Admin> getAll();
 
     Admin findById(Long id);
+
+    void deleteById(Long id);
 }

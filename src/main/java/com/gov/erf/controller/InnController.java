@@ -3,6 +3,7 @@ package com.gov.erf.controller;
 import com.gov.erf.dto.http.inn.InnDto;
 import com.gov.erf.endpoint.account.inn.InnEndpoint;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -10,15 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping
 public class InnController {
 
-    private final InnEndpoint innEndoint;
+    private final InnEndpoint innEndpoint;
 
-    public InnController(InnEndpoint innEndoint) {
-        this.innEndoint = innEndoint;
+    public InnController(InnEndpoint innEndpoint) {
+        this.innEndpoint = innEndpoint;
     }
 
-    @GetMapping
-    public InnDto getInn(String inn) {
-        return innEndoint.getInn(inn);
+    @GetMapping("/{inn}")
+    public InnDto getInn(@PathVariable("inn") String inn) {
+        return innEndpoint.getInn(inn);
     }
 
 

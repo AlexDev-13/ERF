@@ -31,13 +31,25 @@ public class AccountController {
     }
 
     @GetMapping("/get-all")
-    public Collection<UserDto> getAllUsers(){
+    public Collection<UserDto> getAllUsers() {
         return accountEndpoint.getAllUsers();
     }
 
     @GetMapping("/get/{id}")
-    public UserDto getById(@PathVariable("id") Long id){
+    public UserDto getById(@PathVariable("id") Long id) {
         return accountEndpoint.findById(id);
     }
+
+    @PutMapping("/put/{id}")
+    public UserDto putUser(@PathVariable("id") Long id, @RequestBody AddUserRequestDto requestDto) {
+        return accountEndpoint.updateUser(id, requestDto);
+    }
+
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteById(@PathVariable("id") Long id) {
+        accountEndpoint.deleteById(id);
+    }
+
 
 }
