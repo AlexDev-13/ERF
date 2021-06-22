@@ -24,6 +24,8 @@ import com.gov.erf.service.claim.ApplicantService;
 import com.gov.erf.service.claim.ClaimService;
 import com.gov.erf.service.inn.InnService;
 import com.gov.erf.service.point.MovementPointService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -64,10 +66,10 @@ public class DefaultClaimService implements ClaimService {
     }
 
     @Override
-    public Claim create(Long id, AddClaimRequest request) {
+    public Claim create(Long id, AddClaimRequest request) throws Exception {
 
 
-        Admin admin = new Admin();
+        Admin admin;
 
         if (id != null) {
             admin = registerService.findById(id);
@@ -78,7 +80,7 @@ public class DefaultClaimService implements ClaimService {
         MovementPoint point = pointService.get(MovementPointType.ADMISSION);
         MovementAction action = actionService.get(MovementActionType.REGISTER);
         Applicant applicant = applicantService.findByTitle(request.getApplicantType().getTitle());
-        Inn inn = innService.getInn(request.getInn().getInn());
+        Inn inn = innService.getInn(request.getInn().getTitle());
 
         var claim = new Claim();
 
@@ -171,8 +173,8 @@ public class DefaultClaimService implements ClaimService {
     }
 
     @Override
-    public Collection<Claim> getAll() {
-        return claimRepository.findAll();
+    public Page<Claim> getAll(Pageable pageable) {
+        return claimRepository.findAll(pageable);
     }
 
     @Override

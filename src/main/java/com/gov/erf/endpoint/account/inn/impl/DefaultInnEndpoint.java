@@ -19,7 +19,7 @@ public class DefaultInnEndpoint implements InnEndpoint {
     }
 
     @Override
-    public InnDto getInn(String inn) {
+    public InnDto getInn(String inn) throws Exception {
         Inn innEntity = innService.getInn(inn);
 
         return innMapper.toInnDto(innEntity);

@@ -22,6 +22,8 @@ import com.gov.erf.models.claims.tables.request.TableCommissionRequest;
 import com.gov.erf.modules.models.AppFile;
 import com.gov.erf.modules.service.AppFileCreateService;
 import com.gov.erf.service.claim.ClaimService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -55,7 +57,7 @@ public class DefaultClaimEndpoint implements ClaimEndpoint {
 
         AddClaimRequest addClaimRequest = claimMapper.toClaimRequest(addClaimRequestDto);
 
-        Claim claim = claimService.create(id,addClaimRequest);
+        Claim claim = claimService.create(id, addClaimRequest);
 
         if (Objects.nonNull(file)) {
             saveFile(claim, file);
@@ -72,11 +74,11 @@ public class DefaultClaimEndpoint implements ClaimEndpoint {
     }
 
     @Override
-    public Collection<ClaimDto> getAll() {
+    public Page<Claim> getAll(Pageable pageable) {
 
-        Collection<Claim> claims = claimService.getAll();
+//        Page<Claim> claims = claimService.getAll(pageable);
 
-        return claimMapper.toClaimDtos(claims);
+        return claimService.getAll(pageable);
     }
 
     @Override

@@ -20,7 +20,7 @@ import com.gov.erf.models.claims.tables.request.TableCommissionRequest;
 import java.util.Collection;
 
 public interface ClaimMapper {
-    AddClaimRequest toClaimRequest(AddClaimRequestDto addClaimRequestDto);
+    AddClaimRequest toClaimRequest(AddClaimRequestDto addClaimRequestDto) throws Exception;
 
     ClaimDto toClaimDto(Claim claim);
 

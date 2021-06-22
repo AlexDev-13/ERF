@@ -12,7 +12,7 @@ public class DefaultInnMapper implements InnMapper{
     public InnDto toInnDto(Inn inn) {
 
         var innDto = new InnDto();
-        innDto.setInn(inn.getInn());
+        innDto.setInn(inn.getTitle());
         innDto.setNameCompany(inn.getCompanyName());
 
         return innDto;

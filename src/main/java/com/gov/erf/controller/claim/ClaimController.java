@@ -4,9 +4,12 @@ package com.gov.erf.controller.claim;
 import com.gov.erf.dto.http.claim.ClaimDto;
 import com.gov.erf.dto.http.request.AddClaimRequestDto;
 import com.gov.erf.endpoint.claim.ClaimEndpoint;
+import com.gov.erf.models.claims.Claim;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Collection;
 
 @RestController
 @RequestMapping("api/v1/claim")
@@ -52,8 +55,8 @@ public class ClaimController {
 
 
     @GetMapping("/get-all")
-    public Collection<ClaimDto> getAll() {
-        return claimEndpoint.getAll();
+    public Page<Claim> getAll(@PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable) {
+        return claimEndpoint.getAll(pageable);
     }
 
 }

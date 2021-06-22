@@ -4,5 +4,5 @@ import com.gov.erf.models.inn.Inn;
 
 public interface InnService {
 
-    Inn getInn(String inn);
+    Inn getInn(String inn) throws Exception;
 }

@@ -15,8 +15,12 @@ public class DefaultInnService implements InnService {
     }
 
     @Override
-    public Inn getInn(String inn) {
+    public Inn getInn(String inn) throws Exception {
 
-        return innRepository.findByInn(inn).orElseThrow();
+        if (inn.equals(null)) {
+            throw new Exception("inn not exists");
+        } else {
+            return innRepository.findInnByTitle(inn);
+        }
     }
 }

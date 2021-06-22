@@ -16,7 +16,7 @@ import javax.persistence.Table;
 public class Inn extends BaseEntity {
 
     @Column(name = "inn")
-    private String inn;
+    private String title;
 
     @Column(name = "name")
     private String companyName;

@@ -17,8 +17,8 @@ public class InnController {
         this.innEndpoint = innEndpoint;
     }
 
-    @GetMapping("/{inn}")
-    public InnDto getInn(@PathVariable("inn") String inn) {
+    @GetMapping("/get/{code}")
+    public InnDto getInn(@PathVariable("code") String inn) throws Exception {
         return innEndpoint.getInn(inn);
     }
 

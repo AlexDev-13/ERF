@@ -4,5 +4,5 @@ import com.gov.erf.dto.http.inn.InnDto;
 
 public interface InnEndpoint {
 
-    InnDto getInn(String inn);
+    InnDto getInn(String code) throws Exception;
 }

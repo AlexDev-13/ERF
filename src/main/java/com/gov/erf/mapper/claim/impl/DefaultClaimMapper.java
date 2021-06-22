@@ -72,7 +72,7 @@ public class DefaultClaimMapper implements ClaimMapper {
     }
 
     @Override
-    public AddClaimRequest toClaimRequest(AddClaimRequestDto addClaimRequestDto) {
+    public AddClaimRequest toClaimRequest(AddClaimRequestDto addClaimRequestDto) throws Exception {
 
         EconomicActivity economicActivity = economicActivityService.get(addClaimRequestDto.getEconomicActivityId());
         Region region = regionService.get(addClaimRequestDto.getRegionId());

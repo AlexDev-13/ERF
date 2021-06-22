@@ -8,6 +8,9 @@ import com.gov.erf.dto.http.tables.TableResponsibleBodyDto;
 import com.gov.erf.dto.http.tables.request.InfoRequestCommissionDto;
 import com.gov.erf.dto.http.tables.request.InfoRequestFromAuthorizedBodyDto;
 import com.gov.erf.dto.http.tables.request.InfoRequestFromResponsibleBodyDto;
+import com.gov.erf.models.claims.Claim;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collection;
@@ -18,7 +21,7 @@ public interface ClaimEndpoint {
 
     ClaimDto getById(Long id);
 
-    Collection<ClaimDto> getAll();
+    Page<Claim> getAll(Pageable pageable);
 
     TableResponsibleBodyDto perform(InfoRequestFromResponsibleBodyDto info);
 

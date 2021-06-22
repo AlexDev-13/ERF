@@ -9,12 +9,14 @@ import com.gov.erf.models.claims.tables.request.AuthorizedBodyRequest;
 import com.gov.erf.models.claims.tables.request.ResponsibleBodyRequest;
 import com.gov.erf.models.claims.tables.request.TableCommissionRequest;
 import com.gov.erf.modules.models.AppFile;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Collection;
 
 public interface ClaimService {
 
-    Claim create(Long id, AddClaimRequest request);
+    Claim create(Long id, AddClaimRequest request) throws Exception;
 
     ResponsibleBody create(ResponsibleBodyRequest request);
 
@@ -24,7 +26,7 @@ public interface ClaimService {
 
     Claim updateFile(Claim claim, AppFile appFile);
 
-    Collection<Claim> getAll();
+    Page<Claim> getAll(Pageable pageable);
 
     Claim getById(Long id);
 
