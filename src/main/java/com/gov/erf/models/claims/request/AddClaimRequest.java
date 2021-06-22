@@ -5,6 +5,7 @@ import com.gov.erf.models.account.Applicant;
 import com.gov.erf.models.claims.EconomicActivity;
 import com.gov.erf.models.claims.Organ;
 import com.gov.erf.models.claims.Region;
+import com.gov.erf.models.inn.Inn;
 import lombok.Builder;
 import lombok.Data;
 
@@ -14,7 +15,7 @@ public class AddClaimRequest {
 
     private Applicant applicantType;
     private String fullname;
-    private String inn;
+    private Inn inn;
     private String telephone;
     private String email;
     private EconomicActivity economicActivity;

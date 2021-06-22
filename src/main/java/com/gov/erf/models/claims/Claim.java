@@ -4,6 +4,7 @@ package com.gov.erf.models.claims;
 import com.gov.erf.config.basic.MovableEntity;
 import com.gov.erf.dto.http.claim.ApplicantType;
 import com.gov.erf.models.account.Applicant;
+import com.gov.erf.models.inn.Inn;
 import com.gov.erf.modules.models.AppFile;
 import com.sun.istack.NotNull;
 import lombok.Getter;
@@ -25,8 +26,10 @@ public class Claim extends MovableEntity {
     @Column(name = "fullname")
     private String fullname;
 
-    @Column(name = "inn")
-    private String inn;
+
+    @OneToOne
+    @JoinColumn(name = "inn_id")
+    private Inn inn;
 
     @Column(name = "telephone")
     private String telephone;

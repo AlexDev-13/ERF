@@ -140,13 +140,21 @@ INSERT INTO applicant (title)
 VALUES ('PHYSICAL_DATA'),
        ('JURIDICAL_DATA');
 
+CREATE TABLE inn
+(
+    id   BIGSERIAL NOT NULL PRIMARY KEY,
+    name VARCHAR(64),
+    inn  VARCHAR(64)
+);
+
+
 CREATE TABLE claims
 (
     id                     BIGSERIAL NOT NULL PRIMARY KEY,
     created_at             TIMESTAMP,
     updated_at             TIMESTAMP,
     fullname               VARCHAR(128),
-    inn                    VARCHAR(64),
+    inn_id                 BIGINT REFERENCES inn (id),
     telephone              VARCHAR(64),
     email                  VARCHAR(64),
     applicant_id           BIGINT REFERENCES applicant (id),
