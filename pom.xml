@@ -13,6 +13,9 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>erf</name>
     <description>The Project For MinEconom</description>
+    <properties>
+        <java.version>16</java.version>
+    </properties>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-web -->
         <dependency>
