@@ -1,4 +1,4 @@
-package com.gov.erf.controller;
+package com.gov.erf.controller.statistic;
 
 import com.gov.erf.dto.http.statistic.StatisticDto;
 import com.gov.erf.endpoint.statistic.StatisticEndpoint;

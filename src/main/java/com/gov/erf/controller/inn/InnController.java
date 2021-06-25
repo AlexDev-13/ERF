@@ -1,4 +1,4 @@
-package com.gov.erf.controller;
+package com.gov.erf.controller.inn;
 
 import com.gov.erf.dto.http.inn.InnDto;
 import com.gov.erf.endpoint.account.inn.InnEndpoint;
