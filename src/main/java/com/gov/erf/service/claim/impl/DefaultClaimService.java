@@ -1,5 +1,7 @@
 package com.gov.erf.service.claim.impl;
 
+import com.gov.erf.config.predicate.builder.ClaimPage;
+import com.gov.erf.config.predicate.criteria.ClaimSearchCriteria;
 import com.gov.erf.models.account.Admin;
 import com.gov.erf.models.account.Applicant;
 import com.gov.erf.models.action.MovementAction;
@@ -43,6 +45,7 @@ public class DefaultClaimService implements ClaimService {
     private final ApplicantService applicantService;
     private final InnService innService;
     private final RegisterService registerService;
+    private final ClaimCriteriaRepository claimCriteriaRepository;
 
     public DefaultClaimService
             (
@@ -52,7 +55,10 @@ public class DefaultClaimService implements ClaimService {
                     ResponsibleBodyRepository responsibleBodyRepository,
                     AuthorizedBodyRepository authorizedBodyRepository,
                     TableCommissionRepository tableCommissionRepository,
-                    ApplicantService applicantService, InnService innService, RegisterService registerService) {
+                    ApplicantService applicantService, InnService innService,
+                    RegisterService registerService,
+                    ClaimCriteriaRepository claimCriteriaRepository
+            ) {
         this.claimRepository = claimRepository;
         this.regionRepository = regionRepository;
         this.pointService = pointService;
@@ -63,6 +69,7 @@ public class DefaultClaimService implements ClaimService {
         this.applicantService = applicantService;
         this.innService = innService;
         this.registerService = registerService;
+        this.claimCriteriaRepository = claimCriteriaRepository;
     }
 
     @Override
@@ -143,6 +150,12 @@ public class DefaultClaimService implements ClaimService {
         authorizedBody.setDecision(actionType);
 
         return authorizedBodyRepository.save(authorizedBody);
+    }
+
+    @Override
+    public Page<Claim> getClaims(ClaimPage employeePage,
+                                    ClaimSearchCriteria employeeSearchCriteria) {
+        return claimCriteriaRepository.findAllWithFilters(employeePage, employeeSearchCriteria);
     }
 
     @Override
