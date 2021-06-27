@@ -8,12 +8,10 @@ import com.gov.erf.dto.http.tables.request.InfoRequestCommissionDto;
 import com.gov.erf.dto.http.tables.request.InfoRequestFromAuthorizedBodyDto;
 import com.gov.erf.dto.http.tables.request.InfoRequestFromResponsibleBodyDto;
 import com.gov.erf.endpoint.claim.ClaimEndpoint;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RequestMapping("api/v1/claim/action")
 public class ClaimActionController {
 

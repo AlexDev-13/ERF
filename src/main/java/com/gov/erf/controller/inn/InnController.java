@@ -2,13 +2,11 @@ package com.gov.erf.controller.inn;
 
 import com.gov.erf.dto.http.inn.InnDto;
 import com.gov.erf.endpoint.account.inn.InnEndpoint;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@RestController("/api/v1/inn")
-@RequestMapping
+@RestController
+@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
+@RequestMapping("/api/v1/inn")
 public class InnController {
 
     private final InnEndpoint innEndpoint;

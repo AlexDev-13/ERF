@@ -5,13 +5,17 @@ import com.gov.erf.dto.http.claim.ClaimDto;
 import com.gov.erf.dto.http.request.AddClaimRequestDto;
 import com.gov.erf.endpoint.claim.ClaimEndpoint;
 import com.gov.erf.models.claims.Claim;
+import io.swagger.annotations.ApiParam;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RequestMapping("api/v1/claim")
 public class ClaimController {
 
@@ -24,13 +28,13 @@ public class ClaimController {
         this.claimEndpoint = claimEndpoint;
     }
 
-//    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-//    public ClaimDto create(
-//            @RequestPart("request") @ApiParam("AddClaimRequestDto") AddClaimRequestDto addClaimRequestDto,
-//            @RequestPart(value = "file", required = false) MultipartFile file
-//    ) throws Exception {
-//        return claimEndpoint.create(addClaimRequestDto, file);
-//    }
+    @PostMapping(name = "/file", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ClaimDto create(
+            @RequestPart("request") @ApiParam("AddClaimRequestDto") AddClaimRequestDto addClaimRequestDto,
+            @RequestPart(value = "file", required = false) MultipartFile file
+    ) throws Exception {
+        return claimEndpoint.create(null,addClaimRequestDto, file);
+    }
 
     @PostMapping("/{id}")
     public ClaimDto create(
