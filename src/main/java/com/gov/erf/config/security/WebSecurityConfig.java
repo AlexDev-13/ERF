@@ -27,14 +27,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
     private final AccountService accountService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-//    @Override
-//    public void addCorsMappings(CorsRegistry registry) {
-//        registry.addMapping("/*").allowedOrigins("*").allowedMethods("GET", "POST", "OPTIONS", "PUT")
-//                .allowedHeaders("Content-Type", "X-Requested-With", "accept", "Origin", "Access-Control-Request-Method",
-//                        "Access-Control-Request-Headers")
-//                .exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")
-//                .allowCredentials(true).maxAge(3600);
-//    }
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/*").allowedOrigins("http://localhost:3000").allowedMethods("GET", "POST", "OPTIONS", "PUT")
+                .allowedHeaders("Content-Type", "X-Requested-With", "accept", "Origin", "Access-Control-Request-Method",
+                        "Access-Control-Request-Headers")
+                .exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")
+                .allowCredentials(true).maxAge(3600);
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -49,18 +49,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
                 .formLogin();
     }
 
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST"));
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
+//    @Bean
+//    CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration configuration = new CorsConfiguration();
+//        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+//        configuration.setAllowedMethods(Arrays.asList("GET","POST"));
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", configuration);
+//        return source;
+//    }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(provider());
     }
 

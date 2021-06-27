@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
+@CrossOrigin
 @RequestMapping("api/v1/claim")
 public class ClaimController {
 
