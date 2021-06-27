@@ -30,6 +30,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 @Service
@@ -95,6 +96,8 @@ public class DefaultClaimService implements ClaimService {
         claim.setFullname(request.getFullname());
         claim.setEmail(request.getEmail());
         claim.setInn(inn);
+        claim.setCreatedAt(LocalDateTime.now());
+//        claim.setCreatedBy(admin);
         claim.setTelephone(request.getTelephone());
         claim.setApplicantType(applicant);
         claim.setOrgan(request.getOrgan());

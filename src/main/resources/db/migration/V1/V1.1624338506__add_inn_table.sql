@@ -5,5 +5,16 @@ VALUES ('Microsoft', '01010101010101'),
 ALTER TABLE claims
     ADD COLUMN admin_id BIGINT REFERENCES admin (id);
 
+ALTER TABLE claims
+    ADD COLUMN created_by BIGINT REFERENCES admin (id);
+
+ALTER TABLE claims
+    ADD COLUMN updated_by BIGINT REFERENCES admin (id);
+
+ALTER TABLE files ADD COLUMN
+    created_by BIGINT REFERENCES admin (id);
+ALTER TABLE files ADD COLUMN
+    updated_by BIGINT REFERENCES admin (id);
+
 ALTER TABLE admin
     ADD COLUMN phone VARCHAR(64);

@@ -151,7 +151,7 @@ CREATE TABLE inn
 CREATE TABLE claims
 (
     id                     BIGSERIAL NOT NULL PRIMARY KEY,
-    created_at             TIMESTAMP DEFAULT current_timestamp ,
+    created_at             TIMESTAMP,
     updated_at             TIMESTAMP,
     fullname               VARCHAR(128),
     inn_id                 BIGINT REFERENCES inn (id),

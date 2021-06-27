@@ -27,12 +27,12 @@ public abstract class AuditedEntity extends BaseEntity {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-//    @CreatedBy
-//    @Column(name = "created_by")
-//    private Long createdBy;
+    @CreatedBy
+    @Column(name = "created_by")
+    private Long createdBy;
 
-//    @LastModifiedBy
-//    @Column(name = "updated_by")
-//    private Long updatedBy;
+    @LastModifiedBy
+    @Column(name = "updated_by")
+    private Long updatedBy;
 
 }
