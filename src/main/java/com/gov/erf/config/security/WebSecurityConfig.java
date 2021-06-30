@@ -42,11 +42,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
                 .csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/api/v*/claim/**")
+                .antMatchers("/api/v*/claim/**","/api/v*/organ/**","/api/v*/region/**","/api/v*/activity/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated().and()
-                .formLogin();
+                .formLogin()
+//                .loginPage("/api/v1/login")
+//                .loginProcessingUrl("/login")
+//                .usernameParameter("username")
+//                .defaultSuccessUrl("/api/v1/claim/",true)
+                .and()
+                .logout()
+                .logoutUrl("/api/v1/logout");
+//                .and()
+//                .csrf()
+//                .and()
+//                .exceptionHandling()
+//                .accessDeniedPage("/api/v1/forbidden");
+//        super.configure(http);
     }
 
 //    @Bean
