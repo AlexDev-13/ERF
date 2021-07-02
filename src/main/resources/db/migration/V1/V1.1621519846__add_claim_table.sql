@@ -11,6 +11,21 @@ CREATE TABLE IF NOT EXISTS movement_points
 ) NOT NULL
     );
 
+CREATE TABLE IF NOT EXISTS status
+(
+    id
+    BIGSERIAL
+    PRIMARY
+    KEY,
+    title
+    VARCHAR
+(
+    255
+) NOT NULL
+    );
+
+
+
 CREATE TABLE IF NOT EXISTS movement_actions
 (
     id
@@ -53,6 +68,12 @@ VALUES (100, 'Поступление'),
        (101, 'Принятие'),
        (102, 'Отказ'),
        (103, 'Решение');
+
+INSERT INTO status (id, title)
+VALUES (10, 'В обработке'),
+       (11, 'Одобрено'),
+       (12, 'Отказ');
+
 
 
 INSERT INTO movement_actions (id, title)

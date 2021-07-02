@@ -2,6 +2,7 @@ package com.gov.erf.config.basic;
 
 import com.gov.erf.models.action.MovementAction;
 import com.gov.erf.models.point.MovementPoint;
+import com.gov.erf.models.status.Status;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,4 +26,8 @@ public abstract class MovableEntity extends AuditedEntity {
     @JoinColumn(name = "action_id")
     private MovementAction action;
 
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "status_id")
+    private Status status;
 }

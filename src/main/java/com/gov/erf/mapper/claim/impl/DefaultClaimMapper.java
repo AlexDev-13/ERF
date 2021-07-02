@@ -116,6 +116,7 @@ public class DefaultClaimMapper implements ClaimMapper {
         claimDto.setEconomicActivity(economicActivityDto);
         claimDto.setOrgan(organDto);
         claimDto.setRegion(regionDto);
+        claimDto.setStatus(claim.getStatus().getTitle());
         claimDto.setEmpowerment(claim.getEmpowerment());
         claimDto.setCauseOfFactor(claim.getCauseOfFactor());
         claimDto.setIdentificationFactor(claim.getIdentificationFactor());

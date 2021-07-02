@@ -20,5 +20,6 @@ public class ClaimDto {
     private String identificationFactor;
     private RegionDto region;
     private String empowerment;
+    private String status;
 
 }

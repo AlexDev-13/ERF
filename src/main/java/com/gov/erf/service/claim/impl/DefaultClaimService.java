@@ -18,6 +18,8 @@ import com.gov.erf.models.claims.tables.request.TableCommissionRequest;
 import com.gov.erf.models.inn.Inn;
 import com.gov.erf.models.point.MovementPoint;
 import com.gov.erf.models.point.MovementPointType;
+import com.gov.erf.models.status.Status;
+import com.gov.erf.models.status.StatusType;
 import com.gov.erf.modules.models.AppFile;
 import com.gov.erf.repository.claim.*;
 import com.gov.erf.service.account.RegisterService;
@@ -26,6 +28,7 @@ import com.gov.erf.service.claim.ApplicantService;
 import com.gov.erf.service.claim.ClaimService;
 import com.gov.erf.service.inn.InnService;
 import com.gov.erf.service.point.MovementPointService;
+import com.gov.erf.service.status.StatusService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -46,6 +49,7 @@ public class DefaultClaimService implements ClaimService {
     private final ApplicantService applicantService;
     private final InnService innService;
     private final RegisterService registerService;
+    private final StatusService statusService;
     private final ClaimCriteriaRepository claimCriteriaRepository;
 
     public DefaultClaimService
@@ -58,6 +62,7 @@ public class DefaultClaimService implements ClaimService {
                     TableCommissionRepository tableCommissionRepository,
                     ApplicantService applicantService, InnService innService,
                     RegisterService registerService,
+                    StatusService statusService,
                     ClaimCriteriaRepository claimCriteriaRepository
             ) {
         this.claimRepository = claimRepository;
@@ -70,6 +75,7 @@ public class DefaultClaimService implements ClaimService {
         this.applicantService = applicantService;
         this.innService = innService;
         this.registerService = registerService;
+        this.statusService = statusService;
         this.claimCriteriaRepository = claimCriteriaRepository;
     }
 
@@ -87,6 +93,7 @@ public class DefaultClaimService implements ClaimService {
 
         MovementPoint point = pointService.get(MovementPointType.ADMISSION);
         MovementAction action = actionService.get(MovementActionType.REGISTER);
+        Status status = statusService.get(StatusType.IN_PROCESSING);
         Applicant applicant = applicantService.findByTitle(request.getApplicantType().getTitle());
         Inn inn = innService.getInn(request.getInn().getTitle());
 
@@ -107,6 +114,7 @@ public class DefaultClaimService implements ClaimService {
         claim.setCauseOfFactor(request.getCauseOfFactor());
         claim.setPoint(point);
         claim.setAction(action);
+        claim.setStatus(status);
         claim.setProblemOfDescription(request.getProblemOfDescription());
         claim.setIdentificationFactor(request.getIdentificationFactor());
 
@@ -126,6 +134,16 @@ public class DefaultClaimService implements ClaimService {
         var claim = request.getClaim();
         claim.setAction(action);
         claim.setPoint(point);
+
+        Status status = null;
+
+        if (actionType.equals(MovementActionType.ORGAN_ACCEPT)) {
+            status = statusService.get(StatusType.IN_PROCESSING);
+        } else {
+            status = statusService.get(StatusType.DENIED);
+        }
+
+        claim.setStatus(status);
 
         responsibleBody.setClaim(claim);
         responsibleBody.setCause(request.getCause());
@@ -148,6 +166,17 @@ public class DefaultClaimService implements ClaimService {
         claim.setAction(action);
         claim.setPoint(point);
 
+        Status status = null;
+
+        if (actionType.equals(MovementActionType.OPERATOR_ACCEPT)) {
+            status = statusService.get(StatusType.IN_PROCESSING);
+        } else {
+            status = statusService.get(StatusType.DENIED);
+        }
+
+        claim.setStatus(status);
+
+
         authorizedBody.setClaim(request.getClaim());
         authorizedBody.setCause(request.getCause());
         authorizedBody.setDecision(actionType);
@@ -157,7 +186,7 @@ public class DefaultClaimService implements ClaimService {
 
     @Override
     public Page<Claim> getClaims(ClaimPage employeePage,
-                                    ClaimSearchCriteria employeeSearchCriteria) {
+                                 ClaimSearchCriteria employeeSearchCriteria) {
         return claimCriteriaRepository.findAllWithFilters(employeePage, employeeSearchCriteria);
     }
 
@@ -174,6 +203,16 @@ public class DefaultClaimService implements ClaimService {
         var claim = request.getClaim();
         claim.setAction(action);
         claim.setPoint(point);
+
+        Status status = null;
+
+        if (actionType.equals(MovementActionType.COMMISSION_ACCEPT)) {
+            status = statusService.get(StatusType.APPROVED);
+        } else {
+            status = statusService.get(StatusType.DENIED);
+        }
+
+        claim.setStatus(status);
 
         tableCommission.setClaim(request.getClaim());
         tableCommission.setCause(request.getCause());

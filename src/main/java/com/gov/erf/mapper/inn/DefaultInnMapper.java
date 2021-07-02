@@ -13,7 +13,7 @@ public class DefaultInnMapper implements InnMapper{
 
         var innDto = new InnDto();
         innDto.setInn(inn.getTitle());
-        innDto.setNameCompany(inn.getCompanyName());
+        innDto.setCompanyName(inn.getCompanyName());
 
         return innDto;
     }

@@ -6,6 +6,6 @@ import lombok.Data;
 public class InnDto {
 
     private String inn;
-    private String nameCompany;
+    private String companyName;
 
 }
