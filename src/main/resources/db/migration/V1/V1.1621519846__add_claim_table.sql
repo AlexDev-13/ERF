@@ -175,9 +175,10 @@ CREATE TABLE claims
     created_at             TIMESTAMP,
     updated_at             TIMESTAMP,
     fullname               VARCHAR(128),
-    inn_id                 BIGINT REFERENCES inn (id),
+    inn                    VARCHAR(64),
     telephone              VARCHAR(64),
     email                  VARCHAR(64),
+    company_name           VARCHAR(64),
     applicant_id           BIGINT REFERENCES applicant (id),
     economic_activity_id   BIGINT    NOT NULL REFERENCES ref_economic_activity (id),
     organ_addressed_id     BIGINT    NOT NULL REFERENCES ref_organ_addressed (id),
@@ -186,6 +187,7 @@ CREATE TABLE claims
     identification_factor  TEXT,
     file_id                BIGINT REFERENCES files (id),
     region_id              BIGINT    NOT NULL REFERENCES ref_region (id),
-    empowerment            TEXT
+    empowerment            TEXT,
+    agreement              BOOLEAN
 );
 

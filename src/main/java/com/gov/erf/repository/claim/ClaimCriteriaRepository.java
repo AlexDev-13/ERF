@@ -65,6 +65,27 @@ public class ClaimCriteriaRepository {
                             claimSearchCriteria.getOrgan().getId())
             );
         }
+        if (Objects.nonNull(claimSearchCriteria.getCompanyName())) {
+            predicates.add(
+                    criteriaBuilder.equal(claimRoot.get("companyName"),
+                            claimSearchCriteria.getCompanyName())
+            );
+        }
+
+        if (Objects.nonNull(claimSearchCriteria.getInn())) {
+            predicates.add(
+                    criteriaBuilder.equal(claimRoot.get("inn"),
+                            claimSearchCriteria.getInn())
+            );
+        }
+
+        if (Objects.nonNull(claimSearchCriteria.getFullname())) {
+            predicates.add(
+                    criteriaBuilder.equal(claimRoot.get("fullname"),
+                            claimSearchCriteria.getFullname())
+            );
+        }
+
         if (Objects.nonNull(claimSearchCriteria.getEconomicActivity())) {
             predicates.add(
                     criteriaBuilder.equal(claimRoot.get("economicActivity"),
@@ -84,14 +105,20 @@ public class ClaimCriteriaRepository {
                           CriteriaQuery<Claim> criteriaQuery,
                           Root<Claim> claimRoot) {
         if (claimPage.getSortDirection().equals(Sort.Direction.ASC)) {
-            criteriaQuery.orderBy(criteriaBuilder.asc(claimRoot.get(claimPage.getSortBy())));
+            criteriaQuery.orderBy(criteriaBuilder.asc(claimRoot.get(claimPage.getSortByRegion())));
+            criteriaQuery.orderBy(criteriaBuilder.asc(claimRoot.get(claimPage.getSortByCompanyName())));
+            criteriaQuery.orderBy(criteriaBuilder.asc(claimRoot.get(claimPage.getSortByOrgan())));
+
         } else {
-            criteriaQuery.orderBy(criteriaBuilder.desc(claimRoot.get(claimPage.getSortBy())));
+            criteriaQuery.orderBy(criteriaBuilder.desc(claimRoot.get(claimPage.getSortByOrgan())));
+            criteriaQuery.orderBy(criteriaBuilder.desc(claimRoot.get(claimPage.getSortByRegion())));
+            criteriaQuery.orderBy(criteriaBuilder.desc(claimRoot.get(claimPage.getSortByCompanyName())));
+
         }
     }
 
     private Pageable getPageable(ClaimPage claimPage) {
-        Sort sort = Sort.by(claimPage.getSortDirection(), claimPage.getSortBy());
+        Sort sort = Sort.by(claimPage.getSortDirection(), claimPage.getSortByRegion());
         return PageRequest.of(claimPage.getPageNumber(), claimPage.getPageSize(), sort);
     }
 

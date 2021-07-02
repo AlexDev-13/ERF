@@ -85,11 +85,13 @@ public class DefaultClaimMapper implements ClaimMapper {
                 .applicantType(applicant)
                 .fullname(addClaimRequestDto.getFullname())
                 .email(addClaimRequestDto.getEmail())
-                .inn(inn)
+                .inn(addClaimRequestDto.getInn())
+                .companyName(addClaimRequestDto.getCompanyName())
                 .telephone(addClaimRequestDto.getTelephone())
                 .economicActivity(economicActivity)
                 .region(region)
                 .organ(organ)
+                .agreement(addClaimRequestDto.isAgreement())
                 .causeOfFactor(addClaimRequestDto.getCauseOfFactor())
                 .empowerment(addClaimRequestDto.getEmpowerment())
                 .identificationFactor(addClaimRequestDto.getIdentificationFactor())
@@ -104,14 +106,14 @@ public class DefaultClaimMapper implements ClaimMapper {
         OrganDto organDto = organMapper.toOrganDto(claim.getOrgan());
         RegionDto regionDto = regionMapper.toRegionDto(claim.getRegion());
         ApplicantDto applicantDto = applicantMapper.toApplicantDto(claim.getApplicantType());
-        InnDto innDto = innMapper.toInnDto(claim.getInn());
 
         var claimDto = new ClaimDto();
         claimDto.setId(claim.getId());
         claimDto.setFullname(claim.getFullname());
         claimDto.setTelephone(claim.getTelephone());
         claimDto.setEmail(claim.getEmail());
-        claimDto.setInn(innDto);
+        claimDto.setInn(claim.getInn());
+        claimDto.setCompanyName(claim.getCompanyName());
         claimDto.setApplicantType(applicantDto);
         claimDto.setEconomicActivity(economicActivityDto);
         claimDto.setOrgan(organDto);

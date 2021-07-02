@@ -11,6 +11,7 @@ public class AddClaimRequestDto {
     private String inn;
     private String telephone;
     private String email;
+    private String companyName;
     private Long economicActivityId;
     private Long organId;
     private String causeOfFactor;
@@ -18,4 +19,5 @@ public class AddClaimRequestDto {
     private String identificationFactor;
     private Long regionId;
     private String empowerment;
+    private boolean agreement;
 }

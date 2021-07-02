@@ -95,14 +95,14 @@ public class DefaultClaimService implements ClaimService {
         MovementAction action = actionService.get(MovementActionType.REGISTER);
         Status status = statusService.get(StatusType.IN_PROCESSING);
         Applicant applicant = applicantService.findByTitle(request.getApplicantType().getTitle());
-        Inn inn = innService.getInn(request.getInn().getTitle());
 
         var claim = new Claim();
 
         claim.setAdmin(admin);
         claim.setFullname(request.getFullname());
         claim.setEmail(request.getEmail());
-        claim.setInn(inn);
+        claim.setInn(request.getInn());
+        claim.setCompanyName(request.getCompanyName());
         claim.setCreatedAt(LocalDateTime.now());
 //        claim.setCreatedBy(admin);
         claim.setTelephone(request.getTelephone());
@@ -113,6 +113,7 @@ public class DefaultClaimService implements ClaimService {
         claim.setEmpowerment(request.getEmpowerment());
         claim.setCauseOfFactor(request.getCauseOfFactor());
         claim.setPoint(point);
+        claim.setAgreement(request.getAgreement());
         claim.setAction(action);
         claim.setStatus(status);
         claim.setProblemOfDescription(request.getProblemOfDescription());

@@ -28,13 +28,13 @@ public class ClaimController {
         this.claimEndpoint = claimEndpoint;
     }
 
-//    @PostMapping(name = "/file", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-//    public ClaimDto create(
-//            @RequestPart("request") @ApiParam("AddClaimRequestDto") AddClaimRequestDto addClaimRequestDto,
-//            @RequestPart(value = "file", required = false) MultipartFile file
-//    ) throws Exception {
-//        return claimEndpoint.create(null,addClaimRequestDto, file);
-//    }
+    @PostMapping(name = "/file", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ClaimDto create(
+            @RequestPart("request") @ApiParam("AddClaimRequestDto") AddClaimRequestDto addClaimRequestDto,
+            @RequestPart(value = "file", required = false) MultipartFile file
+    ) throws Exception {
+        return claimEndpoint.create(null,addClaimRequestDto, file);
+    }
 
     @PostMapping("/{id}")
     public ClaimDto create(

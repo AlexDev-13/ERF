@@ -10,9 +10,10 @@ public class ClaimDto {
     private Long id;
     private ApplicantDto applicantType;
     private String fullname;
-    private InnDto inn;
+    private String inn;
     private String telephone;
     private String email;
+    private String companyName;
     private EconomicActivityDto economicActivity;
     private OrganDto organ;
     private String causeOfFactor;

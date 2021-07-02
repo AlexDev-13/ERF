@@ -9,6 +9,8 @@ public class ClaimPage {
     private int pageNumber = 0;
     private int pageSize = 10;
     private Sort.Direction sortDirection = Sort.Direction.ASC;
-    private String sortBy = "region";
+    private String sortByRegion = "region";
+    private String sortByOrgan = "organ";
+    private String sortByCompanyName = "companyName";
 
 }

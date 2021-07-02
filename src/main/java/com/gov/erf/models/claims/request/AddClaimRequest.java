@@ -15,9 +15,10 @@ public class AddClaimRequest {
 
     private Applicant applicantType;
     private String fullname;
-    private Inn inn;
+    private String inn;
     private String telephone;
     private String email;
+    private String companyName;
     private EconomicActivity economicActivity;
     private Organ organ;
     private String causeOfFactor;
@@ -25,4 +26,5 @@ public class AddClaimRequest {
     private String identificationFactor;
     private Region region;
     private String empowerment;
+    private Boolean agreement;
 }

@@ -31,10 +31,11 @@ public class Claim extends MovableEntity {
     @Column(name = "fullname")
     private String fullname;
 
+    @Column(name = "inn")
+    private String inn;
 
-    @OneToOne
-    @JoinColumn(name = "inn_id")
-    private Inn inn;
+    @Column(name = "company_name")
+    private String companyName;
 
     @Column(name = "telephone")
     private String telephone;
@@ -68,6 +69,9 @@ public class Claim extends MovableEntity {
 
     @Column(name = "empowerment")
     private String empowerment;
+
+    @Column(name = "agreement")
+    private Boolean agreement;
 
     @ManyToOne
     @JoinColumn(name = "file_id")
