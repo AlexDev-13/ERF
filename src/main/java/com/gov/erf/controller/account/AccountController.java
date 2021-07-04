@@ -9,12 +9,11 @@ import com.gov.erf.models.account.Admin;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.Collection;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
-@RequestMapping("api/v1/account")
+@RequestMapping("/api/v1/account")
 public class AccountController {
 
     private final AccountEndpoint accountEndpoint;
@@ -27,9 +26,10 @@ public class AccountController {
         this.accountMapper = accountMapper;
     }
 
-    @PostMapping("/login")
-    public UserDto login(Principal principal){
-        Admin admin = (Admin) ((Authentication) principal).getPrincipal();
+    @RequestMapping("/login")
+    public UserDto login(Authentication authentication) {
+        Admin admin = (Admin) authentication.getPrincipal();
+        System.out.println(admin);
         return accountMapper.toUserDto(admin);
     }
 

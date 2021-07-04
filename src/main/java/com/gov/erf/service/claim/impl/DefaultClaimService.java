@@ -15,7 +15,6 @@ import com.gov.erf.models.claims.tables.TableCommission;
 import com.gov.erf.models.claims.tables.request.AuthorizedBodyRequest;
 import com.gov.erf.models.claims.tables.request.ResponsibleBodyRequest;
 import com.gov.erf.models.claims.tables.request.TableCommissionRequest;
-import com.gov.erf.models.inn.Inn;
 import com.gov.erf.models.point.MovementPoint;
 import com.gov.erf.models.point.MovementPointType;
 import com.gov.erf.models.status.Status;
@@ -139,7 +138,7 @@ public class DefaultClaimService implements ClaimService {
         Status status = null;
 
         if (actionType.equals(MovementActionType.ORGAN_ACCEPT)) {
-            status = statusService.get(StatusType.IN_PROCESSING);
+            status = statusService.get(StatusType.UNDER_CONSIDERATION);
         } else {
             status = statusService.get(StatusType.DENIED);
         }

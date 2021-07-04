@@ -31,4 +31,5 @@ CREATE TABLE roles
 INSERT INTO roles (title)
 VALUES ('GLOBAL_ADMIN'),
        ('REGIONAL_ADMIN'),
+       ('USER'),
        ('OMBUDSMEN');
