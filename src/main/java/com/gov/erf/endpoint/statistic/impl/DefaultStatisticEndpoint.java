@@ -16,6 +16,6 @@ public class DefaultStatisticEndpoint implements StatisticEndpoint {
 
     @Override
     public StatisticDto get() {
-        return null;
+        return statiscticService.calculate();
     }
 }

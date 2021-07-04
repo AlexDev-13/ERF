@@ -2,8 +2,6 @@ ALTER TABLE movement_points
     ADD COLUMN type VARCHAR(128);
 ALTER TABLE movement_actions
     ADD COLUMN type VARCHAR(128);
-ALTER TABLE status
-    ADD COLUMN type VARCHAR(128);
 
 
 UPDATE movement_actions
@@ -53,16 +51,6 @@ WHERE id = 103;
 ALTER TABLE movement_points
     ALTER COLUMN type SET NOT NULL;
 
-
-UPDATE status
-SET type = 'IN_PROCESSING'
-WHERE id = 10;
-UPDATE status
-SET type = 'APPROVED'
-WHERE id = 11;
-UPDATE status
-SET type = 'DENIED'
-WHERE id = 12;
 
 ALTER TABLE movement_points
     ALTER COLUMN type SET NOT NULL;

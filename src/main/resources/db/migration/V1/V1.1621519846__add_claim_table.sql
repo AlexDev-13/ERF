@@ -18,6 +18,8 @@ CREATE TABLE IF NOT EXISTS status
     PRIMARY
     KEY,
     title
+    VARCHAR,
+    type
     VARCHAR
 (
     255
@@ -69,11 +71,11 @@ VALUES (100, 'Поступление'),
        (102, 'Отказ'),
        (103, 'Решение');
 
-INSERT INTO status (id, title)
-VALUES (10, 'В обработке'),
-       (11, 'На рассмотрении'),
-       (12, 'Одобрено'),
-       (13, 'Отказ');
+INSERT INTO status (id, title,type)
+VALUES (1, 'В обработке','UNDER_CONSIDERATION'),
+       (2, 'На рассмотрении','IN_PROCESSING'),
+       (3, 'Одобрено','APPROVED'),
+       (4, 'Отказ','DENIED');
 
 
 
