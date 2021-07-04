@@ -26,12 +26,12 @@ public class AccountController {
         this.accountMapper = accountMapper;
     }
 
-    @RequestMapping("/login")
-    public UserDto login(Authentication authentication) {
-        Admin admin = (Admin) authentication.getPrincipal();
-        System.out.println(admin);
-        return accountMapper.toUserDto(admin);
-    }
+//    @RequestMapping("/login")
+//    public UserDto login(Authentication authentication) {
+//        Admin admin = (Admin) authentication.getPrincipal();
+//        System.out.println(admin);
+//        return accountMapper.toUserDto(admin);
+//    }
 
     @PostMapping
     public String register(@RequestBody AddUserRequestDto account) {
