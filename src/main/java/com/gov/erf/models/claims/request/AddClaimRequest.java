@@ -2,9 +2,7 @@ package com.gov.erf.models.claims.request;
 
 
 import com.gov.erf.models.account.Applicant;
-import com.gov.erf.models.claims.EconomicActivity;
-import com.gov.erf.models.claims.Organ;
-import com.gov.erf.models.claims.Region;
+import com.gov.erf.models.claims.*;
 import com.gov.erf.models.inn.Inn;
 import lombok.Builder;
 import lombok.Data;
@@ -17,11 +15,12 @@ public class AddClaimRequest {
     private String fullname;
     private String inn;
     private String telephone;
+    private Subject subjectType;
     private String email;
     private String companyName;
     private EconomicActivity economicActivity;
     private Organ organ;
-    private String causeOfFactor;
+    private Cause causeOfFactor;
     private String problemOfDescription;
     private String identificationFactor;
     private Region region;

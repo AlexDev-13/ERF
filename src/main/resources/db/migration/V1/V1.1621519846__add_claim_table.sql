@@ -71,11 +71,11 @@ VALUES (100, 'Поступление'),
        (102, 'Отказ'),
        (103, 'Решение');
 
-INSERT INTO status (id, title,type)
-VALUES (1, 'В обработке','UNDER_CONSIDERATION'),
-       (2, 'На рассмотрении','IN_PROCESSING'),
-       (3, 'Одобрено','APPROVED'),
-       (4, 'Отказ','DENIED');
+INSERT INTO status (id, title, type)
+VALUES (1, 'В обработке', 'UNDER_CONSIDERATION'),
+       (2, 'На рассмотрении', 'IN_PROCESSING'),
+       (3, 'Одобрено', 'APPROVED'),
+       (4, 'Отказ', 'DENIED');
 
 
 
@@ -128,6 +128,28 @@ INSERT INTO ref_organ_addressed (title)
 VALUES ('Налоговая служба'),
        ('Таможенная служба'),
        ('Бизнес омбудсмен');
+
+CREATE TABLE subject
+(
+    id    BIGSERIAL   NOT NULL PRIMARY KEY,
+    title VARCHAR(64) NOT NULL
+);
+
+INSERT INTO subject (title)
+VALUES ('Предприниматель'),
+       ('Работник'),
+       ('Орган государственной и муниципальной власти и управления'),
+       ('Международная и национальная общественная организация');
+
+CREATE TABLE cause
+(
+    id    BIGSERIAL   NOT NULL PRIMARY KEY,
+    title VARCHAR(64) NOT NULL
+);
+
+INSERT INTO cause (title)
+VALUES ('Коррупция'),
+       ('Муниципалльные проблемы');
 
 CREATE TABLE ref_region
 (
@@ -182,6 +204,8 @@ CREATE TABLE claims
     telephone              VARCHAR(64),
     email                  VARCHAR(64),
     company_name           VARCHAR(64),
+    subject_id             BIGINT REFERENCES subject,
+    cause_id               BIGINT REFERENCES cause,
     applicant_id           BIGINT REFERENCES applicant (id),
     economic_activity_id   BIGINT    NOT NULL REFERENCES ref_economic_activity (id),
     organ_addressed_id     BIGINT    NOT NULL REFERENCES ref_organ_addressed (id),

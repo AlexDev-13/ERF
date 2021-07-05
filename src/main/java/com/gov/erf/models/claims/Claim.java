@@ -53,8 +53,13 @@ public class Claim extends MovableEntity {
     @JoinColumn(name = "organ_addressed_id")
     private Organ organ;
 
-    @Column(name = "cause_of_factor")
-    private String causeOfFactor;
+    @OneToOne
+    @JoinColumn(name = "subject_id")
+    private Subject subject;
+
+    @OneToOne
+    @JoinColumn(name = "cause_id")
+    private Cause causeOfFactor;
 
     @Column(name = "problem_of_description")
     private String problemOfDescription;

@@ -1,7 +1,6 @@
 package com.gov.erf.mapper.claim.impl;
 
 import com.gov.erf.dto.http.claim.*;
-import com.gov.erf.dto.http.inn.InnDto;
 import com.gov.erf.dto.http.request.AddClaimRequestDto;
 import com.gov.erf.dto.http.tables.TableAuthorizedBodyDto;
 import com.gov.erf.dto.http.tables.TableCommissionDto;
@@ -12,10 +11,7 @@ import com.gov.erf.dto.http.tables.request.InfoRequestFromResponsibleBodyDto;
 import com.gov.erf.mapper.claim.*;
 import com.gov.erf.mapper.inn.InnMapper;
 import com.gov.erf.models.account.Applicant;
-import com.gov.erf.models.claims.Claim;
-import com.gov.erf.models.claims.EconomicActivity;
-import com.gov.erf.models.claims.Organ;
-import com.gov.erf.models.claims.Region;
+import com.gov.erf.models.claims.*;
 import com.gov.erf.models.claims.request.AddClaimRequest;
 import com.gov.erf.models.claims.tables.AuthorizedBody;
 import com.gov.erf.models.claims.tables.ResponsibleBody;
@@ -23,7 +19,6 @@ import com.gov.erf.models.claims.tables.TableCommission;
 import com.gov.erf.models.claims.tables.request.AuthorizedBodyRequest;
 import com.gov.erf.models.claims.tables.request.ResponsibleBodyRequest;
 import com.gov.erf.models.claims.tables.request.TableCommissionRequest;
-import com.gov.erf.models.inn.Inn;
 import com.gov.erf.service.claim.*;
 import com.gov.erf.service.inn.InnService;
 import org.springframework.stereotype.Service;
@@ -45,6 +40,10 @@ public class DefaultClaimMapper implements ClaimMapper {
     private final ApplicantService applicantService;
     private final InnService innService;
     private final InnMapper innMapper;
+    private final CauseService causeOfFactorService;
+    private final CauseMapper causeMapper;
+    private final SubjectService subjectService;
+    private final SubjectMapper subjectMapper;
 
     public DefaultClaimMapper
             (
@@ -57,7 +56,12 @@ public class DefaultClaimMapper implements ClaimMapper {
                     ApplicantMapper applicantMapper,
                     ApplicantService applicantService,
                     InnService innService,
-                    InnMapper innMapper) {
+                    InnMapper innMapper,
+                    CauseService causeOfFactorService,
+                    CauseMapper causeMapper,
+                    SubjectService subjectService,
+                    SubjectMapper subjectMapper
+            ) {
         this.economicActivityService = economicActivityService;
         this.claimService = claimService;
         this.organService = organService;
@@ -69,6 +73,10 @@ public class DefaultClaimMapper implements ClaimMapper {
         this.applicantService = applicantService;
         this.innService = innService;
         this.innMapper = innMapper;
+        this.causeOfFactorService = causeOfFactorService;
+        this.causeMapper = causeMapper;
+        this.subjectService = subjectService;
+        this.subjectMapper = subjectMapper;
     }
 
     @Override
@@ -78,7 +86,8 @@ public class DefaultClaimMapper implements ClaimMapper {
         Region region = regionService.get(addClaimRequestDto.getRegionId());
         Organ organ = organService.get(addClaimRequestDto.getOrganId());
         Applicant applicant = applicantService.get(addClaimRequestDto.getApplicantType());
-        Inn inn = innService.getInn(addClaimRequestDto.getInn());
+        Cause causeOfFactor = causeOfFactorService.get(addClaimRequestDto.getCauseOfFactor());
+        Subject subject = subjectService.get(addClaimRequestDto.getSubjectTypeId());
 
         return AddClaimRequest
                 .builder()
@@ -91,8 +100,9 @@ public class DefaultClaimMapper implements ClaimMapper {
                 .economicActivity(economicActivity)
                 .region(region)
                 .organ(organ)
+                .subjectType(subject)
                 .agreement(addClaimRequestDto.isAgreement())
-                .causeOfFactor(addClaimRequestDto.getCauseOfFactor())
+                .causeOfFactor(causeOfFactor)
                 .empowerment(addClaimRequestDto.getEmpowerment())
                 .identificationFactor(addClaimRequestDto.getIdentificationFactor())
                 .problemOfDescription(addClaimRequestDto.getProblemOfDescription())
@@ -106,6 +116,9 @@ public class DefaultClaimMapper implements ClaimMapper {
         OrganDto organDto = organMapper.toOrganDto(claim.getOrgan());
         RegionDto regionDto = regionMapper.toRegionDto(claim.getRegion());
         ApplicantDto applicantDto = applicantMapper.toApplicantDto(claim.getApplicantType());
+        CauseDto causeDto = causeMapper.toCauseDto(claim.getCauseOfFactor());
+        SubjectDto subjectDto = subjectMapper.toSubjectDto(claim.getSubject());
+
 
         var claimDto = new ClaimDto();
         claimDto.setId(claim.getId());
@@ -120,7 +133,8 @@ public class DefaultClaimMapper implements ClaimMapper {
         claimDto.setRegion(regionDto);
         claimDto.setStatus(claim.getStatus().getTitle());
         claimDto.setEmpowerment(claim.getEmpowerment());
-        claimDto.setCauseOfFactor(claim.getCauseOfFactor());
+        claimDto.setCauseOfFactor(causeDto);
+        claimDto.setSubjectType(subjectDto);
         claimDto.setIdentificationFactor(claim.getIdentificationFactor());
         claimDto.setProblemOfDescription(claim.getProblemOfDescription());
 

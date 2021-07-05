@@ -6,8 +6,10 @@ import com.gov.erf.models.account.Admin;
 import com.gov.erf.models.account.Applicant;
 import com.gov.erf.models.action.MovementAction;
 import com.gov.erf.models.action.MovementActionType;
+import com.gov.erf.models.claims.Cause;
 import com.gov.erf.models.claims.Claim;
 import com.gov.erf.models.claims.Region;
+import com.gov.erf.models.claims.Subject;
 import com.gov.erf.models.claims.request.AddClaimRequest;
 import com.gov.erf.models.claims.tables.AuthorizedBody;
 import com.gov.erf.models.claims.tables.ResponsibleBody;
@@ -24,7 +26,9 @@ import com.gov.erf.repository.claim.*;
 import com.gov.erf.service.account.RegisterService;
 import com.gov.erf.service.action.MovementActionService;
 import com.gov.erf.service.claim.ApplicantService;
+import com.gov.erf.service.claim.CauseService;
 import com.gov.erf.service.claim.ClaimService;
+import com.gov.erf.service.claim.SubjectService;
 import com.gov.erf.service.inn.InnService;
 import com.gov.erf.service.point.MovementPointService;
 import com.gov.erf.service.status.StatusService;
@@ -50,6 +54,8 @@ public class DefaultClaimService implements ClaimService {
     private final RegisterService registerService;
     private final StatusService statusService;
     private final ClaimCriteriaRepository claimCriteriaRepository;
+    private final CauseService causeService;
+    private final SubjectService subjectService;
 
     public DefaultClaimService
             (
@@ -62,8 +68,8 @@ public class DefaultClaimService implements ClaimService {
                     ApplicantService applicantService, InnService innService,
                     RegisterService registerService,
                     StatusService statusService,
-                    ClaimCriteriaRepository claimCriteriaRepository
-            ) {
+                    ClaimCriteriaRepository claimCriteriaRepository,
+                    CauseService causeService, SubjectService subjectService) {
         this.claimRepository = claimRepository;
         this.regionRepository = regionRepository;
         this.pointService = pointService;
@@ -76,6 +82,8 @@ public class DefaultClaimService implements ClaimService {
         this.registerService = registerService;
         this.statusService = statusService;
         this.claimCriteriaRepository = claimCriteriaRepository;
+        this.causeService = causeService;
+        this.subjectService = subjectService;
     }
 
     @Override
@@ -94,6 +102,9 @@ public class DefaultClaimService implements ClaimService {
         MovementAction action = actionService.get(MovementActionType.REGISTER);
         Status status = statusService.get(StatusType.IN_PROCESSING);
         Applicant applicant = applicantService.findByTitle(request.getApplicantType().getTitle());
+        Cause cause = causeService.get(request.getCauseOfFactor().getId());
+        Subject subject = subjectService.get(request.getSubjectType().getId());
+
 
         var claim = new Claim();
 
@@ -104,6 +115,8 @@ public class DefaultClaimService implements ClaimService {
         claim.setCompanyName(request.getCompanyName());
         claim.setCreatedAt(LocalDateTime.now());
 //        claim.setCreatedBy(admin);
+        claim.setSubject(subject);
+        claim.setCauseOfFactor(cause);
         claim.setTelephone(request.getTelephone());
         claim.setApplicantType(applicant);
         claim.setOrgan(request.getOrgan());

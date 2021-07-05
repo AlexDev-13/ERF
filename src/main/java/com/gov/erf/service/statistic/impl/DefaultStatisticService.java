@@ -26,14 +26,16 @@ public class DefaultStatisticService implements StatisticService {
 
         var status = new Status();
 
+        var count = claimRepository.findAll().stream().count();
+
         status = statusService.get(StatusType.APPROVED);
-        stat.setReady(claimRepository.findAllByStatus(status).stream().count());
+        stat.setReady((claimRepository.findAllByStatus(status).stream().count()/count)*100);
         status = statusService.get(StatusType.UNDER_CONSIDERATION);
-        stat.setUnderConsideration(claimRepository.findAllByStatus(status).stream().count());
+        stat.setUnderConsideration((claimRepository.findAllByStatus(status).stream().count()/count)*100);
         status = statusService.get(StatusType.IN_PROCESSING);
-        stat.setInProcessing(claimRepository.findAllByStatus(status).stream().count());
+        stat.setInProcessing((claimRepository.findAllByStatus(status).stream().count()/count)*100);
         status = statusService.get(StatusType.DENIED);
-        stat.setRenouncement(claimRepository.findAllByStatus(status).stream().count());
+        stat.setRenouncement((claimRepository.findAllByStatus(status).stream().count()/count)*100);
         return stat;
     }
 }
