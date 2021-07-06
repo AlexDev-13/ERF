@@ -17,8 +17,8 @@ public class AddClaimRequestDto {
     private Long organId;
     private Long causeOfFactor;
     private String problemOfDescription;
-    private String identificationFactor;
+    private String descriptionDate;
     private Long regionId;
-    private String empowerment;
+    private String clarification;
     private boolean agreement;
 }

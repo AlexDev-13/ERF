@@ -103,8 +103,8 @@ public class DefaultClaimMapper implements ClaimMapper {
                 .subjectType(subject)
                 .agreement(addClaimRequestDto.isAgreement())
                 .causeOfFactor(causeOfFactor)
-                .empowerment(addClaimRequestDto.getEmpowerment())
-                .identificationFactor(addClaimRequestDto.getIdentificationFactor())
+                .empowerment(addClaimRequestDto.getClarification())
+                .identificationFactor(addClaimRequestDto.getDescriptionDate())
                 .problemOfDescription(addClaimRequestDto.getProblemOfDescription())
                 .build();
     }
