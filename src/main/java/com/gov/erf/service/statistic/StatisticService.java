@@ -7,6 +7,6 @@ import org.springframework.data.domain.Page;
 
 public interface StatisticService {
 
-    Page<StatisticDto> calculate(StatPage statPage, StatCriteria statCriteria);
+    StatisticDto calculate();
 
 }

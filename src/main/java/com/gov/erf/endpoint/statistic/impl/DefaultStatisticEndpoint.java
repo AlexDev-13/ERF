@@ -18,7 +18,7 @@ public class DefaultStatisticEndpoint implements StatisticEndpoint {
     }
 
     @Override
-    public Page<StatisticDto> get(StatPage statPage, StatCriteria statCriteria) {
-        return statiscticService.calculate(statPage,statCriteria);
+    public StatisticDto get() {
+        return statiscticService.calculate();
     }
 }

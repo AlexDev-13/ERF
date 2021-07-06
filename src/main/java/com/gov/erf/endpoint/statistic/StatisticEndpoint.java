@@ -7,5 +7,5 @@ import org.springframework.data.domain.Page;
 
 public interface StatisticEndpoint {
 
-    Page<StatisticDto> get(StatPage statPage, StatCriteria statCriteria);
+    StatisticDto get();
 }

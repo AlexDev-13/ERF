@@ -23,8 +23,8 @@ public class StatisticController {
 
 
     @GetMapping
-    public Page<StatisticDto> getStatistic(StatPage statPage, StatCriteria statCriteria){
-        return statisticEndpoint.get(statPage,statCriteria);
+    public StatisticDto getStatistic(){
+        return statisticEndpoint.get();
     }
 
 }

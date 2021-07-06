@@ -2,6 +2,7 @@ package com.gov.erf.service.claim;
 
 import com.gov.erf.config.predicate.builder.ClaimPage;
 import com.gov.erf.config.predicate.criteria.ClaimSearchCriteria;
+import com.gov.erf.models.account.Admin;
 import com.gov.erf.models.claims.Claim;
 import com.gov.erf.models.claims.request.AddClaimRequest;
 import com.gov.erf.models.claims.tables.AuthorizedBody;
@@ -33,8 +34,8 @@ public interface ClaimService {
     Claim getById(Long id);
 
 
-     Page<Claim> getClaims(ClaimPage employeePage,
-                                    ClaimSearchCriteria employeeSearchCriteria);
+     Page<Claim> getClaims(Admin admin, ClaimPage employeePage,
+                           ClaimSearchCriteria employeeSearchCriteria);
 
     Collection<Claim> searchByParam(String searchClaimsByParam);
 

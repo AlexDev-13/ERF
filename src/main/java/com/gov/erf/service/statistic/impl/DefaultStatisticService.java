@@ -26,7 +26,7 @@ public class DefaultStatisticService implements StatisticService {
     }
 
     @Override
-    public Page<StatisticDto> calculate(StatPage statPage, StatCriteria statCriteria) {
+    public StatisticDto calculate() {
 
         var stat = new StatisticDto();
 
@@ -42,6 +42,6 @@ public class DefaultStatisticService implements StatisticService {
         stat.setInProcessing((claimRepository.findAllByStatus(status).stream().count()*100)/count);
         status = statusService.get(StatusType.DENIED);
         stat.setRenouncement((claimRepository.findAllByStatus(status).stream().count()*100)/count);
-        return null;
+        return stat;
     }
 }
