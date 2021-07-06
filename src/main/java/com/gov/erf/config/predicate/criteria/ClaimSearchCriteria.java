@@ -10,6 +10,7 @@ import lombok.Data;
 public class ClaimSearchCriteria {
 
     private Region region;
+    private Data createdAt;
     private Organ organ;
     private String companyName;
     private String inn;
@@ -17,4 +18,8 @@ public class ClaimSearchCriteria {
     private Status status;
     private EconomicActivity economicActivity;
     private String identificationFactor;
+    private Long statusCons;
+    private Long statusProc ;
+    private Long statusReady ;
+    private Long statusDenied ;
 }

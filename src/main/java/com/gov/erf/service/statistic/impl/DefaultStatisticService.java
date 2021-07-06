@@ -1,26 +1,32 @@
 package com.gov.erf.service.statistic.impl;
 
+import com.gov.erf.config.predicate.builder.StatPage;
+import com.gov.erf.config.predicate.criteria.StatCriteria;
 import com.gov.erf.dto.http.statistic.StatisticDto;
 import com.gov.erf.models.status.Status;
 import com.gov.erf.models.status.StatusType;
 import com.gov.erf.repository.claim.ClaimRepository;
+import com.gov.erf.repository.stat.StatisticRepository;
 import com.gov.erf.service.statistic.StatisticService;
 import com.gov.erf.service.status.StatusService;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 @Service
 public class DefaultStatisticService implements StatisticService {
 
     private final ClaimRepository claimRepository;
+    private final StatisticRepository statisticRepository;
     private final StatusService statusService;
 
-    public DefaultStatisticService(ClaimRepository claimRepository, StatusService statusService) {
+    public DefaultStatisticService(ClaimRepository claimRepository, StatisticRepository statisticRepository, StatusService statusService) {
         this.claimRepository = claimRepository;
+        this.statisticRepository = statisticRepository;
         this.statusService = statusService;
     }
 
     @Override
-    public StatisticDto calculate() {
+    public Page<StatisticDto> calculate(StatPage statPage, StatCriteria statCriteria) {
 
         var stat = new StatisticDto();
 
@@ -36,6 +42,6 @@ public class DefaultStatisticService implements StatisticService {
         stat.setInProcessing((claimRepository.findAllByStatus(status).stream().count()*100)/count);
         status = statusService.get(StatusType.DENIED);
         stat.setRenouncement((claimRepository.findAllByStatus(status).stream().count()*100)/count);
-        return stat;
+        return null;
     }
 }

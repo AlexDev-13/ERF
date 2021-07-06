@@ -1,4 +1,4 @@
-package com.gov.erf.repository.claim;
+package com.gov.erf.repository.stat;
 
 import com.gov.erf.config.predicate.builder.ClaimPage;
 import com.gov.erf.config.predicate.criteria.ClaimSearchCriteria;
@@ -17,12 +17,12 @@ import java.util.List;
 import java.util.Objects;
 
 @Repository
-public class ClaimCriteriaRepository {
+public class StatisticRepository {
 
     private final EntityManager entityManager;
     private final CriteriaBuilder criteriaBuilder;
 
-    public ClaimCriteriaRepository
+    public StatisticRepository
             (
                     EntityManager entityManager
             ) {
@@ -57,6 +57,12 @@ public class ClaimCriteriaRepository {
             predicates.add(
                     criteriaBuilder.equal(claimRoot.get("region"),
                             claimSearchCriteria.getRegion().getId())
+            );
+        }
+        if (Objects.nonNull(claimSearchCriteria.getCreatedAt())) {
+            predicates.add(
+                    criteriaBuilder.equal(claimRoot.get("createdAt"),
+                            claimSearchCriteria.getCreatedAt())
             );
         }
         if (Objects.nonNull(claimSearchCriteria.getOrgan())) {
@@ -102,30 +108,6 @@ public class ClaimCriteriaRepository {
             predicates.add(
                     criteriaBuilder.equal(claimRoot.get("identificationFactor"),
                             claimSearchCriteria.getIdentificationFactor())
-            );
-        }
-        if (Objects.nonNull(claimSearchCriteria.getStatusCons())) {
-            predicates.add(
-                    criteriaBuilder.equal(claimRoot.get("status"),
-                            claimSearchCriteria.getStatusCons())
-            );
-        }
-        if (Objects.nonNull(claimSearchCriteria.getStatusDenied())) {
-            predicates.add(
-                    criteriaBuilder.equal(claimRoot.get("status"),
-                            claimSearchCriteria.getStatusDenied())
-            );
-        }
-        if (Objects.nonNull(claimSearchCriteria.getStatusProc())) {
-            predicates.add(
-                    criteriaBuilder.equal(claimRoot.get("status"),
-                            claimSearchCriteria.getStatusProc())
-            );
-        }
-        if (Objects.nonNull(claimSearchCriteria.getStatusReady())) {
-            predicates.add(
-                    criteriaBuilder.equal(claimRoot.get("status"),
-                            claimSearchCriteria.getStatusReady())
             );
         }
         return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
