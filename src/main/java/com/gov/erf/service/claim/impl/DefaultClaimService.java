@@ -198,7 +198,7 @@ public class DefaultClaimService implements ClaimService {
     }
 
     @Override
-    public Page<Claim> getClaims(Admin admin, ClaimPage employeePage,
+    public Page<Claim> getClaims( ClaimPage employeePage,
                                  ClaimSearchCriteria employeeSearchCriteria) {
 
         return claimCriteriaRepository.findAllWithFilters(employeePage, employeeSearchCriteria);

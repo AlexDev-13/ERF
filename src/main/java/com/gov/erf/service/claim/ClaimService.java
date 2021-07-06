@@ -34,7 +34,7 @@ public interface ClaimService {
     Claim getById(Long id);
 
 
-     Page<Claim> getClaims(Admin admin, ClaimPage employeePage,
+     Page<Claim> getClaims(ClaimPage employeePage,
                            ClaimSearchCriteria employeeSearchCriteria);
 
     Collection<Claim> searchByParam(String searchClaimsByParam);

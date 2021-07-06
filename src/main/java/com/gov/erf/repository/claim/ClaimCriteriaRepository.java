@@ -93,6 +93,7 @@ public class ClaimCriteriaRepository {
             );
         }
         if (Objects.nonNull(claimSearchCriteria.getStatus())) {
+
             predicates.add(
                     criteriaBuilder.equal(claimRoot.get("status"),
                             claimSearchCriteria.getStatus().getId())
