@@ -11,13 +11,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import java.util.Arrays;
 
 @Configuration
 @AllArgsConstructor
@@ -42,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
                 .csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/api/v*/claim/**","/api/v*/organ/**","/api/v*/region/**","/api/v*/activity/**","/api/v*/login/**","/api/v*/stat/**")
+                .antMatchers("/api/v*/claim/**", "/api/v*/organ/**", "/api/v*/region/**", "/api/v*/activity/**", "/api/v*/login/**", "/api/v*/stat/**","/api/v*/cause","/api/v*/subject")
                 .permitAll()
                 .anyRequest()
                 .authenticated().and()

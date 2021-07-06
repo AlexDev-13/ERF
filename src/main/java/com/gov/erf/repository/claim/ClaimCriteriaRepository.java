@@ -92,6 +92,12 @@ public class ClaimCriteriaRepository {
                             claimSearchCriteria.getEconomicActivity().getId())
             );
         }
+        if (Objects.nonNull(claimSearchCriteria.getStatus())) {
+            predicates.add(
+                    criteriaBuilder.equal(claimRoot.get("status"),
+                            claimSearchCriteria.getStatus().getId())
+            );
+        }
         if (Objects.nonNull(claimSearchCriteria.getIdentificationFactor())) {
             predicates.add(
                     criteriaBuilder.equal(claimRoot.get("identificationFactor"),
