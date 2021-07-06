@@ -59,12 +59,6 @@ public class StatisticRepository {
                             claimSearchCriteria.getRegion().getId())
             );
         }
-        if (Objects.nonNull(claimSearchCriteria.getCreatedAt())) {
-            predicates.add(
-                    criteriaBuilder.equal(claimRoot.get("createdAt"),
-                            claimSearchCriteria.getCreatedAt())
-            );
-        }
         if (Objects.nonNull(claimSearchCriteria.getOrgan())) {
             predicates.add(
                     criteriaBuilder.equal(claimRoot.get("organ"),

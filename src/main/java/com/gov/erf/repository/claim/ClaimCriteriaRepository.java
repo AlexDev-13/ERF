@@ -138,11 +138,13 @@ public class ClaimCriteriaRepository {
             criteriaQuery.orderBy(criteriaBuilder.asc(claimRoot.get(claimPage.getSortByRegion())));
             criteriaQuery.orderBy(criteriaBuilder.asc(claimRoot.get(claimPage.getSortByCompanyName())));
             criteriaQuery.orderBy(criteriaBuilder.asc(claimRoot.get(claimPage.getSortByOrgan())));
+            criteriaQuery.orderBy(criteriaBuilder.asc(claimRoot.get(claimPage.getSortByActivity())));
 
         } else {
             criteriaQuery.orderBy(criteriaBuilder.desc(claimRoot.get(claimPage.getSortByOrgan())));
             criteriaQuery.orderBy(criteriaBuilder.desc(claimRoot.get(claimPage.getSortByRegion())));
             criteriaQuery.orderBy(criteriaBuilder.desc(claimRoot.get(claimPage.getSortByCompanyName())));
+            criteriaQuery.orderBy(criteriaBuilder.asc(claimRoot.get(claimPage.getSortByActivity())));
 
         }
     }

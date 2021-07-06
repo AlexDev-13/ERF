@@ -10,7 +10,6 @@ import lombok.Data;
 public class ClaimSearchCriteria {
 
     private Region region;
-    private Data createdAt;
     private Organ organ;
     private String companyName;
     private String inn;

@@ -12,7 +12,7 @@ public class ClaimPage {
     private int pageSize = 10;
     private Sort.Direction sortDirection = Sort.Direction.ASC;
     private String sortByRegion = "region";
-    private Date sortByCreatedData = new Date();
+    private String sortByActivity = "economicActivity";
     private String sortByOrgan = "organ";
     private String sortByCompanyName = "companyName";
 
