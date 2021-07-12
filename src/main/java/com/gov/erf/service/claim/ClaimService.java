@@ -38,5 +38,5 @@ public interface ClaimService {
                            ClaimSearchCriteria employeeSearchCriteria);
 
     Collection<Claim> searchByParam(String searchClaimsByParam);
-
+ //test
 }
