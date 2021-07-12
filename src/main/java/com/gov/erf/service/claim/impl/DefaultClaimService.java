@@ -205,6 +205,11 @@ public class DefaultClaimService implements ClaimService {
     }
 
     @Override
+    public Collection<Claim> searchByParam(String searchClaimsByParam) {
+        return null;
+    }
+
+    @Override
     public TableCommission create(TableCommissionRequest request) {
         var tableCommission = new TableCommission();
 
@@ -251,11 +256,11 @@ public class DefaultClaimService implements ClaimService {
         return claimRepository.findById(id).orElseThrow();
     }
 
-    @Override
+    /*@Override
     public Collection<Claim> searchByParam(String searchClaimsByParam) {
 
         Region region = regionRepository.findByTitle(searchClaimsByParam);
         return claimRepository.findAllByRegion(region);
-    }
+    }*/
 
 }
