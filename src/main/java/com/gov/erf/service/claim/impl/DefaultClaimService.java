@@ -34,6 +34,8 @@ import com.gov.erf.service.point.MovementPointService;
 import com.gov.erf.service.status.StatusService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -200,7 +202,22 @@ public class DefaultClaimService implements ClaimService {
     @Override
     public Page<Claim> getClaims( ClaimPage employeePage,
                                  ClaimSearchCriteria employeeSearchCriteria) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
+        if (auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("GLOBAL_ADMIN"))) {
+            System.out.println("GLOBAL_ADMIN");
+            return claimCriteriaRepository.findAllWithFilters(employeePage, employeeSearchCriteria);
+        }
+
+        if (auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("REGIONAL_ADMIN"))) {
+            System.out.println("REGIONAL_ADMIN");
+            //Region region = null == auth ? null : auth.get;
+        }
+
+        if (auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("USER"))) {
+            System.out.println("USER");
+            //some code
+        }
         return claimCriteriaRepository.findAllWithFilters(employeePage, employeeSearchCriteria);
     }
 

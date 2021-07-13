@@ -18,6 +18,7 @@ public class AddUserRequestDto {
     private final String surname;
     private final String patronymic;
     private final String role;
+    private final String region;
 
     @NotNull
     private final String username;

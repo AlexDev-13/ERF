@@ -36,4 +36,9 @@ public class DefaultRegionService implements RegionService {
 
         return regionRepository.save(region);
     }
+
+    @Override
+    public Region findRegion(String region) {
+        return regionRepository.findByTitle(region);
+    }
 }
