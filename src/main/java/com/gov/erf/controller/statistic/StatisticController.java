@@ -22,7 +22,7 @@ public class StatisticController {
     public StatisticDto getStatistic() {
         return statisticEndpoint.get();
     }
-    //new-activity ---
+
     @GetMapping("/region")
     public StatisticDto getStatisticByRegion(@RequestParam("regionId") Region region) {
         return  statisticEndpoint.getByRegion(region);
