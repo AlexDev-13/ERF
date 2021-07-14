@@ -1,100 +1,69 @@
 package com.gov.erf.service.excel.impl;
 
 import com.gov.erf.models.claims.Claim;
+import com.gov.erf.repository.claim.ClaimRepository;
 import com.gov.erf.service.excel.ExcelServiceExport;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.xssf.usermodel.XSSFFont;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Collection;
+import java.util.List;
 
 @Service
 public class DefaultExcelServiceExport implements ExcelServiceExport {
 
-    private XSSFWorkbook workbook;
-    private XSSFSheet sheet;
+    private final ClaimRepository claimRepository;
 
-    private Collection<Claim> claims;
+    public static String TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+    static String[] HEADERs = {"Id", "Title", "Description", "Factor"};
+    static String SHEET = "claims";
 
-    public DefaultExcelServiceExport(Collection<Claim> claims) {
-        this.claims = claims;
-        workbook = new XSSFWorkbook();
+    public DefaultExcelServiceExport(ClaimRepository claimRepository) {
+        this.claimRepository = claimRepository;
     }
 
-    @Override
-    public void createCell(Row row, int columnCount, Object value, CellStyle style) {
+    public static ByteArrayInputStream claimsToExcel(List<Claim> claims) {
 
-        sheet.autoSizeColumn(columnCount);
-        Cell cell = row.createCell(columnCount);
+        try (Workbook workbook = new XSSFWorkbook(); ByteArrayOutputStream out = new ByteArrayOutputStream();) {
+            Sheet sheet = workbook.createSheet(SHEET);
 
-        if (value instanceof Long) {
-            cell.setCellValue((Long) value);
-        } else if (value instanceof Integer) {
-            cell.setCellValue((Integer) value);
-        } else if (value instanceof Boolean) {
-            cell.setCellValue((Boolean) value);
-        } else {
-            cell.setCellValue((String) value);
-        }
-        cell.setCellStyle(style);
-    }
+            // Header
+            Row headerRow = sheet.createRow(0);
 
-    private void writeHeaderLine() {
-        sheet = workbook.createSheet("Claim");
-        Row row = sheet.createRow(0);
-        CellStyle cellStyle = workbook.createCellStyle();
-        XSSFFont font = workbook.createFont();
-        font.setBold(true);
-        font.setFontHeight(20);
-        cellStyle.setFont(font);
-        cellStyle.setAlignment(HorizontalAlignment.CENTER);
-        createCell(row, 0, "Claim", cellStyle);
-        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 4));
-        font.setFontHeightInPoints((short) (10));
+            for (int col = 0; col < HEADERs.length; col++) {
+                Cell cell = headerRow.createCell(col);
+                cell.setCellValue(HEADERs[col]);
+            }
 
-        row = sheet.createRow(1);
-        font.setBold(true);
-        font.setFontHeight(16);
-        cellStyle.setFont(font);
-        createCell(row, 0, "Claim id", cellStyle);
-        createCell(row, 1, "Name", cellStyle);
-        createCell(row, 2, "Region", cellStyle);
-    }
+            int rowIdx = 1;
+            for (Claim claim : claims) {
+                Row row = sheet.createRow(rowIdx++);
 
-    private void writeDataLines() {
-        int rowCount = 2;
-        CellStyle style = workbook.createCellStyle();
-        XSSFFont font = workbook.createFont();
-        font.setFontHeight(14);
-        style.setFont(font);
+                row.createCell(0).setCellValue(claim.getId());
+                row.createCell(1).setCellValue(claim.getCompanyName());
+                row.createCell(2).setCellValue(claim.getProblemOfDescription());
+                row.createCell(3).setCellValue(claim.getIdentificationFactor());
+            }
 
-        for (Claim claim : claims) {
-            Row row = sheet.createRow(rowCount++);
-            int columnCount = 0;
-            createCell(row, columnCount++, claim.getId(), style);
-            createCell(row, columnCount++, claim.getFullname(), style);
-            createCell(row, columnCount++, claim.getRegion().getTitle(), style);
+            workbook.write(out);
+            return new ByteArrayInputStream(out.toByteArray());
+        } catch (IOException e) {
+            throw new RuntimeException("fail to import data to Excel file: " + e.getMessage());
         }
     }
 
     @Override
-    public void export(HttpServletResponse response) throws IOException {
-        writeHeaderLine();
-        writeDataLines();
+    public ByteArrayInputStream load() {
+        List<Claim> claims = claimRepository.findAll();
 
-        ServletOutputStream outputStream = response.getOutputStream();
-        workbook.write(outputStream);
-        workbook.close();
-        outputStream.close();
+        ByteArrayInputStream in = claimsToExcel(claims);
+        return in;
     }
 
 }
