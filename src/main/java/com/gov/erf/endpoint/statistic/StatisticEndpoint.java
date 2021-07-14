@@ -11,4 +11,6 @@ public interface StatisticEndpoint {
     StatisticDto getByRegion(Region region);
 
     StatisticDto getByActivity(EconomicActivity economicActivity);
+
+    StatisticDto getByRegionAndActivity(Region region, EconomicActivity economicActivity);
 }

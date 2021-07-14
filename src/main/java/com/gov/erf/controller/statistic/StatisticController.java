@@ -33,4 +33,10 @@ public class StatisticController {
         return statisticEndpoint.getByActivity(economicActivity);
     }
 
+    @GetMapping("/region-activity")
+    public StatisticDto getStatisticByRegionAndActivity(@RequestParam("regionId") Region region,
+                                                        @RequestParam("activityId") EconomicActivity economicActivity) {
+        return statisticEndpoint.getByRegionAndActivity(region, economicActivity);
+    }
+
 }

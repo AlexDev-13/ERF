@@ -30,4 +30,9 @@ public class DefaultStatisticEndpoint implements StatisticEndpoint {
     public StatisticDto getByActivity(EconomicActivity economicActivity) {
         return statiscticService.calculateByActivity(economicActivity);
     }
+
+    @Override
+    public StatisticDto getByRegionAndActivity(Region region, EconomicActivity economicActivity) {
+        return statiscticService.calculateByRegionAndActivity(region, economicActivity);
+    }
 }

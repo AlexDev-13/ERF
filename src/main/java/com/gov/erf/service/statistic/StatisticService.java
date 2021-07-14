@@ -12,4 +12,5 @@ public interface StatisticService {
 
     StatisticDto calculateByActivity(EconomicActivity economicActivity);
 
+    StatisticDto calculateByRegionAndActivity(Region region, EconomicActivity economicActivity);
 }

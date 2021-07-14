@@ -29,11 +29,15 @@ public interface ClaimRepository extends JpaRepository<Claim, Long>, QuerydslPre
 
     Collection<Claim> findAllByEconomicActivity(EconomicActivity economicActivity);
 
+    Collection<Claim> findAllByRegionAndEconomicActivity(Region region, EconomicActivity economicActivity);
+
     Collection<Claim> findAllByStatus(Status status);
 
     Collection<Claim> findAllByStatusAndRegion(Status status, Region region);
 
     Collection<Claim> findAllByStatusAndEconomicActivity(Status status, EconomicActivity economicActivity);
+
+    Collection<Claim> findAllByStatusAndRegionAndEconomicActivity(Status status, Region region, EconomicActivity economicActivity);
 
     @Override
     default void customize(
