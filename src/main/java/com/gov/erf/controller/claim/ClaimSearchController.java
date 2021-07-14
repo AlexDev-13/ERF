@@ -3,8 +3,6 @@ package com.gov.erf.controller.claim;
 
 import com.gov.erf.config.predicate.builder.ClaimPage;
 import com.gov.erf.config.predicate.criteria.ClaimSearchCriteria;
-import com.gov.erf.endpoint.claim.ClaimEndpoint;
-import com.gov.erf.mapper.account.AccountMapper;
 import com.gov.erf.models.claims.Claim;
 import com.gov.erf.service.claim.ClaimService;
 import org.springframework.data.domain.Page;
@@ -18,16 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/v1/claim/search")
 public class ClaimSearchController {
 
-    private final ClaimEndpoint claimEndpoint;
     private final ClaimService claimService;
-    private final AccountMapper accountMapper;
 
-    public ClaimSearchController(
-            ClaimEndpoint claimEndpoint,
-            ClaimService claimService, AccountMapper accountMapper) {
-        this.claimEndpoint = claimEndpoint;
+    public ClaimSearchController(ClaimService claimService) {
         this.claimService = claimService;
-        this.accountMapper = accountMapper;
     }
 
     @GetMapping
