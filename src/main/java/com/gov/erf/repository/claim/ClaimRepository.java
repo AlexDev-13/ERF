@@ -23,7 +23,7 @@ public interface ClaimRepository extends JpaRepository<Claim, Long>, QuerydslPre
 
     Page<Claim> findAll(Pageable pageable);
 
-    Page<Claim> findClaimsByRegion(Pageable pageable, Claim claim);
+    Page<Claim> findClaimsByRegion(Pageable pageable, Region region);
 
     Collection<Claim> findAllByRegion(Region region);
 
