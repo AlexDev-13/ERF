@@ -2,6 +2,7 @@ package com.gov.erf.config.basic;
 
 import com.gov.erf.models.account.Role;
 import com.gov.erf.models.account.RoleType;
+import com.gov.erf.models.claims.Region;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -51,7 +52,6 @@ public abstract class AbstractUser implements UserDetails {
     @Column(name = "password")
     private String password;
 
-
     @OneToOne
     @JoinColumn(name = "role_id")
     private Role role;
@@ -61,6 +61,10 @@ public abstract class AbstractUser implements UserDetails {
 
     @Column(name = "enabled")
     private Boolean enabled;
+
+    @OneToOne
+    @JoinColumn(name = "region_id")
+    private Region region;
 
     public AbstractUser(
             String name,
@@ -72,7 +76,8 @@ public abstract class AbstractUser implements UserDetails {
             String password,
             Boolean locked,
             Boolean enabled,
-            Role role
+            Role role,
+            Region region
     ) {
         this.name = name;
         this.surname = surname;
@@ -84,6 +89,7 @@ public abstract class AbstractUser implements UserDetails {
         this.role = role;
         this.locked = locked;
         this.enabled = enabled;
+        this.region = region;
     }
 
     @Override

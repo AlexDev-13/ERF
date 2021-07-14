@@ -5,12 +5,14 @@ import com.gov.erf.dto.http.account.AddUserRequestDto;
 import com.gov.erf.models.account.Admin;
 import com.gov.erf.models.account.Role;
 import com.gov.erf.models.account.token.ConfirmToken;
+import com.gov.erf.models.claims.Region;
 import com.gov.erf.models.sms.SMSRequest;
 import com.gov.erf.repository.account.AdminRepository;
 import com.gov.erf.service.account.AccountService;
 import com.gov.erf.service.account.RegisterService;
 import com.gov.erf.service.account.email.EmailSender;
 import com.gov.erf.service.account.role.RoleService;
+import com.gov.erf.service.claim.RegionService;
 import com.gov.erf.service.sms.SmsService;
 import com.gov.erf.service.token.ConfirmationTokenService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -26,6 +28,7 @@ public class DefaultRegisterService implements RegisterService {
     private final EmailValidator emailValidator;
     private final AccountService accountService;
     private final RoleService roleService;
+    private final RegionService regionService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailSender emailSender;
@@ -36,6 +39,7 @@ public class DefaultRegisterService implements RegisterService {
             EmailValidator emailValidator,
             AccountService accountService,
             RoleService roleService,
+            RegionService regionService,
             BCryptPasswordEncoder bCryptPasswordEncoder,
             ConfirmationTokenService confirmationTokenService,
             EmailSender emailSender,
@@ -50,6 +54,7 @@ public class DefaultRegisterService implements RegisterService {
         this.emailSender = emailSender;
         this.adminRepository = adminRepository;
         this.service = service;
+        this.regionService = regionService;
     }
 
     @Override
@@ -58,6 +63,8 @@ public class DefaultRegisterService implements RegisterService {
         boolean isValidEmail = emailValidator.test(addUserRequestDto.getEmail());
 
         Role role = roleService.findRole(addUserRequestDto.getRole());
+
+        Region region = regionService.findRegion(addUserRequestDto.getRegion());
 
         if (!isValidEmail) {
             throw new IllegalStateException("email not valid");
@@ -76,7 +83,8 @@ public class DefaultRegisterService implements RegisterService {
                         addUserRequestDto.getPassword(),
                         Boolean.FALSE,
                         Boolean.TRUE,
-                        role
+                        role,
+                        region
                 )
         );
         service.sender(smsRequest);

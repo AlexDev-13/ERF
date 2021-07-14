@@ -2,10 +2,9 @@ package com.gov.erf.controller.statistic;
 
 import com.gov.erf.dto.http.statistic.StatisticDto;
 import com.gov.erf.endpoint.statistic.StatisticEndpoint;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.gov.erf.models.claims.EconomicActivity;
+import com.gov.erf.models.claims.Region;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
@@ -22,6 +21,22 @@ public class StatisticController {
     @GetMapping
     public StatisticDto getStatistic() {
         return statisticEndpoint.get();
+    }
+
+    @GetMapping("/region")
+    public StatisticDto getStatisticByRegion(@RequestParam("regionId") Region region) {
+        return  statisticEndpoint.getByRegion(region);
+    }
+
+    @GetMapping("/activity")
+    public StatisticDto getStatisticByActivity(@RequestParam("activityId") EconomicActivity economicActivity) {
+        return statisticEndpoint.getByActivity(economicActivity);
+    }
+
+    @GetMapping("/region-activity")
+    public StatisticDto getStatisticByRegionAndActivity(@RequestParam("regionId") Region region,
+                                                        @RequestParam("activityId") EconomicActivity economicActivity) {
+        return statisticEndpoint.getByRegionAndActivity(region, economicActivity);
     }
 
 }

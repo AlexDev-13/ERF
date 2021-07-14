@@ -11,4 +11,5 @@ public interface RegionService {
     Collection<Region> getAll();
     Region create (AddRegionRequest regionRequest);
 
+    Region findRegion(String region);
 }

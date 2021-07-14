@@ -4,6 +4,7 @@ import com.gov.erf.config.predicate.builder.ClaimPage;
 import com.gov.erf.config.predicate.criteria.ClaimSearchCriteria;
 import com.gov.erf.models.account.Admin;
 import com.gov.erf.models.account.Applicant;
+import com.gov.erf.models.account.RoleType;
 import com.gov.erf.models.action.MovementAction;
 import com.gov.erf.models.action.MovementActionType;
 import com.gov.erf.models.claims.Cause;
@@ -23,6 +24,7 @@ import com.gov.erf.models.status.Status;
 import com.gov.erf.models.status.StatusType;
 import com.gov.erf.modules.models.AppFile;
 import com.gov.erf.repository.claim.*;
+import com.gov.erf.service.account.AccountService;
 import com.gov.erf.service.account.RegisterService;
 import com.gov.erf.service.action.MovementActionService;
 import com.gov.erf.service.claim.ApplicantService;
@@ -32,12 +34,15 @@ import com.gov.erf.service.claim.SubjectService;
 import com.gov.erf.service.inn.InnService;
 import com.gov.erf.service.point.MovementPointService;
 import com.gov.erf.service.status.StatusService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DefaultClaimService implements ClaimService {
@@ -56,6 +61,7 @@ public class DefaultClaimService implements ClaimService {
     private final ClaimCriteriaRepository claimCriteriaRepository;
     private final CauseService causeService;
     private final SubjectService subjectService;
+    private final AccountService accountService;
 
     public DefaultClaimService
             (
@@ -69,7 +75,8 @@ public class DefaultClaimService implements ClaimService {
                     RegisterService registerService,
                     StatusService statusService,
                     ClaimCriteriaRepository claimCriteriaRepository,
-                    CauseService causeService, SubjectService subjectService) {
+                    CauseService causeService, SubjectService subjectService,
+                    AccountService accountService) {
         this.claimRepository = claimRepository;
         this.regionRepository = regionRepository;
         this.pointService = pointService;
@@ -84,6 +91,7 @@ public class DefaultClaimService implements ClaimService {
         this.claimCriteriaRepository = claimCriteriaRepository;
         this.causeService = causeService;
         this.subjectService = subjectService;
+        this.accountService = accountService;
     }
 
     @Override
@@ -200,8 +208,33 @@ public class DefaultClaimService implements ClaimService {
     @Override
     public Page<Claim> getClaims( ClaimPage employeePage,
                                  ClaimSearchCriteria employeeSearchCriteria) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Pageable pageable = getPageable(employeePage);
+        final int start = (int)pageable.getOffset();
+        int end;
+        if (auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals(RoleType.GLOBAL_ADMIN.name()))) {
+            return claimCriteriaRepository.findAllWithFilters(employeePage, employeeSearchCriteria);
+        }
+
+        if (auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals(RoleType.REGIONAL_ADMIN.name()))) {
+            Admin admin = (Admin) accountService.loadUserByUsername(auth.getName());
+            List<Claim> claims = claimCriteriaRepository.findAllWithFilters(employeePage, employeeSearchCriteria).stream().filter(claim -> claim.getRegion().getTitle().equals(admin.getRegion().getTitle())).collect(Collectors.toList());
+            end = Math.min((start + pageable.getPageSize()), claims.size());
+            return new PageImpl<>(claims.subList(start, end), pageable, claims.size());
+        }
+
+        if (auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals(RoleType.USER.name()))) {
+            List<Claim> claims = claimCriteriaRepository.findAllWithFilters(employeePage, employeeSearchCriteria).stream().filter(claim -> claim.getStatus().getType().equals(StatusType.APPROVED) || claim.getStatus().getType().equals(StatusType.DENIED)).collect(Collectors.toList());
+            end = Math.min((start + pageable.getPageSize()), claims.size());
+            return new PageImpl<>(claims.subList(start, end), pageable, claims.size());
+        }
 
         return claimCriteriaRepository.findAllWithFilters(employeePage, employeeSearchCriteria);
+    }
+
+    @Override
+    public Collection<Claim> searchByParam(String searchClaimsByParam) {
+        return null;
     }
 
     @Override
@@ -209,7 +242,6 @@ public class DefaultClaimService implements ClaimService {
         var tableCommission = new TableCommission();
 
         MovementActionType actionType = request.getDecision() ? MovementActionType.COMMISSION_ACCEPT : MovementActionType.COMMISSION_REJECT;
-        ;
 
         MovementAction action = actionService.get(actionType);
         MovementPointType pointType = request.getDecision() ? MovementPointType.ACCEPT : MovementPointType.REJECT;
@@ -251,11 +283,15 @@ public class DefaultClaimService implements ClaimService {
         return claimRepository.findById(id).orElseThrow();
     }
 
-    @Override
+    /*@Override
     public Collection<Claim> searchByParam(String searchClaimsByParam) {
 
         Region region = regionRepository.findByTitle(searchClaimsByParam);
         return claimRepository.findAllByRegion(region);
-    }
+    }*/
 
+    private Pageable getPageable(ClaimPage claimPage) {
+        Sort sort = Sort.by(claimPage.getSortDirection(), claimPage.getSortByRegion());
+        return PageRequest.of(claimPage.getPageNumber(), claimPage.getPageSize(), sort);
+    }
 }

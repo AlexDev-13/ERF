@@ -1,6 +1,7 @@
 package com.gov.erf.models.account;
 
 import com.gov.erf.config.basic.AbstractUser;
+import com.gov.erf.models.claims.Region;
 import lombok.AllArgsConstructor;
 
 import javax.persistence.Entity;
@@ -21,8 +22,9 @@ public class Admin extends AbstractUser {
             String password,
             Boolean locked,
             Boolean enabled,
-            Role roleType
+            Role roleType,
+            Region region
     ) {
-        super(name, surname, patronymic, username, email, phone, password, locked, enabled, roleType);
+        super(name, surname, patronymic, username, email, phone, password, locked, enabled, roleType, region);
     }
 }

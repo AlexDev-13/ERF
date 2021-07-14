@@ -2,6 +2,8 @@ package com.gov.erf.endpoint.statistic.impl;
 
 import com.gov.erf.dto.http.statistic.StatisticDto;
 import com.gov.erf.endpoint.statistic.StatisticEndpoint;
+import com.gov.erf.models.claims.EconomicActivity;
+import com.gov.erf.models.claims.Region;
 import com.gov.erf.service.statistic.StatisticService;
 import org.springframework.stereotype.Service;
 
@@ -17,5 +19,20 @@ public class DefaultStatisticEndpoint implements StatisticEndpoint {
     @Override
     public StatisticDto get() {
         return statiscticService.calculate();
+    }
+
+    @Override
+    public StatisticDto getByRegion(Region region) {
+        return statiscticService.calculateByRegion(region);
+    }
+
+    @Override
+    public StatisticDto getByActivity(EconomicActivity economicActivity) {
+        return statiscticService.calculateByActivity(economicActivity);
+    }
+
+    @Override
+    public StatisticDto getByRegionAndActivity(Region region, EconomicActivity economicActivity) {
+        return statiscticService.calculateByRegionAndActivity(region, economicActivity);
     }
 }

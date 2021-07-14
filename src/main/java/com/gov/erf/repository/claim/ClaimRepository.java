@@ -1,10 +1,10 @@
 package com.gov.erf.repository.claim;
 
 import com.gov.erf.models.claims.Claim;
+import com.gov.erf.models.claims.EconomicActivity;
 import com.gov.erf.models.claims.QClaim;
 import com.gov.erf.models.claims.Region;
 import com.gov.erf.models.status.Status;
-import com.gov.erf.models.status.StatusType;
 import com.querydsl.core.types.dsl.StringExpression;
 import com.querydsl.core.types.dsl.StringPath;
 import org.springframework.data.domain.Page;
@@ -23,9 +23,21 @@ public interface ClaimRepository extends JpaRepository<Claim, Long>, QuerydslPre
 
     Page<Claim> findAll(Pageable pageable);
 
+    Page<Claim> findClaimsByRegion(Pageable pageable, Region region);
+
     Collection<Claim> findAllByRegion(Region region);
 
+    Collection<Claim> findAllByEconomicActivity(EconomicActivity economicActivity);
+
+    Collection<Claim> findAllByRegionAndEconomicActivity(Region region, EconomicActivity economicActivity);
+
     Collection<Claim> findAllByStatus(Status status);
+
+    Collection<Claim> findAllByStatusAndRegion(Status status, Region region);
+
+    Collection<Claim> findAllByStatusAndEconomicActivity(Status status, EconomicActivity economicActivity);
+
+    Collection<Claim> findAllByStatusAndRegionAndEconomicActivity(Status status, Region region, EconomicActivity economicActivity);
 
     @Override
     default void customize(

@@ -3,6 +3,7 @@ package com.gov.erf.repository.claim;
 import com.gov.erf.config.predicate.builder.ClaimPage;
 import com.gov.erf.config.predicate.criteria.ClaimSearchCriteria;
 import com.gov.erf.models.claims.Claim;
+import com.gov.erf.models.claims.Region;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Repository;
 
