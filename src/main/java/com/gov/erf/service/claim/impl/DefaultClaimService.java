@@ -224,8 +224,7 @@ public class DefaultClaimService implements ClaimService {
         }
 
         if (auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals(RoleType.USER.name()))) {
-            System.out.println("USER");
-            List<Claim> claims = claimCriteriaRepository.findAllWithFilters(employeePage, employeeSearchCriteria).stream().filter(claim -> claim.getStatus().getTitle().equals(StatusType.APPROVED.name()) || claim.getStatus().getTitle().equals(StatusType.DENIED.name())).collect(Collectors.toList());
+            List<Claim> claims = claimCriteriaRepository.findAllWithFilters(employeePage, employeeSearchCriteria).stream().filter(claim -> claim.getStatus().getType().equals(StatusType.APPROVED) || claim.getStatus().getType().equals(StatusType.DENIED)).collect(Collectors.toList());
             end = Math.min((start + pageable.getPageSize()), claims.size());
             return new PageImpl<>(claims.subList(start, end), pageable, claims.size());
         }
