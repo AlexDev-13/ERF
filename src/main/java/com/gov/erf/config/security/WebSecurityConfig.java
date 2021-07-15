@@ -42,6 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
                 .anyRequest()
                 .authenticated().and()
                 .csrf().disable().formLogin()
+                .loginPage("http://localhost:3000/login")
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .and()
