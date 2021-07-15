@@ -1,5 +1,6 @@
 package com.gov.erf.controller.statistic;
 
+import com.gov.erf.config.predicate.criteria.ClaimStatCriteria;
 import com.gov.erf.dto.http.statistic.StatisticDto;
 import com.gov.erf.endpoint.statistic.StatisticEndpoint;
 import com.gov.erf.models.claims.EconomicActivity;
@@ -34,9 +35,9 @@ public class StatisticController {
     }
 
     @GetMapping("/region-activity")
-    public StatisticDto getStatisticByRegionAndActivity(@RequestParam("regionId") Region region,
-                                                        @RequestParam("activityId") EconomicActivity economicActivity) {
-        return statisticEndpoint.getByRegionAndActivity(region, economicActivity);
+    public StatisticDto getStatisticByRegionAndActivity(ClaimStatCriteria claimStatCriteria) {
+
+        return statisticEndpoint.getClaimByRegionAndActivity(claimStatCriteria);
     }
 
 }

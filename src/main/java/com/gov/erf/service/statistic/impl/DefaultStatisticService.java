@@ -1,5 +1,6 @@
 package com.gov.erf.service.statistic.impl;
 
+import com.gov.erf.config.predicate.criteria.ClaimStatCriteria;
 import com.gov.erf.dto.http.statistic.StatisticDto;
 import com.gov.erf.models.claims.EconomicActivity;
 import com.gov.erf.models.claims.Region;
@@ -84,21 +85,7 @@ public class DefaultStatisticService implements StatisticService {
     }
 
     @Override
-    public StatisticDto calculateByRegionAndActivity(Region region, EconomicActivity economicActivity) {
-        var stat = new StatisticDto();
-
-        var status = new Status();
-
-        var count = claimRepository.findAllByRegionAndEconomicActivity(region, economicActivity).stream().count();
-
-        status = statusService.get(StatusType.APPROVED);
-        stat.setReady((claimRepository.findAllByStatusAndRegionAndEconomicActivity(status, region, economicActivity).stream().count() * 100) / count);
-        status = statusService.get(StatusType.UNDER_CONSIDERATION);
-        stat.setUnderConsideration((claimRepository.findAllByStatusAndRegionAndEconomicActivity(status, region, economicActivity).stream().count() * 100) / count);
-        status = statusService.get(StatusType.IN_PROCESSING);
-        stat.setInProcessing((claimRepository.findAllByStatusAndRegionAndEconomicActivity(status, region, economicActivity).stream().count() * 100) / count);
-        status = statusService.get(StatusType.DENIED);
-        stat.setRenouncement((claimRepository.findAllByStatusAndRegionAndEconomicActivity(status, region, economicActivity).stream().count() * 100) / count);
-        return stat;
+    public StatisticDto calculateClaimsByRegionAndActivity(ClaimStatCriteria claimStatCriteria) {
+        return statisticRepository.findAllWithFilters(claimStatCriteria);
     }
 }

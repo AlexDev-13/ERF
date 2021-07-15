@@ -1,5 +1,6 @@
 package com.gov.erf.endpoint.statistic.impl;
 
+import com.gov.erf.config.predicate.criteria.ClaimStatCriteria;
 import com.gov.erf.dto.http.statistic.StatisticDto;
 import com.gov.erf.endpoint.statistic.StatisticEndpoint;
 import com.gov.erf.models.claims.EconomicActivity;
@@ -32,7 +33,7 @@ public class DefaultStatisticEndpoint implements StatisticEndpoint {
     }
 
     @Override
-    public StatisticDto getByRegionAndActivity(Region region, EconomicActivity economicActivity) {
-        return statiscticService.calculateByRegionAndActivity(region, economicActivity);
+    public StatisticDto getClaimByRegionAndActivity(ClaimStatCriteria claimStatCriteria) {
+        return statiscticService.calculateClaimsByRegionAndActivity(claimStatCriteria);
     }
 }
