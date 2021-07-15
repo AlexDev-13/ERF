@@ -10,4 +10,5 @@ public interface OrganEndpoint {
     Collection<OrganDto> getAll();
     OrganDto get(Long id);
     OrganDto create(AddOrganRequestDto organRequestDto);
+    OrganDto delete(Long id);
 }

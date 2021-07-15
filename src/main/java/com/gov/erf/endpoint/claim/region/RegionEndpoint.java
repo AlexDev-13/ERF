@@ -12,4 +12,6 @@ public interface RegionEndpoint {
     Collection<RegionDto> getAll();
 
     RegionDto create(AddRegionRequestDto addRegionRequestDto);
+
+    RegionDto deleteById(Long id);
 }

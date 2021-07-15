@@ -33,4 +33,9 @@ public class OrganController {
         return organEndpoint.create(addOrganRequestDto);
     }
 
+    @PostMapping("/delete/{id}")
+    public OrganDto deleteById(@PathVariable("id") Long id){
+        return organEndpoint.delete(id);
+    }
+
 }

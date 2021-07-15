@@ -20,17 +20,22 @@ public class RegionController {
     }
 
     @GetMapping("/get-all")
-    public Collection<RegionDto> getAll(){
+    public Collection<RegionDto> getAll() {
         return regionEndpoint.getAll();
     }
 
     @GetMapping("/get/{id}")
-    public RegionDto get(@PathVariable("id") Long id){
+    public RegionDto get(@PathVariable("id") Long id) {
         return regionEndpoint.getById(id);
     }
 
     @PostMapping("/create")
-    public RegionDto create(AddRegionRequestDto requestDto){
+    public RegionDto create(AddRegionRequestDto requestDto) {
         return regionEndpoint.create(requestDto);
+    }
+
+    @PostMapping("/delete/{id}")
+    public RegionDto deleteById(@PathVariable("id") Long id) {
+        return regionEndpoint.deleteById(id);
     }
 }

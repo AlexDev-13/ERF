@@ -38,6 +38,13 @@ public class DefaultRegionService implements RegionService {
     }
 
     @Override
+    public Region delete(Long id) {
+        Region region = regionRepository.findById(id).orElseThrow();
+        regionRepository.deleteById(id);
+        return region;
+    }
+
+    @Override
     public Region findRegion(String region) {
         return regionRepository.findByTitle(region);
     }

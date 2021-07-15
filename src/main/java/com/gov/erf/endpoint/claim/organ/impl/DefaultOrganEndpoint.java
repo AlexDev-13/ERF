@@ -52,4 +52,12 @@ public class DefaultOrganEndpoint implements OrganEndpoint {
 
         return organMapper.toOrganDto(organ);
     }
+
+    @Override
+    public OrganDto delete(Long id) {
+        Organ organ = organService.delete(id);
+
+        return organMapper.toOrganDto(organ);
+
+    }
 }

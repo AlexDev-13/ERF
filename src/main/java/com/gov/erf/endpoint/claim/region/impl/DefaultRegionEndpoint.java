@@ -50,4 +50,11 @@ public class DefaultRegionEndpoint implements RegionEndpoint {
 
         return regionMapper.toRegionDto(region);
     }
+
+    @Override
+    public RegionDto deleteById(Long id) {
+
+        Region region = regionService.delete(id);
+        return regionMapper.toRegionDto(region);
+    }
 }

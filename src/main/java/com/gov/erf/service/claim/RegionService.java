@@ -10,6 +10,6 @@ public interface RegionService {
     Region get(Long id);
     Collection<Region> getAll();
     Region create (AddRegionRequest regionRequest);
-
+    Region delete(Long id);
     Region findRegion(String region);
 }

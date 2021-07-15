@@ -37,4 +37,11 @@ public class DefaultOrganService implements OrganService {
 
         return organRepository.save(organ);
     }
+
+    @Override
+    public Organ delete(Long id) {
+        Organ organ = organRepository.findById(id).orElseThrow();
+        organRepository.deleteById(id);
+        return organ;
+    }
 }
