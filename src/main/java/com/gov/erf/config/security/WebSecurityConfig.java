@@ -45,6 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
                 .loginPage("http://localhost:3000/login")
                 .usernameParameter("username")
                 .passwordParameter("password")
+                .loginProcessingUrl("/api/v1/login")
                 .and()
                 .logout()
                 .logoutUrl("/api/v1/logout");
