@@ -130,7 +130,7 @@ public class ClaimCriteriaRepository {
                             claimSearchCriteria.getStatusReady())
             );
         }
-        return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        return criteriaBuilder.and(predicates.toArray(new Predicate[]{}));
     }
 
     private void setOrder(ClaimPage claimPage,
