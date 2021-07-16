@@ -40,7 +40,7 @@ public class ClaimController {
 
     @PostMapping(path = "/file", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ClaimDto create(
-            @RequestPart("request") @ApiParam("AddClaimRequestDto") AddClaimRequestDto addClaimRequestDto,
+            @RequestParam("request") @ApiParam("AddClaimRequestDto") AddClaimRequestDto addClaimRequestDto,
             @RequestPart(value = "file", required = false) MultipartFile file
     ) throws Exception {
         return claimEndpoint.create(null, addClaimRequestDto, file);

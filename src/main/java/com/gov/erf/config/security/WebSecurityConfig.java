@@ -43,9 +43,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
                 .authenticated().and()
                 .csrf().disable().formLogin()
                 .loginPage("http://localhost:3000/login")
+//                .loginProcessingUrl("/login")
                 .usernameParameter("username")
                 .passwordParameter("password")
-                .loginProcessingUrl("/api/v1/login")
+                .defaultSuccessUrl("http://localhost:3000/")
                 .and()
                 .logout()
                 .logoutUrl("/api/v1/logout");
