@@ -29,7 +29,7 @@ public class CauseController {
     }
 
     @PostMapping
-    public CauseDto create (AddCauseOfFactorRequestDto addCauseOfFactorRequestDto){
+    public CauseDto create (@RequestBody AddCauseOfFactorRequestDto addCauseOfFactorRequestDto){
         return causeOfFactorEndpoint.create(addCauseOfFactorRequestDto);
     }
 }

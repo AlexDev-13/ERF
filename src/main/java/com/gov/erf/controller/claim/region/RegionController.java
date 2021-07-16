@@ -30,7 +30,7 @@ public class RegionController {
     }
 
     @PostMapping("/create")
-    public RegionDto create(AddRegionRequestDto requestDto) {
+    public RegionDto create(@RequestBody AddRegionRequestDto requestDto) {
         return regionEndpoint.create(requestDto);
     }
 

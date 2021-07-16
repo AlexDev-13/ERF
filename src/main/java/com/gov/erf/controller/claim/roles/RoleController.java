@@ -30,7 +30,7 @@ public class RoleController {
     }
 
     @PostMapping
-    public RoleDto create(RoleRequestDto roleRequestDto){
+    public RoleDto create(@RequestBody RoleRequestDto roleRequestDto){
         return roleEndpoint.create(roleRequestDto);
     }
 

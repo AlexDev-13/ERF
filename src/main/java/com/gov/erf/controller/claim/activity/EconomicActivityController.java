@@ -31,7 +31,7 @@ public class EconomicActivityController {
     }
 
     @PostMapping("/create")
-    public EconomicActivityDto create(AddEconomicActivityRequestDto requestDto) {
+    public EconomicActivityDto create(@RequestBody AddEconomicActivityRequestDto requestDto) {
         return economicActivityEndpoint.create(requestDto);
     }
 

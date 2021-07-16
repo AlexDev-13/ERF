@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collection;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RequestMapping("/api/v1/organ")
 public class OrganController {
 
@@ -29,7 +28,7 @@ public class OrganController {
     }
 
     @PostMapping("/create")
-    public OrganDto create(AddOrganRequestDto addOrganRequestDto) {
+    public OrganDto create(@RequestBody AddOrganRequestDto addOrganRequestDto) {
         return organEndpoint.create(addOrganRequestDto);
     }
 
