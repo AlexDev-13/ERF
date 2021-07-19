@@ -1,16 +1,21 @@
 package com.gov.erf.config.security;
 
 
+import com.gov.erf.config.jwt.AuthEntryPointJwt;
+import com.gov.erf.config.jwt.AuthTokenFilter;
 import com.gov.erf.service.account.AccountService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -19,8 +24,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
 
-    private final AccountService accountService;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final AccountService userDetailsService;
+    private final AuthEntryPointJwt unauthorizedHandler;
+
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -31,32 +37,37 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
                 .allowCredentials(true).maxAge(3600);
     }
 
+    @Bean
+    public AuthTokenFilter authenticationJwtTokenFilter() {
+        return new AuthTokenFilter();
+    }
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Override
+    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+        authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+    }
+
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .csrf()
-                .disable()
-                .authorizeRequests()
-//                .antMatchers("/api/v*/claim/**", "/api/v*/organ/**", "/api/v*/excel/**","/api/v*/region/**", "/api/v*/activity/**", "/api/v*/login/**", "/api/v*/stat/**","/api/v*/cause/**","/api/v*/subject/**")
-                .antMatchers("/**")
-                .permitAll()
-                .anyRequest()
-                .authenticated().and()
-                .csrf().disable().formLogin()
-//                .loginPage("http://localhost:3000/login")
-//                .loginProcessingUrl("/login")
-                .usernameParameter("username")
-                .passwordParameter("password")
-                .defaultSuccessUrl("http://localhost:3000/")
-                .and()
-                .logout()
-                .logoutUrl("/api/v1/logout");
-//                .and()
-//                .csrf()
-//                .and()
-//                .exceptionHandling()
-//                .accessDeniedPage("/api/v1/forbidden");
-//        super.configure(http);
+        http.csrf().disable()
+                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .authorizeRequests().antMatchers("/api/v1/login","/api/v1/claim/**").permitAll()
+                .anyRequest().authenticated();
+
+        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
 //    @Bean
@@ -69,18 +80,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
 //        return source;
 //    }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) {
-        auth.authenticationProvider(provider());
-    }
-
-    @Bean
-    public DaoAuthenticationProvider provider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-
-        provider.setPasswordEncoder(bCryptPasswordEncoder);
-        provider.setUserDetailsService(accountService);
-
-        return provider;
-    }
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) {
+//        auth.authenticationProvider(provider());
+//    }
+//
+//    @Bean
+//    public DaoAuthenticationProvider provider() {
+//        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+//
+//        provider.setPasswordEncoder(bCryptPasswordEncoder);
+//        provider.setUserDetailsService(accountService);
+//
+//        return provider;
+//    }
 }

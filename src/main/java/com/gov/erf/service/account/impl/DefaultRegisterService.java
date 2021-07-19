@@ -29,7 +29,6 @@ public class DefaultRegisterService implements RegisterService {
     private final AccountService accountService;
     private final RoleService roleService;
     private final RegionService regionService;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailSender emailSender;
     private final AdminRepository adminRepository;
@@ -40,7 +39,6 @@ public class DefaultRegisterService implements RegisterService {
             AccountService accountService,
             RoleService roleService,
             RegionService regionService,
-            BCryptPasswordEncoder bCryptPasswordEncoder,
             ConfirmationTokenService confirmationTokenService,
             EmailSender emailSender,
             AdminRepository adminRepository,
@@ -49,7 +47,6 @@ public class DefaultRegisterService implements RegisterService {
         this.emailValidator = emailValidator;
         this.accountService = accountService;
         this.roleService = roleService;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.confirmationTokenService = confirmationTokenService;
         this.emailSender = emailSender;
         this.adminRepository = adminRepository;

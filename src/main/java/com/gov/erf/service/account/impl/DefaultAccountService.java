@@ -17,17 +17,14 @@ import java.util.UUID;
 public class DefaultAccountService implements AccountService {
 
     private final AdminRepository adminRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
 
 
     public DefaultAccountService(
             AdminRepository adminRepository,
-            BCryptPasswordEncoder bCryptPasswordEncoder,
             ConfirmationTokenService confirmationTokenService
     ) {
         this.adminRepository = adminRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.confirmationTokenService = confirmationTokenService;
     }
 
@@ -43,7 +40,7 @@ public class DefaultAccountService implements AccountService {
         if (isExists) {
             throw new IllegalStateException("Username is exists");
         }
-        String encodePassword = bCryptPasswordEncoder.encode(admin.getPassword());
+        String encodePassword = admin.getPassword();
         admin.setPassword(encodePassword);
 
         adminRepository.save(admin);
