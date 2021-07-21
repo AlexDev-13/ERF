@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @Configuration
 @AllArgsConstructor
@@ -28,13 +29,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
     private final AuthEntryPointJwt unauthorizedHandler;
 
 
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/*").allowedOrigins("http://localhost:3000").allowedMethods("GET", "POST", "OPTIONS", "PUT")
-                .allowedHeaders("Content-Type", "X-Requested-With", "accept", "Origin", "Access-Control-Request-Method",
-                        "Access-Control-Request-Headers")
-                .exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")
-                .allowCredentials(true).maxAge(3600);
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurerAdapter() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**").allowedOrigins("http://localhost:3000");
+            }
+        };
     }
 
     @Bean
@@ -64,34 +66,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
         http.csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/api/v1/login","/api/v1/claim/**").permitAll()
+                .authorizeRequests().antMatchers("/api/v1/login", "/api/v1/claim/**").permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
-
-//    @Bean
-//    CorsConfigurationSource corsConfigurationSource() {
-//        CorsConfiguration configuration = new CorsConfiguration();
-//        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
-//        configuration.setAllowedMethods(Arrays.asList("GET","POST"));
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", configuration);
-//        return source;
-//    }
-
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) {
-//        auth.authenticationProvider(provider());
-//    }
-//
-//    @Bean
-//    public DaoAuthenticationProvider provider() {
-//        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-//
-//        provider.setPasswordEncoder(bCryptPasswordEncoder);
-//        provider.setUserDetailsService(accountService);
-//
-//        return provider;
-//    }
 }

@@ -4,9 +4,6 @@ package com.gov.erf.controller.account;
 import com.gov.erf.dto.http.account.AddUserRequestDto;
 import com.gov.erf.dto.http.account.UserDto;
 import com.gov.erf.endpoint.account.AccountEndpoint;
-import com.gov.erf.mapper.account.AccountMapper;
-import com.gov.erf.models.account.Admin;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -17,21 +14,11 @@ import java.util.Collection;
 public class AccountController {
 
     private final AccountEndpoint accountEndpoint;
-    private final AccountMapper accountMapper;
 
     public AccountController(
-            AccountEndpoint accountEndpoint,
-            AccountMapper accountMapper) {
+            AccountEndpoint accountEndpoint) {
         this.accountEndpoint = accountEndpoint;
-        this.accountMapper = accountMapper;
     }
-
-//    @RequestMapping("/login")
-//    public UserDto login(Authentication authentication) {
-//        Admin admin = (Admin) authentication.getPrincipal();
-//        System.out.println(admin);
-//        return accountMapper.toUserDto(admin);
-//    }
 
     @PostMapping
     public String register(@RequestBody AddUserRequestDto account) {

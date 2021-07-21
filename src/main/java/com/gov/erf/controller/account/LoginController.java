@@ -25,29 +25,14 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/login")
 public class LoginController {
 
-    private final AccountService accountService;
-    private final AccountMapper accountMapper;
     private final JwtUtils jwtUtils;
-    private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
 
-    public LoginController(AccountService accountService, AccountMapper accountMapper, JwtUtils jwtUtils, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
-        this.accountService = accountService;
-        this.accountMapper = accountMapper;
+    public LoginController(JwtUtils jwtUtils,AuthenticationManager authenticationManager) {
         this.jwtUtils = jwtUtils;
-        this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
     }
-
-//    @GetMapping
-//    public UserDto getUser(@AuthenticationPrincipal Admin admin) {
-//
-//        String username = admin.getUsername();
-//
-//        Admin admin1 = (Admin) accountService.loadUserByUsername(username);
-//        return accountMapper.toUserDto(admin1);
-//    }
 
     @PostMapping
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
