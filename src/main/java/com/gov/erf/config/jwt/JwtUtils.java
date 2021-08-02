@@ -4,6 +4,7 @@ package com.gov.erf.config.jwt;
 
 import java.util.Date;
 
+import com.gov.erf.config.cache.RedisUtil;
 import com.gov.erf.models.account.Admin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,9 +14,13 @@ import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Component
 public class JwtUtils {
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
+    private static final String REDIS_SET_ACTIVE_SUBJECTS = "active-subjects";
+
 
     @Value("${erf.app.jwtSecret}")
     private String jwtSecret;
@@ -23,16 +28,25 @@ public class JwtUtils {
     @Value("${erf.app.jwtExpirationMs}")
     private int jwtExpirationMs;
 
-    public String generateJwtToken(Authentication authentication) {
+    public String generateJwtToken(Boolean bool, Authentication authentication) {
 
         Admin userPrincipal = (Admin) authentication.getPrincipal();
 
+        if(bool.equals(true)){
+            return Jwts.builder()
+                    .setSubject((userPrincipal.getUsername()))
+                    .setIssuedAt(new Date())
+                    .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+                    .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                    .compact();
+        }
         return Jwts.builder()
                 .setSubject((userPrincipal.getUsername()))
                 .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+                .setExpiration(new Date((new Date()).getTime() + 0))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
+
     }
 
     public String getUserNameFromJwtToken(String token) {
@@ -56,5 +70,10 @@ public class JwtUtils {
         }
 
         return false;
+    }
+
+    public static void invalidateRelatedTokens(HttpServletRequest httpServletRequest) {
+
+        RedisUtil.INSTANCE.srem(REDIS_SET_ACTIVE_SUBJECTS, (String) httpServletRequest.getAttribute("token"));
     }
 }

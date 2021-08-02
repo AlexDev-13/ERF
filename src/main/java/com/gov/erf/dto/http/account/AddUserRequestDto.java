@@ -1,5 +1,6 @@
 package com.gov.erf.dto.http.account;
 
+import com.gov.erf.dto.http.claim.request.AddRegionRequestDto;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -17,8 +18,8 @@ public class AddUserRequestDto {
     @NotNull
     private final String surname;
     private final String patronymic;
-    private final String role;
-    private final String region;
+    private final RoleRequestDto role;
+    private final AddRegionRequestDto region;
 
     @NotNull
     private final String username;

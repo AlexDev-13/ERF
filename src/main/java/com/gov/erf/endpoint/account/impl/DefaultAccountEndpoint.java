@@ -62,7 +62,7 @@ public class DefaultAccountEndpoint implements AccountEndpoint {
     @Override
     public UserDto updateUser(Long id, AddUserRequestDto requestDto) {
 
-        Role role = roleService.findRole(requestDto.getRole());
+        Role role = roleService.findRole(requestDto.getRole().getTitle());
 
         Admin admin = registerService.findById(id);
         admin.setEmail(requestDto.getEmail());

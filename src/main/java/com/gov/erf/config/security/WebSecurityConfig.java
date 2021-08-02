@@ -16,7 +16,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -67,15 +66,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
         http.csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/api/v1/login", "/api/v1/claim/**","/swagger-ui.html").permitAll()
-                .antMatchers("api/v1/**").authenticated();
-
-        http
-                .logout(logout -> logout
-                        .logoutUrl("/api/v1/logout")
-                        .addLogoutHandler(new SecurityContextLogoutHandler())
-                );
-
+                .authorizeRequests().
+                antMatchers(
+                        "/api/v1/login",
+                        "/api/v1/login/logout",
+                        "/api/v1/region/**",
+                        "/api/v1/organ/**",
+                        "/api/v1/activity/**",
+                        "/api/v1/cause/**",
+                        "/api/v1/claim/**",
+                        "/swagger-ui.html")
+                .permitAll()
+                .antMatchers("/api/v1/stat",
+                        "/api/v1/account/**",
+                        "/api/v1/excel")
+                .authenticated();
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }

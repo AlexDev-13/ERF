@@ -59,9 +59,9 @@ public class DefaultRegisterService implements RegisterService {
 
         boolean isValidEmail = emailValidator.test(addUserRequestDto.getEmail());
 
-        Role role = roleService.findRole(addUserRequestDto.getRole());
+        Role role = roleService.findRole(addUserRequestDto.getRole().getTitle());
 
-        Region region = regionService.findRegion(addUserRequestDto.getRegion());
+        Region region = regionService.findRegion(addUserRequestDto.getRegion().getTitle());
 
         if (!isValidEmail) {
             throw new IllegalStateException("email not valid");
