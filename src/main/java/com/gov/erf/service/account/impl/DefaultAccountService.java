@@ -40,7 +40,8 @@ public class DefaultAccountService implements AccountService {
         if (isExists) {
             throw new IllegalStateException("Username is exists");
         }
-        String encodePassword = admin.getPassword();
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        String encodePassword = bCryptPasswordEncoder.encode(admin.getPassword());
         admin.setPassword(encodePassword);
 
         adminRepository.save(admin);

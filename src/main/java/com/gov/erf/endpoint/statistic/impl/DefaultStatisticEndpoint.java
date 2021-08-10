@@ -28,7 +28,7 @@ public class DefaultStatisticEndpoint implements StatisticEndpoint {
     }
 
     @Override
-    public StatisticDto getByActivity(EconomicActivity economicActivity) {
+    public StatisticDto getByActivity(EconomicActivity economicActivity) throws Exception {
         return statiscticService.calculateByActivity(economicActivity);
     }
 

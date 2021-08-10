@@ -1,6 +1,7 @@
 package com.gov.erf.models.account;
 
 import com.gov.erf.config.basic.AbstractUser;
+import com.gov.erf.models.claims.Organ;
 import com.gov.erf.models.claims.Region;
 import lombok.AllArgsConstructor;
 
@@ -23,8 +24,9 @@ public class Admin extends AbstractUser {
             Boolean locked,
             Boolean enabled,
             Role roleType,
-            Region region
+            Region region,
+            Organ organ
     ) {
-        super(name, surname, patronymic, username, email, phone, password, locked, enabled, roleType, region);
+        super(name, surname, patronymic, username, email, phone, password, locked, enabled, roleType, region,organ);
     }
 }

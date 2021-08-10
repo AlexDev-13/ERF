@@ -81,7 +81,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
                         "/api/v1/account/**",
                         "/api/v1/excel")
                 .authenticated();
-
+        http.cors();
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }

@@ -9,7 +9,6 @@ import com.gov.erf.mapper.account.AccountMapper;
 import com.gov.erf.models.account.Admin;
 import com.gov.erf.models.claims.Claim;
 import com.gov.erf.repository.account.AdminRepository;
-import io.swagger.annotations.ApiParam;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -38,26 +37,25 @@ public class ClaimController {
         this.adminRepository = adminRepository;
     }
 
-    @PostMapping(path = "/file", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ClaimDto create(
-            @RequestParam("request") @ApiParam("AddClaimRequestDto") AddClaimRequestDto addClaimRequestDto,
-            @RequestPart(value = "file", required = false) MultipartFile file
-    ) throws Exception {
-        return claimEndpoint.create(null, addClaimRequestDto, file);
-    }
+//    @PostMapping(path = "/file", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    public ClaimDto create(
+//            @RequestParam("request") AddClaimRequestDto addClaimRequestDto,
+//            @RequestPart(value = "file", required = false) MultipartFile file
+//    ) throws Exception {
+//        return claimEndpoint.create(null, addClaimRequestDto, file);
+//    }
 
     @PostMapping
     public ClaimDto create(
             @RequestBody AddClaimRequestDto addClaimRequestDto
+//            @RequestPart(value = "file", required = false) MultipartFile file
     ) throws Exception {
 
         Long id;
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!auth.getPrincipal().equals("anonymousUser")) {
 
-            System.out.println(auth);
             Admin admin = (Admin) auth.getPrincipal();
-            System.out.println(admin);
             UserDto userDto = accountMapper.toUserDto(admin);
 
 

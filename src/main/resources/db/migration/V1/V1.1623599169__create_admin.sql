@@ -8,6 +8,7 @@ CREATE TABLE admin
     email      VARCHAR(128),
     password   VARCHAR,
     role_id    BIGINT,
+    organ_id   BIGINT,
     locked     BOOLEAN     NOT NULL DEFAULT TRUE,
     enabled    BOOLEAN     NOT NULL DEFAULT FALSE
 );

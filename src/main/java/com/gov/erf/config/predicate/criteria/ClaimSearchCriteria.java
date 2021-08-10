@@ -9,6 +9,7 @@ import lombok.Data;
 @Data
 public class ClaimSearchCriteria {
 
+    private String containWord;
     private Region region;
     private Organ organ;
     private String companyName;

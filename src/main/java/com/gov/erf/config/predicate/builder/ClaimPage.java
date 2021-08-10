@@ -15,5 +15,6 @@ public class ClaimPage {
     private String sortByActivity = "economicActivity";
     private String sortByOrgan = "organ";
     private String sortByCompanyName = "companyName";
+    private String sortByInn = "inn";
 
 }

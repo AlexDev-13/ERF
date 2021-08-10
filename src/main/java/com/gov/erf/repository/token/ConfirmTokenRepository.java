@@ -14,6 +14,8 @@ import java.util.Optional;
 public interface ConfirmTokenRepository extends JpaRepository<ConfirmToken, Long> {
 
     Optional<ConfirmToken> findByToken(String token);
+    @Transactional
+    void deleteByAdminId(Long id);
 
     @Transactional
     @Modifying

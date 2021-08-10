@@ -3,7 +3,8 @@ package com.gov.erf.repository.claim;
 import com.gov.erf.config.predicate.builder.ClaimPage;
 import com.gov.erf.config.predicate.criteria.ClaimSearchCriteria;
 import com.gov.erf.models.claims.Claim;
-import com.gov.erf.models.claims.Region;
+import com.gov.erf.models.claims.Claim_;
+import org.hibernate.criterion.MatchMode;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +15,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -54,82 +56,95 @@ public class ClaimCriteriaRepository {
     private Predicate getPredicate(ClaimSearchCriteria claimSearchCriteria,
                                    Root<Claim> claimRoot) {
         List<Predicate> predicates = new ArrayList<>();
-        if (Objects.nonNull(claimSearchCriteria.getRegion())) {
+        System.out.println(Arrays.deepToString(predicates.toArray()));
+        System.out.println(claimSearchCriteria.getContainWord());
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery cq = cb.createQuery(Claim.class);
+        Root<Claim> claim = cq.from(Claim.class);
+        if (Objects.nonNull(claimSearchCriteria.getContainWord())) {
             predicates.add(
-                    criteriaBuilder.equal(claimRoot.get("region"),
-                            claimSearchCriteria.getRegion().getId())
+                    criteriaBuilder.like(
+                            claim.get(Claim_.FULLNAME),
+                            criteriaBuilder.literal(MatchMode.ANYWHERE.toMatchString(claimSearchCriteria.getContainWord()).toLowerCase())
+                    )
             );
         }
-        if (Objects.nonNull(claimSearchCriteria.getOrgan())) {
-            predicates.add(
-                    criteriaBuilder.equal(claimRoot.get("organ"),
-                            claimSearchCriteria.getOrgan().getId())
-            );
-        }
-        if (Objects.nonNull(claimSearchCriteria.getCompanyName())) {
-            predicates.add(
-                    criteriaBuilder.equal(claimRoot.get("companyName"),
-                            claimSearchCriteria.getCompanyName())
-            );
-        }
-
-        if (Objects.nonNull(claimSearchCriteria.getInn())) {
-            predicates.add(
-                    criteriaBuilder.equal(claimRoot.get("inn"),
-                            claimSearchCriteria.getInn())
-            );
-        }
-
-        if (Objects.nonNull(claimSearchCriteria.getFullname())) {
-            predicates.add(
-                    criteriaBuilder.equal(claimRoot.get("fullname"),
-                            claimSearchCriteria.getFullname())
-            );
-        }
-
-        if (Objects.nonNull(claimSearchCriteria.getEconomicActivity())) {
-            predicates.add(
-                    criteriaBuilder.equal(claimRoot.get("economicActivity"),
-                            claimSearchCriteria.getEconomicActivity().getId())
-            );
-        }
-        if (Objects.nonNull(claimSearchCriteria.getStatus())) {
-
-            predicates.add(
-                    criteriaBuilder.equal(claimRoot.get("status"),
-                            claimSearchCriteria.getStatus().getId())
-            );
-        }
-        if (Objects.nonNull(claimSearchCriteria.getIdentificationFactor())) {
-            predicates.add(
-                    criteriaBuilder.equal(claimRoot.get("identificationFactor"),
-                            claimSearchCriteria.getIdentificationFactor())
-            );
-        }
-        if (Objects.nonNull(claimSearchCriteria.getStatusCons())) {
-            predicates.add(
-                    criteriaBuilder.equal(claimRoot.get("status"),
-                            claimSearchCriteria.getStatusCons())
-            );
-        }
-        if (Objects.nonNull(claimSearchCriteria.getStatusDenied())) {
-            predicates.add(
-                    criteriaBuilder.equal(claimRoot.get("status"),
-                            claimSearchCriteria.getStatusDenied())
-            );
-        }
-        if (Objects.nonNull(claimSearchCriteria.getStatusProc())) {
-            predicates.add(
-                    criteriaBuilder.equal(claimRoot.get("status"),
-                            claimSearchCriteria.getStatusProc())
-            );
-        }
-        if (Objects.nonNull(claimSearchCriteria.getStatusReady())) {
-            predicates.add(
-                    criteriaBuilder.equal(claimRoot.get("status"),
-                            claimSearchCriteria.getStatusReady())
-            );
-        }
+//        if (Objects.nonNull(claimSearchCriteria.getRegion())) {
+//            predicates.add(
+//                    criteriaBuilder.equal(claimRoot.get("region"),
+//                            claimSearchCriteria.getRegion().getId())
+//            );
+//        }
+//        if (Objects.nonNull(claimSearchCriteria.getOrgan())) {
+//            predicates.add(
+//                    criteriaBuilder.equal(claimRoot.get("organ"),
+//                            claimSearchCriteria.getOrgan().getId())
+//            );
+//        }
+//        if (Objects.nonNull(claimSearchCriteria.getCompanyName())) {
+//            predicates.add(
+//                    criteriaBuilder.equal(claimRoot.get("companyName"),
+//                            claimSearchCriteria.getCompanyName())
+//            );
+//        }
+//
+////        if (Objects.nonNull(claimSearchCriteria.getInn())) {
+////            predicates.add(
+////                    criteriaBuilder.equal(claimRoot.get("inn"),
+////                            claimSearchCriteria.getInn())
+////            );
+////        }
+//
+//        if (Objects.nonNull(claimSearchCriteria.getFullname())) {
+//            predicates.add(
+//                    criteriaBuilder.equal(claimRoot.get("fullname"),
+//                            claimSearchCriteria.getFullname())
+//            );
+//        }
+//
+//        if (Objects.nonNull(claimSearchCriteria.getEconomicActivity())) {
+//            predicates.add(
+//                    criteriaBuilder.equal(claimRoot.get("economicActivity"),
+//                            claimSearchCriteria.getEconomicActivity().getId())
+//            );
+//        }
+//        if (Objects.nonNull(claimSearchCriteria.getStatus())) {
+//
+//            predicates.add(
+//                    criteriaBuilder.equal(claimRoot.get("status"),
+//                            claimSearchCriteria.getStatus().getId())
+//            );
+//        }
+//        if (Objects.nonNull(claimSearchCriteria.getIdentificationFactor())) {
+//            predicates.add(
+//                    criteriaBuilder.equal(claimRoot.get("identificationFactor"),
+//                            claimSearchCriteria.getIdentificationFactor())
+//            );
+//        }
+//        if (Objects.nonNull(claimSearchCriteria.getStatusCons())) {
+//            predicates.add(
+//                    criteriaBuilder.equal(claimRoot.get("status"),
+//                            claimSearchCriteria.getStatusCons())
+//            );
+//        }
+//        if (Objects.nonNull(claimSearchCriteria.getStatusDenied())) {
+//            predicates.add(
+//                    criteriaBuilder.equal(claimRoot.get("status"),
+//                            claimSearchCriteria.getStatusDenied())
+//            );
+//        }
+//        if (Objects.nonNull(claimSearchCriteria.getStatusProc())) {
+//            predicates.add(
+//                    criteriaBuilder.equal(claimRoot.get("status"),
+//                            claimSearchCriteria.getStatusProc())
+//            );
+//        }
+//        if (Objects.nonNull(claimSearchCriteria.getStatusReady())) {
+//            predicates.add(
+//                    criteriaBuilder.equal(claimRoot.get("status"),
+//                            claimSearchCriteria.getStatusReady())
+//            );
+//        }
         return criteriaBuilder.and(predicates.toArray(new Predicate[]{}));
     }
 

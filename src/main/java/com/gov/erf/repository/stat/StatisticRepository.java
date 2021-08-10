@@ -1,14 +1,14 @@
 package com.gov.erf.repository.stat;
 
 import com.gov.erf.config.predicate.builder.ClaimPage;
-import com.gov.erf.config.predicate.criteria.ClaimSearchCriteria;
 import com.gov.erf.config.predicate.criteria.ClaimStatCriteria;
 import com.gov.erf.dto.http.statistic.StatisticDto;
 import com.gov.erf.models.claims.Claim;
-import com.gov.erf.models.status.Status;
 import com.gov.erf.models.status.StatusType;
 import com.gov.erf.service.status.StatusService;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -20,7 +20,6 @@ import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Repository
 public class StatisticRepository {

@@ -5,17 +5,18 @@ import com.gov.erf.dto.http.account.AddUserRequestDto;
 import com.gov.erf.models.account.Admin;
 import com.gov.erf.models.account.Role;
 import com.gov.erf.models.account.token.ConfirmToken;
+import com.gov.erf.models.claims.Organ;
 import com.gov.erf.models.claims.Region;
-import com.gov.erf.models.sms.SMSRequest;
 import com.gov.erf.repository.account.AdminRepository;
+import com.gov.erf.repository.token.ConfirmTokenRepository;
 import com.gov.erf.service.account.AccountService;
 import com.gov.erf.service.account.RegisterService;
 import com.gov.erf.service.account.email.EmailSender;
 import com.gov.erf.service.account.role.RoleService;
+import com.gov.erf.service.claim.OrganService;
 import com.gov.erf.service.claim.RegionService;
 import com.gov.erf.service.sms.SmsService;
 import com.gov.erf.service.token.ConfirmationTokenService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -33,6 +34,8 @@ public class DefaultRegisterService implements RegisterService {
     private final EmailSender emailSender;
     private final AdminRepository adminRepository;
     private final SmsService service;
+    private final OrganService organService;
+    private final ConfirmTokenRepository confirmTokenRepository;
 
     public DefaultRegisterService(
             EmailValidator emailValidator,
@@ -42,8 +45,8 @@ public class DefaultRegisterService implements RegisterService {
             ConfirmationTokenService confirmationTokenService,
             EmailSender emailSender,
             AdminRepository adminRepository,
-            SmsService service
-    ) {
+            SmsService service,
+            OrganService organService, ConfirmTokenRepository confirmTokenRepository) {
         this.emailValidator = emailValidator;
         this.accountService = accountService;
         this.roleService = roleService;
@@ -52,6 +55,8 @@ public class DefaultRegisterService implements RegisterService {
         this.adminRepository = adminRepository;
         this.service = service;
         this.regionService = regionService;
+        this.organService = organService;
+        this.confirmTokenRepository = confirmTokenRepository;
     }
 
     @Override
@@ -59,15 +64,15 @@ public class DefaultRegisterService implements RegisterService {
 
         boolean isValidEmail = emailValidator.test(addUserRequestDto.getEmail());
 
-        Role role = roleService.findRole(addUserRequestDto.getRole().getTitle());
-
-        Region region = regionService.findRegion(addUserRequestDto.getRegion().getTitle());
+        Role role = roleService.findById(addUserRequestDto.getRoleId());
+        Organ organ = organService.get(addUserRequestDto.getOrganId());
+        Region region = regionService.get(addUserRequestDto.getRegionId());
 
         if (!isValidEmail) {
             throw new IllegalStateException("email not valid");
         }
-        String message = "Your data Login: " + addUserRequestDto.getUsername() + " Password: " + addUserRequestDto.getPassword();
-        SMSRequest smsRequest = new SMSRequest(addUserRequestDto.getPhoneNumber(), message);
+//        String message = "Your data Login: " + addUserRequestDto.getUsername() + " Password: " + addUserRequestDto.getPassword();
+//        SMSRequest smsRequest = new SMSRequest(addUserRequestDto.getPhoneNumber(), message);
 
         String token = accountService.signUp(
                 new Admin(
@@ -81,14 +86,15 @@ public class DefaultRegisterService implements RegisterService {
                         Boolean.FALSE,
                         Boolean.TRUE,
                         role,
-                        region
+                        region,
+                        organ
                 )
         );
-        service.sender(smsRequest);
+//        service.sender(smsRequest);
         String link = "http://localhost:8088/api/v1/account/confirm?token=" + token;
-        emailSender.send(
-                addUserRequestDto.getEmail(),
-                buildEmail(addUserRequestDto.getName(), link));
+//        emailSender.send(
+//                addUserRequestDto.getEmail(),
+//                buildEmail(addUserRequestDto.getName(), link));
         return token;
     }
 
@@ -128,6 +134,8 @@ public class DefaultRegisterService implements RegisterService {
 
     @Override
     public void deleteById(Long id) {
+
+        confirmTokenRepository.deleteByAdminId(id);
         adminRepository.deleteById(id);
     }
 

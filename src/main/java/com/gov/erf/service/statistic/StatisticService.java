@@ -11,7 +11,7 @@ public interface StatisticService {
 
     StatisticDto calculateByRegion(Region region);
 
-    StatisticDto calculateByActivity(EconomicActivity economicActivity);
+    StatisticDto calculateByActivity(EconomicActivity economicActivity) throws Exception;
 
     StatisticDto calculateClaimsByRegionAndActivity(ClaimStatCriteria claimStatCriteria);
 }

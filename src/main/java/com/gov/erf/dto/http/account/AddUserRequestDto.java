@@ -18,8 +18,9 @@ public class AddUserRequestDto {
     @NotNull
     private final String surname;
     private final String patronymic;
-    private final RoleRequestDto role;
-    private final AddRegionRequestDto region;
+    private final Long roleId;
+    private final Long regionId;
+    private final Long organId;
 
     @NotNull
     private final String username;

@@ -30,7 +30,7 @@ public class StatisticController {
     }
 
     @GetMapping("/activity")
-    public StatisticDto getStatisticByActivity(@RequestParam("activityId") EconomicActivity economicActivity) {
+    public StatisticDto getStatisticByActivity(@RequestParam("activityId") EconomicActivity economicActivity) throws Exception {
         return statisticEndpoint.getByActivity(economicActivity);
     }
 

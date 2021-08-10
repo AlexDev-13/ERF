@@ -66,22 +66,25 @@ public class DefaultStatisticService implements StatisticService {
     }
 
     @Override
-    public StatisticDto calculateByActivity(EconomicActivity economicActivity) {
+    public StatisticDto calculateByActivity(EconomicActivity economicActivity) throws Exception {
         var stat = new StatisticDto();
 
         var status = new Status();
 
         var count = claimRepository.findAllByEconomicActivity(economicActivity).stream().count();
-
-        status = statusService.get(StatusType.APPROVED);
-        stat.setReady((claimRepository.findAllByStatusAndEconomicActivity(status, economicActivity).stream().count() * 100) / count);
-        status = statusService.get(StatusType.UNDER_CONSIDERATION);
-        stat.setUnderConsideration((claimRepository.findAllByStatusAndEconomicActivity(status, economicActivity).stream().count() * 100) / count);
-        status = statusService.get(StatusType.IN_PROCESSING);
-        stat.setInProcessing((claimRepository.findAllByStatusAndEconomicActivity(status, economicActivity).stream().count() * 100) / count);
-        status = statusService.get(StatusType.DENIED);
-        stat.setRenouncement((claimRepository.findAllByStatusAndEconomicActivity(status, economicActivity).stream().count() * 100) / count);
-        return stat;
+        try {
+            status = statusService.get(StatusType.APPROVED);
+            stat.setReady((claimRepository.findAllByStatusAndEconomicActivity(status, economicActivity).stream().count() * 100) / count);
+            status = statusService.get(StatusType.UNDER_CONSIDERATION);
+            stat.setUnderConsideration((claimRepository.findAllByStatusAndEconomicActivity(status, economicActivity).stream().count() * 100) / count);
+            status = statusService.get(StatusType.IN_PROCESSING);
+            stat.setInProcessing((claimRepository.findAllByStatusAndEconomicActivity(status, economicActivity).stream().count() * 100) / count);
+            status = statusService.get(StatusType.DENIED);
+            stat.setRenouncement((claimRepository.findAllByStatusAndEconomicActivity(status, economicActivity).stream().count() * 100) / count);
+            return stat;
+        } catch (Exception e) {
+            throw new Exception("Таблица пустая!");
+        }
     }
 
     @Override

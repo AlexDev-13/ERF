@@ -17,6 +17,7 @@ import org.springframework.data.querydsl.binding.SingleValueBinding;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
+import java.util.function.Predicate;
 
 @Repository
 public interface ClaimRepository extends JpaRepository<Claim, Long>, QuerydslPredicateExecutor<Claim>, QuerydslBinderCustomizer<QClaim> {
